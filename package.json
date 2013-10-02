@@ -1,14 +1,15 @@
 {
   "name": "pasties-js",
   "version": "0.5.14-SNAPSHOT",
-  "description": "Library for managing banners in iframes",
-  "main": "index.js",
+  "description": "Library for managing external content in iframes",
   "scripts": {
     "start": "npm install && grunt",
     "test": "./node_modules/karma/bin/karma start --single-run --browser PhantomJS"
   },
-  "repository": "finn://git.finn.no/LIB/pasties",
+  "homepage": "http://pasties.github.io",
+  "repository": "http://github.com/pasties/pasties-js",
   "author": "sveinung rosaker <sveinung.rosaker@finn.no>",
+  "license": "MIT",
   "devDependencies": {
     "grunt": ">=0.4.1",
     "grunt-cli": "~0.1.9",
