@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "npm install && grunt",
-    "test": "./node_modules/karma/bin/karma start"
+    "test": "./node_modules/karma/bin/karma start --single-run --browser PhantomJS"
   },
   "repository": "finn://git.finn.no/LIB/pasties",
   "author": "sveinung rosaker <sveinung.rosaker@finn.no>",

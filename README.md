@@ -2,6 +2,7 @@
 
 Pasties is a library for embedding content from external sources such as advertisements or similar third party content. 
 
+[![Build Status](https://travis-ci.org/pasties/pasties-js.png)](https://travis-ci.org/pasties/pasties-js)
 
 ## Config
 
