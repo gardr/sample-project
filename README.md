@@ -1,14 +1,17 @@
-# pasties-js
+# pasties-js - the safe way to add advertisments to your site
+
+[![Build Status](https://travis-ci.org/pasties/pasties-js.png)](https://travis-ci.org/pasties/pasties-js)
 
 Pasties is a library for embedding content from external sources such as advertisements or similar third party content. 
 
-[![Build Status](https://travis-ci.org/pasties/pasties-js.png)](https://travis-ci.org/pasties/pasties-js)
+Removes the need for friendly iframes support in delivery systems and supports both HTML, Image and Flash based adverts.
+
 
 ## Config
 
 We put bower modules inside node_modules folder so it just works. It's not optimal, but works for now.
 
-# Build 
+# Building
 
 ## Pre-requisits
 * [NodeJS + NPM](http://nodejs.org)
@@ -31,6 +34,17 @@ When working with the code you can use karma and grunt to get continuous feedbac
 	or
 
 	$ karma start
+
+# Debugging
+
+## Logging
+
+Debugging can be done by configuring logging to either the browser console or as an overlay inside the iframes rendered by pasties. 
+
+You can turn on logging by adding an url-fragment with log level: #loglevel=4
+By default it will display an overlay inside each banner with the log output. If the banner isn't visible, you can output to console by using: #loglevel=4&logto=console
+
+*NB!* If the banner injects another iframe we have no good way of catching errors :(
 
 
 # Releasing new versions
@@ -56,8 +70,6 @@ There are some examples on how to use pasties located in the samples [folder](./
 
 * Open browser [http://localhost:9966/example.html](http://localhost:9966/example.html)
 
-# Logging
+## Samples in the wild
 
-You can turn on logging by adding an url-fragment with log level: #loglevel=4
-By default it will display an overlay inside each banner with the log output. If the banner isn't visible, you can output to console by using: #loglevel=4&logto=console
-NB! If the banner injects another iframe we have no good way of catching errors :(
+* All of the display adverst on [m.finn.no](http://m.finn.no/) is using paties-js to safely embed responsive adverts written in HTML, CSS and JS.
