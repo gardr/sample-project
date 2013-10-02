@@ -1,0 +1,47 @@
+{
+  "name": "pasties-js",
+  "version": "0.5.14-SNAPSHOT",
+  "description": "Library for managing banners in iframes",
+  "main": "index.js",
+  "scripts": {
+    "start": "npm install && grunt",
+    "test": "./node_modules/karma/bin/karma start"
+  },
+  "repository": "finn://git.finn.no/LIB/pasties",
+  "author": "sveinung rosaker <sveinung.rosaker@finn.no>",
+  "devDependencies": {
+    "grunt": ">=0.4.1",
+    "grunt-cli": "~0.1.9",
+    "karma": ">=0.10",
+    "bower": ">=1.0",
+    "browserify": "~2.33",
+    "grunt-contrib-clean": ">=0.5.0",
+    "grunt-bower-task": ">=0.3.1",
+    "grunt-karma": ">=0.7.0",
+    "grunt-contrib-uglify": "~0.2.2",
+    "grunt-contrib-watch": "~0.4.4",
+    "grunt-contrib-jshint": "~0.6.0",
+    "grunt-maven-tasks": "~1.0.3",
+    "karma-script-launcher": ">=0.1.0",
+    "karma-chrome-launcher": ">=0.0.2",
+    "karma-firefox-launcher": ">=0.1.0",
+    "karma-jasmine": "0.1.0",
+    "karma-junit-reporter": "~0.1",
+    "karma-phantomjs-launcher": "0.1.0",
+    "karma-browserify": ">=0.0.3",
+    "karma-growl-reporter": "0.1.0",
+    "karma-sauce-launcher": "0.1.0",
+    "karma-html2js-preprocessor": "~0.1.0",
+    "browserify-middleware": "~1.17.0",
+    "express": "~3.3.5",
+    "grunt-template": "~0.2.0",
+    "grunt-browserify": ">=1.2.0"
+  },
+  "dependencies": {
+    "get-style-property": "~0.1.1",
+    "cookies-js": "~0.3.1"
+  },
+  "engines": {
+    "node": ">=0.10.15"
+  }
+}
