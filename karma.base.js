@@ -18,7 +18,7 @@ module.exports = function (karma) {
             }
         ],
         exclude: [],
-        reporters: ["progress", "growl"],
+        reporters: ["progress"],
         port: 9876,
 
         runnerPort: 9100,

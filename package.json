@@ -14,10 +14,10 @@
     "grunt-cli": "~0.1.9",
     "karma": ">=0.10",
     "bower": ">=1.0",
-    "browserify": "~2.33",
     "grunt-contrib-clean": ">=0.5.0",
     "grunt-bower-task": ">=0.3.1",
     "grunt-karma": ">=0.7.0",
+    "grunt-browserify": ">=1.2.0",
     "grunt-contrib-uglify": "~0.2.2",
     "grunt-contrib-watch": "~0.4.4",
     "grunt-contrib-jshint": "~0.6.0",
@@ -31,11 +31,14 @@
     "karma-browserify": ">=0.0.3",
     "karma-growl-reporter": "0.1.0",
     "karma-sauce-launcher": "0.1.0",
+    "browserify": "2.33",
     "karma-html2js-preprocessor": "~0.1.0",
     "browserify-middleware": "~1.17.0",
     "express": "~3.3.5",
-    "grunt-template": "~0.2.0",
-    "grunt-browserify": ">=1.2.0"
+    "grunt-template": "~0.2.0"
+  },
+  "peerDependencies": {
+    "karma": ">=0.9"
   },
   "dependencies": {
     "get-style-property": "~0.1.1",
