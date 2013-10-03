@@ -1,6 +1,6 @@
 {
   "name": "pasties-js",
-  "version": "0.5.14",
+  "version": "0.5.15-SNAPSHOT",
   "description": "Library for managing external content in iframes",
   "scripts": {
     "start": "npm install && grunt",
