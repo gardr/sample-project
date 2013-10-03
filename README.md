@@ -1,15 +1,16 @@
 # pasties-js - the safe way to add advertisments to your site
 
 [![Build Status](https://travis-ci.org/pasties/pasties-js.png)](https://travis-ci.org/pasties/pasties-js)
+[![NPM](https://nodei.co/npm/pasties-js.png?stars=true&downloads=true)](https://npmjs.org/package/pasties-js)
 
 Pasties is a library for embedding content from external sources such as advertisements or similar third party content. 
 
 Removes the need for friendly iframes support in delivery systems and supports both HTML, Image and Flash based adverts.
 
+# Installation
 
-## Config
+	$ npm install pasies-js
 
-We put bower modules inside node_modules folder so it just works. It's not optimal, but works for now.
 
 # Building
 
@@ -34,6 +35,10 @@ When working with the code you can use karma and grunt to get continuous feedbac
 	or
 
 	$ karma start
+
+## Config
+
+We put bower modules inside node_modules folder so it just works. It's not optimal, but works for now.
 
 # Debugging
 
