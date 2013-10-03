@@ -9,6 +9,7 @@
   "homepage": "http://pasties.github.io",
   "repository": "http://github.com/pasties/pasties-js",
   "author": "sveinung rosaker <sveinung.rosaker@finn.no>",
+  "main": "src/lib/manager.js",
   "license": "MIT",
   "devDependencies": {
     "grunt": ">=0.4.1",
