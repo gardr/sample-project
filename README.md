@@ -66,7 +66,7 @@ This task releases a new version to the Maven repository.
 
 # Demos and samples
 
-There are some examples on how to use pasties located in the samples [folder](./folder).
+There are some examples on how to use pasties located in the samples [folder](./samples).
 * Run the following commands to install the samples applciation
 
 	$ cd samples/
