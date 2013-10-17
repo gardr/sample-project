@@ -26,6 +26,19 @@ util.on('load', window, function () {
             sameDomainIframeUrl: '/html/pasties/example.htm'
         };
 
+        if (window.bannerUrl) {
+            manager.queue({
+                name: 'banner',
+                url: bannerUrl,
+                done: function (err, item) {
+                    console.log((+new Date()+'').substring(8), 'banner DONE', err, item);
+                },
+                container: 'pasties_container'
+            });
+            manager.renderAll();
+            return;
+        }
+
         manager.queue({
             name: 'example',
             url: '/example_content.js?misc=PASTIES_UNIQUE_ID',
