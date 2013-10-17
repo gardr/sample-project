@@ -38,7 +38,8 @@
     "karma-html2js-preprocessor": "~0.1.0",
     "browserify-middleware": "~1.17.0",
     "express": "~3.3.5",
-    "grunt-template": "~0.2.0"
+    "grunt-template": "~0.2.0",
+    "hogan-express": "~0.5.0"
   },
   "peerDependencies": {
     "karma": ">=0.9"
