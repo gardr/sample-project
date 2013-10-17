@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8"><style>* { padding: 0;margin: 0; border: 0; }body{padding:0;margin:0;}iframe {border: 1px inset black !important;margin-bottom:40px;}input { padding: 1px; border: 2px inset;}</style>
+<meta name="viewport" content="width=device-width, minimum-scale=1, maximum-scale=1, user-scalable=no">
+<script>
+    var bannerUrl = '{{bannerUrl}}';
+</script>
+<script src="/example_manager.js"></script>
+</head>
+<body>
+    <h1>Example</h1>
+    <a href="about:blank">Blank page</a>
+    <form method="get" action="">
+    <label for="bannerUrl">
+        <span>Banner url</span>
+        <input type="text" name="bannerUrl" id="bannerUrl" value="{{bannerUrl}}" />
+        <input type="submit" />
+    </label>
+    </form>
+</body>
+</html>
