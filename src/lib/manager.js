@@ -190,28 +190,10 @@ proto.addToMap = function (input) {
         throw new Error('Missing name on configuration object');
     }
     var item = this.get(input.name);
-    if (!item && input.multiple === true) {
-        this.items[input.name] = {
-            name: input.name,
-            items: [],
-            multiple: true,
-            _input: input
-        };
-        return this.items[input.name];
-    }
-
     state.create(name);
 
     item = this.getOrCreate(input.name, input);
-    if (item.items) {
-        var subName = input.name + '_' + item.items.length;
-        var subItem = this.getOrCreate(subName);
-        utility.extendExcept(['multiple', 'name'])(subItem, item._input, input);
-        item.items.push(subItem);
-        return subItem;
-    } else {
-        return utility.extend(item, input);
-    }
+    return utility.extend(item, input);
 };
 
 proto.setCallback = function(name, cb) {
@@ -225,29 +207,10 @@ proto.setCallback = function(name, cb) {
     // console.log('name:', name, 'cb', !!cb, 'list:', this.callbacks[name], 'all:', this.callbacks);
 };
 
-function renderMultiple(item, cb, manager){
-    var len = item.items.length;
-    var err;
-    item.items.forEach(function(subItem) {
-        manager.render(subItem.name, function(_err) {
-            len--;
-            if (_err) { err = _err; }
-            if (len <= 0) {
-                cb(err, item);
-            }
-        });
-    });
-    return item;
-}
-
 /* Insert iframe into page. */
 proto.render = function (name, cb) {
     //console.log('render()- '+name);
     var item = this.get(name);
-
-    if (item && item.items) {
-        return renderMultiple(item, cb, this);
-    }
 
     this.setCallback(name, cb);
     if (!item) {
@@ -355,7 +318,9 @@ proto.resolve = function(name, error, ignoreNewState, type) {
     if (item && utility.isFunction(item[type])){
         item[type](error, item);
     }
-    this._runCallbacks(name, [error, item]);
+    if (item && item.isResolved()) {
+        this._runCallbacks(name, [error, item]);
+    }
 };
 
 proto.fail = function (name, obj){
@@ -375,20 +340,6 @@ proto.__checkResolvedStatus = function() {
     return itemList.every(function (item) {
         return item.isResolved();
     });
-    /*var allIsResolved = true;
-    var item;
-    for (var key in this.items) {
-        item = this.items[key];
-        // TODO: need to check items.item.items for multiple.
-        // TODO is this the same? state needs to be looked at....
-        // if (item.resolved !== true && item.incomplete !== true){
-        if (!item.isResolved()) {
-            allIsResolved = false;
-            break;
-        }
-    }
-    // console.log('ALL IS RESOLVED:' + allIsResolved);
-    return allIsResolved;*/
 };
 
 proto.renderUntouched = function () {
