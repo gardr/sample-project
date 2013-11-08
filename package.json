@@ -34,7 +34,7 @@
     "karma-browserify": ">=0.0.3",
     "karma-growl-reporter": "0.1.0",
     "karma-sauce-launcher": "0.1.0",
-    "browserify": "2.33.1",
+    "browserify": ">=2.35.1",
     "karma-html2js-preprocessor": "~0.1.0",
     "browserify-middleware": "~1.17.0",
     "express": "~3.3.5",
@@ -46,7 +46,8 @@
   },
   "dependencies": {
     "get-style-property": "~0.1.1",
-    "cookies-js": "~0.3.1"
+    "cookies-js": "~0.3.1",
+    "browserify": "~2.35.1"
   },
   "engines": {
     "node": ">=0.10.15"
