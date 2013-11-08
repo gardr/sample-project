@@ -1,13 +1,14 @@
 var utility     = require('./lib/utility.js');
+var paramUtil   = require('./lib/paramUtil.js');
 var api         = require('./lib/api.js');
 var com         = require('./lib/com.js');
 var getSize     = require('./lib/size.js');
 var insertCss   = require('./lib/style/insertCss.js');
-var responsive  = require('./lib/responsive');
-var support     = require('./lib/support');
+var responsive  = require('./lib/responsive.js');
+var support     = require('./lib/support.js');
 var plugin      = require('./lib/plugins/contextData.js');
 var rAFPatch    = require('./lib/raf.js');
-var feed        = require('./lib/feed');
+var feed        = require('./lib/feed.js');
 
 /*
     Mobile inframe.
@@ -43,7 +44,7 @@ var comParent = function(o, cb) {
         return plugin({
             parameters: feeder.feedStr,
             params: feeder.feed,
-            keyvalues: utility.param(keyvalues, ';'),
+            keyvalues: paramUtil.param(keyvalues, ';'),
             data: keyvalues
         })(cb);
     }
