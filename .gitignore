@@ -6,3 +6,4 @@ dist
 .tern-port
 target
 *.iml
+*.sublime-workspace
