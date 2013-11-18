@@ -34,6 +34,8 @@ function getLogTo(hash) {
 
 function Manager(options) {
     this.items = {};
+    this.itemConfigs = {};
+
     this.key = options && options.key||com.PARENT_PREFIX;
     this.callbacks = {};
     this.options = options || {};
@@ -160,13 +162,14 @@ proto.get = function (name) {
     return this.items[name];
 };
 
-proto.config = function (name, key, value) {
-    if (utility.isString(key)) {
-        this.getOrCreate(name)[key] = value;
-    } else if (typeof name === 'object') {
-        this.addToMap(name);
+proto.config = function (name, configData) {
+    if (typeof name === 'object' && name.name) {
+        configData = name;
+    } else if (typeof name === 'string') {
+        configData.name = name;
     }
-    //this.log(name, key, value);
+
+    this.addToMap(configData);    
     return this;
 };
 
