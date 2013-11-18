@@ -66,7 +66,9 @@ describe('Manager', function () {
             var obj = manager.get(name);
             expect(obj).toBeUndefined();
 
-            manager.config(name, 'KEY_1', 'VALUE_1');
+            manager.config(name, {
+                'KEY_1': 'VALUE_1'
+            });
 
             var obj2 = manager.get(name);
 
