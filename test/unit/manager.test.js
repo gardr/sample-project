@@ -53,6 +53,25 @@ describe('Manager', function () {
 
     });
 
+    describe('get', function(){
+        it('should be undefined for new name', function(){
+            var manager = helpers.testableManager();
+
+            var obj = manager.get( helpers.getRandomName() );
+            expect(obj).toBeUndefined();
+        });
+
+        it('should be defined for registered objects', function(){
+            var manager = helpers.testableManager();
+            var obj = {'name': 'VALUE_1'};
+
+            manager.queue(obj);
+
+            var objRes = manager.get(obj.name);
+            expect(objRes).toBeDefined();
+        });
+    });
+
     describe('config', function(){
         var manager = helpers.testableManager();
 
@@ -62,9 +81,6 @@ describe('Manager', function () {
 
         it('should set set value and create a banner object if not defined', function () {
             var name = helpers.getRandomName();
-
-            var obj = manager.get(name);
-            expect(obj).toBeUndefined();
 
             manager.config(name, {
                 'KEY_1': 'VALUE_1'
