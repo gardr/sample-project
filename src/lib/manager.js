@@ -1,8 +1,8 @@
 /* jshint maxparams:4 */
 'use strict';
-var state = require('./state.js');
+var State = require('./state.js');
 var utility = require('./utility.js');
-var Iframe = require('./iframe.js').Iframe;
+var Iframe = require('./iframe.js');
 var com = require('./com.js');
 var support = require('./support.js');
 var paramUtil = require('./paramUtil.js');
@@ -88,12 +88,12 @@ function Manager(options) {
             // create a communication channel back
             item.com = com.createOutgoing(origin, contentWindow, com.PREFIX);
         }
-        manager.delegate(msg, item);
+        manager._delegate(msg, item);
     }, this.key, this.options.deactivateCDFS);
 }
 var proto = Manager.prototype;
 
-proto.delegate = function (msg, item) {
+proto._delegate = function (msg, item) {
     switch (msg.cmd) {
     case 'set':
         item.com({
@@ -104,7 +104,7 @@ proto.delegate = function (msg, item) {
         break;
     case 'fail':
         item.iframe.addFailedClass();
-        this.fail(msg.name, msg);
+        this._fail(msg.name, msg);
         break;
     case 'get':
         item.com({
@@ -122,7 +122,7 @@ proto.delegate = function (msg, item) {
         if (item.ignoreResize !== true) {
             item.iframe.resize(item.input.width, item.input.height);
         }
-        this.resolve(msg.name);
+        this._resolve(msg.name);
         break;
     case 'debug':
         this.debug = this.debug||[];
@@ -144,25 +144,11 @@ proto.extendInframeData = function (o) {
     }
 };
 
-proto.log = function ( /*level, message*/ ) {
-    /*this.logs = this.logs || [];
-    this.logs.push({
-        time: new Date(),
-        level: level,
-        message: message
-    });*/
-};
-
-// proto.getOrCreate = function (name) {
-//     this.items[name] = this._get(name) || state.create(name);
-//     return this.items[name];
-// };
-
 proto._get = function (name) {
     return this.items[name];
 };
 
-proto.getConfig = function (name) {
+proto._getConfig = function (name) {
     return this.itemConfigs[name];
 };
 
@@ -175,7 +161,7 @@ proto.config = function (name, configData) {
         configData.name = name;
     }
 
-    this.addToConfigMap(configData);
+    this._addToConfigMap(configData);
 };
 
 /* Add data. "Queue" banner for render. */
@@ -184,15 +170,15 @@ proto.queue = function (obj) {
         //this.log(2, 'Queued ' + obj.length + ' positions');
         var self = this;
         obj.forEach(function (v) {
-            self.addToMap.call(self, v);
+            self._addToMap.call(self, v);
         });
     } else {
         //this.log(2, 'Queued ' + obj.name + '.');
-        this.addToMap(obj);
+        this._addToMap(obj);
     }
 };
 
-proto.addToConfigMap = function(obj){
+proto._addToConfigMap = function(obj){
     if (!obj || !obj.name) {
         throw new Error('Missing name on configuration object');
     }
@@ -201,16 +187,16 @@ proto.addToConfigMap = function(obj){
     return obj;
 };
 
-proto.addToMap = function (input) {
+proto._addToMap = function (input) {
     if (!input || !input.name) {
         throw new Error('Missing name on configuration object');
     }
-    var config = this.getConfig(input.name);
-    var item = state.create(input.name);
+    var config = this._getConfig(input.name);
+    var item = State.create(input.name);
     this.items[input.name] = utility.extend(item, config, input);
 };
 
-proto.setCallback = function(name, cb) {
+proto._setCallback = function(name, cb) {
     var list = this.callbacks[name];
     if (!utility.isArray(this.callbacks[name])) {
         list = this.callbacks[name] = [];
@@ -226,19 +212,19 @@ proto.render = function (name, cb) {
     //console.log('render()- '+name);
     var item = this._get(name);
 
-    this.setCallback(name, cb);
+    this._setCallback(name, cb);
     if (!item) {
-        return this.resolve(name, new Error(name + ' missing item'));
+        return this._resolve(name, new Error(name + ' missing item'));
     }
     if (!item.container || !item.url) {
-        item.set(state.INCOMPLETE);
-        return this.resolve(name, new Error(name + ' missing queued config'));
+        item.set(State.INCOMPLETE);
+        return this._resolve(name, new Error(name + ' missing queued config'));
     }
 
     if (utility.isString(item.container)) {
         item.container = document.getElementById(item.container);
         if (!item.container) {
-            return this.resolve(name, new Error(name + ' missing container'));
+            return this._resolve(name, new Error(name + ' missing container'));
         }
     }
 
@@ -246,10 +232,10 @@ proto.render = function (name, cb) {
 
     if (item.isActive()) {
         if (item.isResolved()) {
-            this.resolve(name, null, true);
+            this._resolve(name, null, true);
         }
     } else {
-        item.set(state.ACTIVE);
+        item.set(State.ACTIVE);
         item.container.appendChild(item.iframe.wrapper);
 
     }
@@ -269,7 +255,7 @@ proto.renderAll = function(prioritized, cb) {
         prioritized = undefined;
     }
     this.lastOrder = prioritized;
-    this.setCallback(ALL, cb);
+    this._setCallback(ALL, cb);
 
     prioritized = commaStringToArray(prioritized);
 
@@ -278,13 +264,13 @@ proto.renderAll = function(prioritized, cb) {
         if (prioritized.length > 0) {
             manager.render(prioritized.shift(), loop);
         } else {
-            manager.renderUntouched();
+            manager._renderUntouched();
         }
     }
     loop();
 };
 
-proto.getItemData = function (item) {
+proto._getItemData = function (item) {
     return utility.extend(item.getData(), this.__inject);
 };
 
@@ -304,7 +290,7 @@ proto.createIframe = function (item) {
             classes: ''
         });
 
-        item.iframe.setData( this.getItemData(item) );
+        item.iframe.setData( this._getItemData(item) );
         item.iframe.makeIframe();
     }
 };
@@ -316,18 +302,18 @@ proto._runCallbacks = function(name, args) {
         fn.apply(global, args);
     });
 
-    if (name !== ALL && this.callbacks[ALL] && this.__checkResolvedStatus()) {
+    if (name !== ALL && this.callbacks[ALL] && this._checkResolvedStatus()) {
         this._runCallbacks(ALL, [args[0], this.items]);
     }
 };
 
-proto.resolve = function(name, error, ignoreNewState, type) {
+proto._resolve = function(name, error, ignoreNewState, type) {
     type = type||'done';
     var item = this._get(name);
 
     if (item && ignoreNewState !== true) {
         item.rendered++;
-        item.set(state.RESOLVED);
+        item.set(State.RESOLVED);
     }
     if (item && utility.isFunction(item[type])){
         item[type](error, item);
@@ -337,15 +323,15 @@ proto.resolve = function(name, error, ignoreNewState, type) {
     }
 };
 
-proto.fail = function (name, obj){
+proto._fail = function (name, obj){
     var item = this._get(name);
     if (item){
-        item.set(state.FAILED);
+        item.set(State.FAILED);
     }
-    this.resolve(name, obj && obj.message, true, 'fail');
+    this._resolve(name, obj && obj.message, true, 'fail');
 };
 
-proto.__checkResolvedStatus = function() {
+proto._checkResolvedStatus = function() {
     var self = this;
     var itemList = Object.keys(this.items).map(function (name) {
         return self.items[name];
@@ -356,7 +342,7 @@ proto.__checkResolvedStatus = function() {
     });
 };
 
-proto.renderUntouched = function () {
+proto._renderUntouched = function () {
     for (var key in this.items) {
         if (this.items[key].isActive() === false) {
             this.render(key);
@@ -364,7 +350,7 @@ proto.renderUntouched = function () {
     }
 };
 
-proto.refreshUntouched = function() {
+proto._refreshUntouched = function() {
     for (var key in this.items) {
         if (this.items[key].needsRefresh() === true) {
             this.refresh(key);
@@ -376,9 +362,9 @@ proto.refresh = function(name, cb) {
     var item = this._get(name);
     if (!item) { return cb(new Error('Missing config '+name)); }
     if (item.isUsable()) {
-        this.setCallback(name, cb);
-        item.iframe.setData( this.getItemData(item) );
-        item.set(state.REFRESHING);
+        this._setCallback(name, cb);
+        item.iframe.setData( this._getItemData(item) );
+        item.set(State.REFRESHING);
         try{
             item.iframe.refresh();
         } catch(err){
@@ -389,11 +375,11 @@ proto.refresh = function(name, cb) {
         }
     } else {
         // todo: change to failed with master merge, + add test
-        this.fail(name);
+        this._fail(name);
     }
 };
 
-proto.forEachItem = function (fn) {
+proto._forEachItem = function (fn) {
     var manager = this;
     Object.keys(this.items).map(function (name) {
         return manager._get(name);
@@ -405,12 +391,12 @@ proto.refreshAll = function(prioritized, cb) {
         cb = prioritized;
         prioritized = undefined;
     }
-    this.setCallback(ALL, cb);
+    this._setCallback(ALL, cb);
 
     prioritized = commaStringToArray(prioritized);
 
-    this.forEachItem(function (item) {
-        item.set(state.NEEDS_REFRESH);
+    this._forEachItem(function (item) {
+        item.set(State.NEEDS_REFRESH);
     });
 
     var manager = this;
@@ -418,17 +404,10 @@ proto.refreshAll = function(prioritized, cb) {
         if (prioritized.length > 0) {
             manager.refresh(prioritized.shift(), loop);
         } else {
-            manager.refreshUntouched();
+            manager._refreshUntouched();
         }
     }
     loop();
 };
 
-proto.pluginHandler = function ( /*name, data, plug*/ ) {
-    //var item = this._get(name);
-
-};
-
-module.exports = {
-    Manager: Manager
-};
+module.exports = Manager;

@@ -1,5 +1,4 @@
-// var managerLib  = require('../../src/lib/manager-extras.js');
-// var Manager     = managerLib.Manager;
+// var Manager  = require('../../src/lib/manager-extras.js');
 // //var helpers     = require('../testHelpers.js');
 
 // describe('Manager Extras',function(){

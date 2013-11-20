@@ -5,7 +5,7 @@
     Methods calling parent manager, which sets corresponding state.
 */
 var logger = require('./log/logger.js');
-var internals = {};
+var api = {};
 
 var RE_EMPTY_PIX = /.*(1x1|3x3|1x2).*/i;
 
@@ -22,7 +22,7 @@ function hasEmptyPixel() {
     return result;
 }
 
-internals.init = function(input, com, getSizes, logOutput) {
+api.init = function(input, com, getSizes, logOutput) {
     com = com || function() {};
     logOutput = logOutput || function () {};
     var banner;
@@ -115,4 +115,4 @@ internals.init = function(input, com, getSizes, logOutput) {
     return banner;
 };
 
-module.exports = internals;
+module.exports = api;

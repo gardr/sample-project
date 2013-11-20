@@ -1,5 +1,5 @@
 var getCookies = require('./lib/usercookies.js').getCookies;
-var Manager = require('./lib/manager.js').Manager;
+var Manager = require('./lib/manager.js');
 /*
 
     Special cases:

@@ -5,8 +5,19 @@ var VER = 1;
 var TYPE = 'pasties';
 var REFRESH_KEY = 'refresh-' + TYPE;
 var FAILED_CLASS = TYPE + '-failed';
-var FAILED_CLASS_REGEXP = new RegExp(FAILED_CLASS, 'i');
 var SEPARATOR = '_|_';
+
+function validWidth(v) {
+    if (typeof v === 'string' && v.indexOf('px') !== -1) { return v; }
+    if ( (typeof v === 'string' && v.indexOf('%') === -1) || typeof v === 'number') {
+        return v + 'px';
+    }
+    return v;
+}
+
+function getOrigin(loc) {
+    return loc.origin || (loc.protocol + '//' + loc.hostname + (loc.port ? ':' + loc.port : ''));
+}
 
 function Iframe(name, options) {
     this.name = name;
@@ -32,14 +43,6 @@ Iframe.prototype.remove = function() {
     return this;
 };
 
-function validWidth(v) {
-    if (typeof v === 'string' && v.indexOf('px') !== -1) { return v; }
-    if ( (typeof v === 'string' && v.indexOf('%') === -1) || typeof v === 'number') {
-        return v + 'px';
-    }
-    return v;
-}
-
 Iframe.prototype.resize = function(w, h) {
     if (w) { this.width = w; }
     if (h) { this.height = h; }
@@ -47,13 +50,6 @@ Iframe.prototype.resize = function(w, h) {
     this.iframe.setAttribute('height', this.height);
     this.iframe.setAttribute('width', this.width);
     return this;
-};
-
-Iframe.prototype.removeFailedClass = function() {
-    var val;
-    if (this.wrapper && ((val = this.wrapper.className.indexOf()) !== -1)) {
-        this.wrapper.className = val.replace(FAILED_CLASS_REGEXP, '');
-    }
 };
 
 Iframe.prototype.addFailedClass = function() {
@@ -67,7 +63,7 @@ Iframe.prototype.setData = function (data) {
     this.data = data;
 };
 
-Iframe.prototype.getUrl = function(src) {
+Iframe.prototype._getUrl = function(src) {
     var baseUrl = this.iframeUrl;
     var sep = baseUrl.indexOf('?') !== -1 ? '&' : '?';
     var refresh = src && src.indexOf(REFRESH_KEY) === -1 ? REFRESH_KEY + '=true&' : '';
@@ -89,12 +85,8 @@ Iframe.prototype.getUrl = function(src) {
 };
 
 Iframe.prototype.refresh = function () {
-    this.iframe.src = this.getUrl(this.iframe.src);
+    this.iframe.src = this._getUrl(this.iframe.src);
 };
-
-function getOrigin(loc) {
-    return loc.origin || (loc.protocol + '//' + loc.hostname + (loc.port ? ':' + loc.port : ''));
-}
 
 Iframe.prototype.makeIframe = function(data) {
     this.dataStr = paramUtil.param(data);
@@ -115,7 +107,7 @@ Iframe.prototype.makeIframe = function(data) {
     wrapper.setAttribute('data-' + TYPE, this.name);
     i.setAttribute('data-automation-id', this.name);
 
-    i.src = this.getUrl();
+    i.src = this._getUrl();
     i.className = TYPE + '-iframe';
     // IE 7-8
     i.marginWidth = 0;
@@ -141,4 +133,4 @@ Iframe.prototype.makeIframe = function(data) {
     return this;
 };
 
-module.exports.Iframe = Iframe;
+module.exports = Iframe;

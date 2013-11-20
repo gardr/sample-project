@@ -3,7 +3,7 @@ var utility = require('./utility');
     Banner state
         - communicated via manager via com.js
 */
-var internals = {
+var STATES = {
     CREATED: 0,
     REMOVED: 1,
     NEEDS_REFRESH: 2,
@@ -28,7 +28,7 @@ var DEFAULTS = {
     timeout: 200,
     minSize: 39,
     rendered: 0,
-    state: internals.CREATED,
+    state: STATES.CREATED,
     input: {},
     name: null,
     url: null,
@@ -47,6 +47,7 @@ function State(name, options) {
     this.name = name;
 }
 
+utility.extend(State, STATES);
 var proto = State.prototype;
 
 proto.isActive = function() {
@@ -58,21 +59,21 @@ proto.isResolved = function() {
 };
 
 proto.isUsable = function() {
-    return this.state !== internals.REJECTED && this.state !== internals.INCOMPLETE;
+    return this.state !== State.REJECTED && this.state !== State.INCOMPLETE;
 };
 
 proto.needsRefresh = function () {
-    return this.state === internals.NEEDS_REFRESH;
+    return this.state === State.NEEDS_REFRESH;
 };
 
 var FAILED_MAX =  29;
 proto.hasFailed = function(){
-    return this.isActive() && this.state >= internals.FAILED && this.state <= FAILED_MAX;
+    return this.isActive() && this.state >= State.FAILED && this.state <= FAILED_MAX;
 };
 
 proto.set = function(input) {
     this.lastState = this.state;
-    this.state = utility.isNumber(input) ? input : internals[input];
+    this.state = utility.isNumber(input) ? input : State[input];
 };
 
 proto.getData = function() {
@@ -92,12 +93,8 @@ proto.getData = function() {
     };
 };
 
-internals.create = function(name, options) {
+State.create = function(name, options) {
     return new State(name, options);
 };
 
-
-
-internals.State = State;
-
-module.exports = internals;
+module.exports = State;

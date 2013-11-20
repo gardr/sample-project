@@ -4,24 +4,24 @@ var support = require('./support.js');
 /*
     Communication from and to banner container
 */
-var internals = {};
+var com = {};
 
-internals.PREFIX = 'PASTIES';
-internals.PARENT_PREFIX = 'MANAGER';
-internals.GLOBAL_POSTMESSAGE_FALLBACK = '__' + internals.PREFIX + '_POSTMESSAGE_FALLBACK';
-internals.ORIGIN_KEY = 'origin';
+com.PREFIX = 'PASTIES';
+com.PARENT_PREFIX = 'MANAGER';
+com.GLOBAL_POSTMESSAGE_FALLBACK = '__' + com.PREFIX + '_POSTMESSAGE_FALLBACK';
+com.ORIGIN_KEY = 'origin';
 
 /*
 
 */
 var getOriginFromUrl = function(url) {
-    return url.indexOf(internals.ORIGIN_KEY) >= 0 ?
-        url.split(internals.ORIGIN_KEY)[1].split(/&|&amp;/gmi)[0].replace(/^=/, '') : '';
+    return url.indexOf(com.ORIGIN_KEY) >= 0 ?
+        url.split(com.ORIGIN_KEY)[1].split(/&|&amp;/gmi)[0].replace(/^=/, '') : '';
 };
 
 /*  */
-internals.postMessage = function(targetOrigin, targetWindow, prefix) {
-    prefix = utility.isString(prefix) ? prefix : internals.PREFIX;
+com._postMessage = function(targetOrigin, targetWindow, prefix) {
+    prefix = utility.isString(prefix) ? prefix : com.PREFIX;
     // targetOrigin implementation deviates in IE8, "*" not supported
     if (!targetOrigin || targetOrigin === '*') {
         targetOrigin = getOriginFromUrl(window.location.toString());
@@ -46,7 +46,7 @@ internals.postMessage = function(targetOrigin, targetWindow, prefix) {
         };
     } else {
         try {
-            res = targetWindow[prefix + internals.GLOBAL_POSTMESSAGE_FALLBACK];
+            res = targetWindow[prefix + com.GLOBAL_POSTMESSAGE_FALLBACK];
         } catch (e) {
             if (global.console) {
                 global.console.error(e);
@@ -58,11 +58,11 @@ internals.postMessage = function(targetOrigin, targetWindow, prefix) {
 };
 
 /* Handle incomming messages */
-internals.incomming = function(cb, prefix, deactivateCDFS) {
+com.incomming = function(cb, prefix, deactivateCDFS) {
     if (!utility.isFunction(cb)) {
         throw new Error('Missing callback');
     }
-    prefix = prefix || internals.PREFIX;
+    prefix = prefix || com.PREFIX;
 
     if (support.hasCrossDomainFrameSupport(deactivateCDFS)) {
         // must use document and not window to support IE8
@@ -78,26 +78,26 @@ internals.incomming = function(cb, prefix, deactivateCDFS) {
             }
         });
     } else {
-        global[prefix + internals.GLOBAL_POSTMESSAGE_FALLBACK] = cb;
+        global[prefix + com.GLOBAL_POSTMESSAGE_FALLBACK] = cb;
     }
 };
 
-internals.createOutgoing = function(origin, targetWindow, prefix) {
-    return internals.postMessage(origin, targetWindow, prefix || internals.PARENT_PREFIX);
+com.createOutgoing = function(origin, targetWindow, prefix) {
+    return com._postMessage(origin, targetWindow, prefix || com.PARENT_PREFIX);
 };
 
 /*
     Be sure to talk to manager in the most parent iframe.
 */
-internals.createManagerConnection = function(origin, prefix) {
-    return internals.createOutgoing(origin, global.parent || global.top, prefix);
+com.createManagerConnection = function(origin, prefix) {
+    return com.createOutgoing(origin, global.parent || global.top, prefix);
 };
 
 var RE_SPLIT = /&/gm;
-internals.getHash = function(hash) {
+com.getHash = function(hash) {
     var args = (hash||global.location.hash).split('_|_');
-    if (args[0] !== '#' + internals.PREFIX) {
-        throw new Error('Missing #'+internals.PREFIX);
+    if (args[0] !== '#' + com.PREFIX) {
+        throw new Error('Missing #'+com.PREFIX);
     }
 
     return {
@@ -107,4 +107,4 @@ internals.getHash = function(hash) {
     };
 };
 
-module.exports = internals;
+module.exports = com;

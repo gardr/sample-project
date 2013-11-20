@@ -59,7 +59,7 @@ describe('Communcation / Messaging', function () {
                     done = true;
                 }, prefix);
 
-                var fn = com.postMessage(ori, global, prefix);
+                var fn = com._postMessage(ori, global, prefix);
 
                 expect(fn).toEqual(jasmine.any(Function));
 
@@ -89,7 +89,7 @@ describe('Communcation / Messaging', function () {
                 done = true;
             }, prefix);
 
-            var fn = com.postMessage('ORIGIN_NOT_IN_USE', global, prefix);
+            var fn = com._postMessage('ORIGIN_NOT_IN_USE', global, prefix);
 
             expect(fn).toEqual(jasmine.any(Function));
 

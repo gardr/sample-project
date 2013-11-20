@@ -1,17 +1,7 @@
-var internals = {};
+var utility = {};
 
 var typeOf = function(a, b) {
     return typeof a === b;
-};
-
-internals.extendExcept = function(keys) {
-    return function(target) {
-        return _extend(target, Array.prototype.slice.call(arguments, 1), keys);
-    };
-};
-
-internals.extend = function(target) {
-    return _extend(target, Array.prototype.slice.call(arguments, 1), []);
 };
 
 function _extend(target, list, dontCopyKeyList) {
@@ -29,7 +19,17 @@ function _extend(target, list, dontCopyKeyList) {
     return target;
 }
 
-internals.on = function(name, elem, func) {
+utility.extendExcept = function(keys) {
+    return function(target) {
+        return _extend(target, Array.prototype.slice.call(arguments, 1), keys);
+    };
+};
+
+utility.extend = function(target) {
+    return _extend(target, Array.prototype.slice.call(arguments, 1), []);
+};
+
+utility.on = function(name, elem, func) {
     if (elem.addEventListener) {
         elem.addEventListener(name, func, false);
     } else if (elem.attachEvent) {
@@ -37,43 +37,28 @@ internals.on = function(name, elem, func) {
     }
 };
 
-internals.isFunction = function(fn) {
+utility.isFunction = function(fn) {
     return typeOf(fn, 'function');
 };
 
-internals.isArray = function (arg) {
+utility.isArray = function (arg) {
     return Object.prototype.toString.call(arg) === '[object Array]';
 };
 
-internals.isUndef = function(v) {
+utility.isUndef = function(v) {
     return typeOf(v, 'undefined');
 };
 
-internals.isString = function(v) {
+utility.isString = function(v) {
     return typeOf(v, 'string');
 };
 
-internals.isNumber = function(v) {
+utility.isNumber = function(v) {
     return typeOf(v, 'number');
 };
 
-internals.isBoolean = function(v) {
+utility.isBoolean = function(v) {
     return typeOf(v, 'boolean');
 };
 
-// internals.isNodeList = function(el){
-//     return !!(
-//         (
-//             window.NodeList &&
-//             el instanceof window.NodeList
-//         ) ||
-//         (
-//             internals.isNumber(el.length) &&
-//             internals.isFunction(el.item) &&
-//             internals.isFunction(el.nextNode) &&
-//             internals.isFunction(el.reset)
-//         )
-//     );
-// };
-
-module.exports = internals;
+module.exports = utility;

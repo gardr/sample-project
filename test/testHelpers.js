@@ -1,5 +1,4 @@
-var managerLib = require('../src/lib/manager.js');
-var Manager = managerLib.Manager;
+var Manager = require('../src/lib/manager.js');
 
 function insertContainer(id){
     var elem = document.createElement('div');
