@@ -53,11 +53,11 @@ describe('Manager', function () {
 
     });
 
-    describe('get', function(){
+    describe('_get', function(){
         it('should be undefined for new name', function(){
             var manager = helpers.testableManager();
 
-            var obj = manager.get( helpers.getRandomName() );
+            var obj = manager._get( helpers.getRandomName() );
             expect(obj).toBeUndefined();
         });
 
@@ -67,7 +67,7 @@ describe('Manager', function () {
 
             manager.queue(obj);
 
-            var objRes = manager.get(obj.name);
+            var objRes = manager._get(obj.name);
             expect(objRes).toBeDefined();
         });
     });
@@ -79,30 +79,17 @@ describe('Manager', function () {
             expect(typeof manager.config === 'function').toBe(true);
         });
 
-        it('should set set value and create a banner object if not defined', function () {
+        it('should set value and store config', function () {
             var name = helpers.getRandomName();
 
             manager.config(name, {
                 'KEY_1': 'VALUE_1'
             });
 
-            var obj2 = manager.get(name);
+            var obj2 = manager.getConfig(name);
 
             expect(obj2).toBeDefined();
             expect(obj2.name).toBe(name);
-        });
-
-        it('queue should add configuration', function () {
-            var name = helpers.getRandomName();
-
-            manager.queue({
-                name: name,
-                unique: name,
-                scriptUrl: scriptUrl
-            });
-
-            expect(manager.get(name).unique).toEqual(name);
-            expect(manager.get(name).another).toBeUndefined();
         });
 
         // it('if one exist, it should be appended', function(){
@@ -154,6 +141,68 @@ describe('Manager', function () {
 
     });
 
+    describe('queue', function(){
+        var manager = helpers.testableManager();
+
+        it('should not add queue objects to config map', function () {
+            var name = helpers.getRandomName();
+
+            manager.queue({
+                name: name,
+                unique: name,
+                scriptUrl: scriptUrl
+            });
+
+            //expect(manager.getConfig(name).unique).toEqual(name);
+            expect(manager.getConfig(name)).toBeUndefined();
+        });
+
+        it('should queue object to queued map', function () {
+            var name = helpers.getRandomName();
+
+            manager.queue({
+                name: name,
+                unique: name,
+                scriptUrl: scriptUrl
+            });
+
+            expect(manager._get(name).unique).toEqual(name);
+        });
+
+        it('should extend queued object with correct config object', function(){
+            var name = helpers.getRandomName();
+            manager.config(name, {
+                foo : 'bar'
+            });
+
+            manager.queue({
+                name : name
+            });
+
+            var result = manager._get(name);
+            expect(result).toBeDefined();
+            expect(result.foo).toEqual('bar');
+
+        });
+
+        it('should overwrite property from config with queued object', function(){
+            var name = helpers.getRandomName();
+            manager.config(name, {
+                foo : 'bar'
+            });
+
+            manager.queue({
+                name : name,
+                foo : 'fighters'
+            });
+
+            var result = manager._get(name);
+            expect(result).toBeDefined();
+            expect(result.foo).toEqual('fighters');
+
+        });
+    });
+
     describe('render', function () {
         var manager = helpers.testableManager();
 
@@ -189,14 +238,14 @@ describe('Manager', function () {
                 height: 444
             });
 
-            expect(manager.get(name).iframe).toBeUndefined();
+            expect(manager._get(name).iframe).toBeUndefined();
 
             manager.render(name, function () {
-                expect(manager.get(name).state).toEqual(state.RESOLVED);
+                expect(manager._get(name).state).toEqual(state.RESOLVED);
                 done = true;
             });
 
-            var iframeElem = manager.get(name).iframe.iframe;
+            var iframeElem = manager._get(name).iframe.iframe;
 
             expect(iframeElem).toBeDefined();
             var style = iframeElem.getAttribute('style').toString();
@@ -310,7 +359,7 @@ describe('Manager', function () {
                 expect(err).toBeUndefined();
                 expect(items).toBeDefined();
                 expect(Object.keys(items).length).toEqual(num);
-                var first = rand.manager.get(rand.names[0]);
+                var first = rand.manager._get(rand.names[0]);
                 expect(first).toEqual(jasmine.any(state.State));
             });
 
@@ -512,7 +561,7 @@ describe('Manager', function () {
             rand.manager.renderAll();
             rand.forceResolveAll();
 
-            var first = rand.manager.get(rand.names[0]);
+            var first = rand.manager._get(rand.names[0]);
 
             rand.manager.refreshAll(function (err, items) {
                 expect(err).toBeUndefined();

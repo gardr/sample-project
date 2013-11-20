@@ -79,7 +79,7 @@ function Manager(options) {
     // this.sharedState = {};
     com.incomming(function (msg, contentWindow, origin) {
 
-        var item = manager.get(msg.name);
+        var item = manager._get(msg.name);
 
         if (!item || item.isActive() !== true) {
             return;
@@ -153,23 +153,29 @@ proto.log = function ( /*level, message*/ ) {
     });*/
 };
 
-proto.getOrCreate = function (name) {
-    this.items[name] = this.items[name] || state.create(name);
+// proto.getOrCreate = function (name) {
+//     this.items[name] = this._get(name) || state.create(name);
+//     return this.items[name];
+// };
+
+proto._get = function (name) {
     return this.items[name];
 };
 
-proto.get = function (name) {
-    return this.items[name];
+proto.getConfig = function (name) {
+    return this.itemConfigs[name];
 };
 
 proto.config = function (name, configData) {
+    // TODO object as name is a fallback for backwards compatibility.
+    // remove when implementations are updated.
     if (typeof name === 'object' && name.name) {
         configData = name;
     } else if (typeof name === 'string') {
         configData.name = name;
     }
 
-    this.addToMap(configData);
+    this.addToConfigMap(configData);
 };
 
 /* Add data. "Queue" banner for render. */
@@ -186,12 +192,22 @@ proto.queue = function (obj) {
     }
 };
 
+proto.addToConfigMap = function(obj){
+    if (!obj || !obj.name) {
+        throw new Error('Missing name on configuration object');
+    }
+
+    this.itemConfigs[obj.name] = obj;
+    return obj;
+};
+
 proto.addToMap = function (input) {
     if (!input || !input.name) {
         throw new Error('Missing name on configuration object');
     }
-    var item = this.getOrCreate(input.name, input);
-    return utility.extend(item, input);
+    var config = this.getConfig(input.name);
+    var item = state.create(input.name);
+    this.items[input.name] = utility.extend(item, config, input);
 };
 
 proto.setCallback = function(name, cb) {
@@ -208,7 +224,7 @@ proto.setCallback = function(name, cb) {
 /* Insert iframe into page. */
 proto.render = function (name, cb) {
     //console.log('render()- '+name);
-    var item = this.get(name);
+    var item = this._get(name);
 
     this.setCallback(name, cb);
     if (!item) {
@@ -307,7 +323,7 @@ proto._runCallbacks = function(name, args) {
 
 proto.resolve = function(name, error, ignoreNewState, type) {
     type = type||'done';
-    var item = this.get(name);
+    var item = this._get(name);
 
     if (item && ignoreNewState !== true) {
         item.rendered++;
@@ -322,7 +338,7 @@ proto.resolve = function(name, error, ignoreNewState, type) {
 };
 
 proto.fail = function (name, obj){
-    var item = this.get(name);
+    var item = this._get(name);
     if (item){
         item.set(state.FAILED);
     }
@@ -357,7 +373,7 @@ proto.refreshUntouched = function() {
 };
 
 proto.refresh = function(name, cb) {
-    var item = this.get(name);
+    var item = this._get(name);
     if (!item) { return cb(new Error('Missing config '+name)); }
     if (item.isUsable()) {
         this.setCallback(name, cb);
@@ -380,7 +396,7 @@ proto.refresh = function(name, cb) {
 proto.forEachItem = function (fn) {
     var manager = this;
     Object.keys(this.items).map(function (name) {
-        return manager.get(name);
+        return manager._get(name);
     }).forEach(fn);
 };
 
@@ -409,7 +425,7 @@ proto.refreshAll = function(prioritized, cb) {
 };
 
 proto.pluginHandler = function ( /*name, data, plug*/ ) {
-    //var item = this.get(name);
+    //var item = this._get(name);
 
 };
 
