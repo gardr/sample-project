@@ -31,8 +31,7 @@ describe('Element size', function () {
         var name = 'check_size';
         var elem = helpers.insertContainer(name);
 
-        manager.queue({
-            name: name,
+        manager.queue(name, {
             container: elem,
             width: 123,
             height: 120,
@@ -57,8 +56,7 @@ describe('Element size', function () {
         var name = 'write_3_times_';
         var elem = helpers.insertContainer(name);
 
-        manager.queue({
-            name: name,
+        manager.queue(name, {
             container: elem,
             width: 500,
             height: 100,
@@ -83,8 +81,7 @@ describe('Element size', function () {
         var name = '_responsive';
         var elem = helpers.insertContainer(name);
 
-        manager.queue({
-            name: name,
+        manager.queue(name,{
             container: elem,
             width: 1,
             height: 1,
@@ -116,8 +113,7 @@ describe('Element size', function () {
         var name = '_responsive2';
         var elem = helpers.insertContainer(name);
 
-        manager.queue({
-            name: name,
+        manager.queue(name, {
             container: elem,
             width: 1,
             height: 1,
@@ -138,8 +134,7 @@ describe('Element size', function () {
         var done = false;
         var name = '_responsive3';
 
-        manager.queue({
-            name: name,
+        manager.queue(name, {
             container: helpers.insertContainer(name),
             width: 11,
             height: 12,
@@ -160,8 +155,7 @@ describe('Element size', function () {
         var done = false;
         var name = '_fail'+helpers.getRandomName();
 
-        manager.queue({
-            name: name,
+        manager.queue(name, {
             container: helpers.insertContainer(name),
             width: 11,
             height: 12,

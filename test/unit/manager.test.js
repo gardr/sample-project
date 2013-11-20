@@ -13,8 +13,7 @@ describe('Manager', function () {
         var names = helpers.getRandomNames(num);
 
         names.forEach(function (name) {
-            manager.queue({
-                name: name,
+            manager.queue(name, {
                 container: document.createElement('div'),
                 url: scriptUrl,
                 width: 300,
@@ -62,11 +61,9 @@ describe('Manager', function () {
 
         it('should be defined for registered objects', function(){
             var manager = helpers.testableManager();
-            var obj = {'name': 'VALUE_1'};
-
-            manager.queue(obj);
-
-            var objRes = manager._get(obj.name);
+            var name = 'VALUE_1';
+            manager.queue(name);
+            var objRes = manager._get(name);
             expect(objRes).toBeDefined();
         });
     });
@@ -76,6 +73,15 @@ describe('Manager', function () {
 
         it('should be defined', function () {
             expect(typeof manager.config === 'function').toBe(true);
+        });
+
+
+        it('should allow config without options', function () {
+            var name = helpers.getRandomName();
+
+            manager.config(name);
+
+            expect(manager._getConfig(name)).toBeDefined();
         });
 
         it('should set value and store config', function () {
@@ -88,25 +94,15 @@ describe('Manager', function () {
             var obj2 = manager._getConfig(name);
 
             expect(obj2).toBeDefined();
-            expect(obj2.name).toBe(name);
+            expect(obj2.KEY_1).toBe('VALUE_1');
         });
-
-        // it('if one exist, it should be appended', function(){
-        //     manager.queue({
-        //         name: name,
-        //         another: 'another'
-        //     });
-
-        //     expect(manager.get(name).another).toEqual('another');
-        // });
 
         it('should call config done when _resolve is called', function () {
 
             var called = 0;
             var name = helpers.getRandomName();
 
-            manager.queue({
-                name: name,
+            manager.queue(name, {
                 scriptUrl: scriptUrl,
                 done: function () {
                     called++;
@@ -120,10 +116,6 @@ describe('Manager', function () {
             });
 
         });
-
-        // it('queue should work with array of configs as input', function(){
-
-        // });
 
         it('_addToMap should throw on missing name', function () {
             expect(manager.queue).toThrow();
@@ -146,8 +138,7 @@ describe('Manager', function () {
         it('should not add queue objects to config map', function () {
             var name = helpers.getRandomName();
 
-            manager.queue({
-                name: name,
+            manager.queue(name, {
                 unique: name,
                 scriptUrl: scriptUrl
             });
@@ -156,11 +147,17 @@ describe('Manager', function () {
             expect(manager._getConfig(name)).toBeUndefined();
         });
 
+        it('should allow queueing without options', function () {
+            var name = helpers.getRandomName();
+
+            manager.queue(name);
+            expect(manager._get(name)).toBeDefined();
+        });
+
         it('should queue object to queued map', function () {
             var name = helpers.getRandomName();
 
-            manager.queue({
-                name: name,
+            manager.queue(name, {
                 unique: name,
                 scriptUrl: scriptUrl
             });
@@ -174,9 +171,7 @@ describe('Manager', function () {
                 foo : 'bar'
             });
 
-            manager.queue({
-                name : name
-            });
+            manager.queue(name);
 
             var result = manager._get(name);
             expect(result).toBeDefined();
@@ -190,8 +185,7 @@ describe('Manager', function () {
                 foo : 'bar'
             });
 
-            manager.queue({
-                name : name,
+            manager.queue(name, {
                 foo : 'fighters'
             });
 
@@ -213,10 +207,7 @@ describe('Manager', function () {
 
         it('should add callback to callbacks', function () {
             var name = helpers.getRandomName();
-
-            manager.queue({
-                name: name
-            });
+            manager.queue(name);
 
             expect(manager.callbacks[name]).toBeUndefined();
 
@@ -229,8 +220,7 @@ describe('Manager', function () {
             var name = helpers.getRandomName();
             var done = false;
 
-            manager.queue({
-                name: name,
+            manager.queue(name, {
                 container: document.createElement('div'),
                 url: scriptUrl,
                 width: 999,
@@ -262,8 +252,7 @@ describe('Manager', function () {
             var done = false;
             var name = helpers.getRandomName();
 
-            manager.queue({
-                name: name,
+            manager.queue(name, {
                 container: document.createElement('div'),
                 url: scriptUrl
             });
@@ -291,8 +280,7 @@ describe('Manager', function () {
             var calls = 5;
             var name = helpers.getRandomName();
 
-            manager.queue({
-                name: name,
+            manager.queue(name, {
                 container: document.createElement('div'),
                 url: scriptUrl
             });
@@ -328,8 +316,7 @@ describe('Manager', function () {
 
             helpers.insertContainer(id);
 
-            man.queue({
-                name: name,
+            man.queue(name, {
                 container: id
             });
 
@@ -482,8 +469,7 @@ describe('Manager', function () {
             var manager = new Manager({iframeUrl: iframeUrl});
             var container = helpers.insertContainer(name);
 
-            manager.queue({
-                name: name,
+            manager.queue(name, {
                 container: container,
                 url: scriptUrl,
                 width: 123,
@@ -520,8 +506,7 @@ describe('Manager', function () {
             var manager = new Manager({iframeUrl: iframeUrl});
             var container = helpers.insertContainer(name);
 
-            manager.queue({
-                name: name,
+            manager.queue(name, {
                 container: container,
                 url: scriptUrl,
                 width: 123,
@@ -594,7 +579,7 @@ describe('Manager', function () {
             var manager = helpers.testableManager({iframeUrl: iframeUrl});
             var name    = helpers.getRandomName();
 
-            manager.queue({name: name});
+            manager.queue(name);
 
             manager.render(name, function(err/*, item*/){
                 expect(err).toBeDefined();
@@ -615,8 +600,7 @@ describe('Manager', function () {
             var name = 'bannerflags_' + helpers.getRandomName();
             var elem = helpers.insertContainer(name);
 
-            manager.queue({
-                name: name,
+            manager.queue(name, {
                 url: '/base/test/fixtures/bannerflag.js',
                 container: elem
             });

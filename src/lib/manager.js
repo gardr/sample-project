@@ -157,35 +157,17 @@ proto.config = function (name, configData) {
 };
 
 /* Add data. "Queue" banner for render. */
-proto.queue = function (obj) {
-    if (utility.isArray(obj)) {
-        //this.log(2, 'Queued ' + obj.length + ' positions');
-        var self = this;
-        obj.forEach(function (v) {
-            self._addToMap.call(self, v);
-        });
-    } else {
-        //this.log(2, 'Queued ' + obj.name + '.');
-        this._addToMap(obj);
-    }
+proto.queue = function (name, obj) {
+    this._addToMap(name, obj || {});
 };
 
-proto._addToConfigMap = function(obj){
-    if (!obj || !obj.name) {
+proto._addToMap = function (name, input) {
+    if (!input || !name) {
         throw new Error('Missing name on configuration object');
     }
-
-    this.itemConfigs[obj.name] = obj;
-    return obj;
-};
-
-proto._addToMap = function (input) {
-    if (!input || !input.name) {
-        throw new Error('Missing name on configuration object');
-    }
-    var config = this._getConfig(input.name);
-    var item = State.create(input.name);
-    this.items[input.name] = utility.extend(item, config, input);
+    var config = this._getConfig(name);
+    var item = State.create(name);
+    this.items[name] = utility.extend(item, config, input);
 };
 
 proto._setCallback = function(name, cb) {

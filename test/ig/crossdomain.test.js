@@ -29,8 +29,7 @@ describe('Cross domain iframe test', function () {
         container.id = id;
         body.appendChild(container);
 
-        manager.queue({
-            name: name,
+        manager.queue(name, {
             container: id,
             url: '/base/test/fixtures/config_content.js',
             width: 123,
@@ -94,8 +93,7 @@ describe('Cross domain iframe test', function () {
         var elem = helpers.insertContainer(name);
         var done = false;
 
-        manager.queue({
-            name: name,
+        manager.queue(name, {
             container: elem,
             url: '/base/test/fixtures/cdfs_fallback.js',
             width: 123,
