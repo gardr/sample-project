@@ -153,15 +153,7 @@ proto._getConfig = function (name) {
 };
 
 proto.config = function (name, configData) {
-    // TODO object as name is a fallback for backwards compatibility.
-    // remove when implementations are updated.
-    if (typeof name === 'object' && name.name) {
-        configData = name;
-    } else if (typeof name === 'string') {
-        configData.name = name;
-    }
-
-    this._addToConfigMap(configData);
+    this.itemConfigs[name] = configData || {};
 };
 
 /* Add data. "Queue" banner for render. */
