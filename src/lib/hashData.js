@@ -22,7 +22,7 @@ module.exports = {
 		}
 		return {
 			name: parts[1],
-			internals: paramUtil.deparam(parts[2], RE_SPLIT),
+			internal: paramUtil.deparam(parts[2], RE_SPLIT),
 			params: paramUtil.deparam(parts[3], RE_SPLIT)
 		};
 	}

@@ -6,7 +6,7 @@ var S = hashData.SEPARATOR;
 
 describe('Hash data', function () {
     var TESTNAME = 'testName';
-    var INTERNALS = {key: 'testKey', origin: 'testLoc'};
+    var INTERNAL = {key: 'testKey', origin: 'testLoc'};
     var PARAMS = {
         url:    'http://some.url/?with=query&string=true&andChars=æøå',
         width:  '100%',
@@ -26,11 +26,11 @@ describe('Hash data', function () {
         });
 
         it('should encode with only name and internals', function () {
-            expect(hashData.encode(TESTNAME, INTERNALS)).toEqual( ENCODED_NAME_INT );
+            expect(hashData.encode(TESTNAME, INTERNAL)).toEqual( ENCODED_NAME_INT );
         });
 
         it('should encode with name, internals and params', function () {
-            expect(hashData.encode(TESTNAME, INTERNALS, PARAMS)).toEqual( ENCODED_NAME_INT_PAR );
+            expect(hashData.encode(TESTNAME, INTERNAL, PARAMS)).toEqual( ENCODED_NAME_INT_PAR );
         });
     });
 
@@ -38,21 +38,21 @@ describe('Hash data', function () {
         it('should decode with only name', function () {
             var res = hashData.decode(ENCODED_NAME);
             expect(res.name).toEqual(TESTNAME);
-            expect(res.internals).toEqual({});
+            expect(res.internal).toEqual({});
             expect(res.params).toEqual({});
         });
 
         it('should decode with name and internals', function () {
             var res = hashData.decode(ENCODED_NAME_INT);
             expect(res.name).toEqual(TESTNAME);
-            expect(res.internals).toEqual( INTERNALS );
+            expect(res.internal).toEqual( INTERNAL );
             expect(res.params).toEqual({});
         });
 
         it('should decode with name, internals and params', function () {
             var res = hashData.decode(ENCODED_NAME_INT_PAR);
             expect(res.name).toEqual(TESTNAME);
-            expect(res.internals).toEqual( INTERNALS );
+            expect(res.internal).toEqual( INTERNAL );
             for(var key in PARAMS) {
                 expect(res.params[key]).toEqual(PARAMS[key].toString());
             }
