@@ -7,7 +7,7 @@ var REFRESH_KEY = 'refresh-' + TYPE;
 var FAILED_CLASS = TYPE + '-failed';
 var SEPARATOR = '_|_';
 
-function validWidth(v) {
+function validSize(v) {
     if (typeof v === 'string' && v.indexOf('px') !== -1) { return v; }
     if ( (typeof v === 'string' && v.indexOf('%') === -1) || typeof v === 'number') {
         return v + 'px';
@@ -25,7 +25,7 @@ function Iframe(name, options) {
         throw new Error('Iframe missing options and iframeUrl');
     }
     this.id = options.id || name + (+new Date());
-    this.iframe = null;
+    this.element = null;
     this.iframeUrl = options.iframeUrl;
     this.width = options.width || '100%';
     this.height = options.height || '100px';
@@ -39,15 +39,15 @@ Iframe.prototype.SEPARATOR = SEPARATOR;
 Iframe.prototype.remove = function() {
     this.wrapper.parentNode.removeChild(this.wrapper);
     this.wrapper = null;
-    this.iframe = null;
+    this.element = null;
     return this;
 };
 
 Iframe.prototype.resize = function(w, h) {
     if (w) { this.width = w; }
     if (h) { this.height = h; }
-    this.iframe.style.width = validWidth(this.width);
-    this.iframe.style.height = this.height + 'px';
+    this.element.style.width = validSize(this.width);
+    this.element.style.height = validSize(this.height);
     return this;
 };
 
@@ -84,13 +84,12 @@ Iframe.prototype._getUrl = function(src) {
 };
 
 Iframe.prototype.refresh = function () {
-    this.iframe.src = this._getUrl(this.iframe.src);
+    this.element.src = this._getUrl(this.element.src);
 };
 
-Iframe.prototype.makeIframe = function(data) {
-    this.dataStr = paramUtil.param(data);
+Iframe.prototype.makeIframe = function() {
     var wrapper = this.wrapper = document.createElement('div');
-    var i = this.iframe = document.createElement('iframe');
+    var i = this.element = document.createElement('iframe');
     var inner = document.createElement('div');
     var classes = [TYPE, TYPE + '-' + this.name];
 
@@ -114,10 +113,10 @@ Iframe.prototype.makeIframe = function(data) {
     i.frameBorder = '0';
     i.allowTransparency = 'true';
     // Safari will will not show iframe until scroll with width/height == 0px
-    i.width = validWidth(this.width);
-    i.height = this.height;
-    i.style.width = validWidth(this.width);
-    i.style.height = this.height + 'px';
+    //i.width = validSize(this.width);
+    //i.height = this.height;
+    i.style.width = validSize(this.width);
+    i.style.height = validSize(this.height);
     i.style.border = '0';
     i.style.display = 'block';
     // stop scroll

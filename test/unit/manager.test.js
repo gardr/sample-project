@@ -216,35 +216,48 @@ describe('Manager', function () {
             expect(manager.callbacks[name]).toEqual(jasmine.any(Array));
         });
 
-        it('should create a iframe and pass data', function () {
+        it('should create an iframe', function () {
             var name = helpers.getRandomName();
-            var done = false;
 
             manager.queue(name, {
                 container: document.createElement('div'),
-                url: scriptUrl,
-                width: 999,
-                height: 444
+                url: 'test'
             });
-
             expect(manager._get(name).iframe).toBeUndefined();
+            manager.render(name, function () {});
 
-            manager.render(name, function () {
-                expect(manager._get(name).state).toEqual(State.RESOLVED);
-                done = true;
+            expect(manager._get(name).iframe).toBeDefined();
+        });
+
+        it('should pass width and height to iframe', function () {
+            var name = helpers.getRandomName();
+            var width = 999;
+            var height = 444;
+
+            manager.queue(name, {
+                container: document.createElement('div'),
+                url: 'test',
+                width: width,
+                height: height
             });
+            manager.render(name, function () {});
 
-            var iframeElem = manager._get(name).iframe.iframe;
+            var iframe = manager._get(name).iframe;
+            expect(iframe.width).toEqual(width);
+            expect(iframe.height).toEqual(height);
 
-            expect(iframeElem).toBeDefined();
-            var style = iframeElem.getAttribute('style').toString();
-            expect(style.indexOf('999px') !== -1 && style.indexOf('444px') !== -1).toBe(true);
+        });
 
-            manager._resolve(name);
+        it('should set script url as data on iframe', function () {
+            var name = helpers.getRandomName();
 
-            waitsFor(function () {
-                return done;
+            manager.queue(name, {
+                container: document.createElement('div'),
+                url: scriptUrl
             });
+            
+            manager.render(name, function () {});
+            expect(manager._get(name).iframe.data.url).toEqual(scriptUrl);
 
         });
 
@@ -507,13 +520,13 @@ describe('Manager', function () {
                 expect(item.state).toEqual(State.RESOLVED);
 
                 expect(item.rendered).toEqual(1);
-                var beforeSrc = item.iframe.iframe.src;
+                var beforeSrc = item.iframe.element.src;
 
                 manager.refresh(name, function (err, item) {
 
                     expect(item.rendered).toEqual(2);
-                    expect(item.iframe.iframe.src).not.toBeUndefined();
-                    expect(item.iframe.iframe.src).not.toEqual(beforeSrc);
+                    expect(item.iframe.element.src).not.toBeUndefined();
+                    expect(item.iframe.element.src).not.toEqual(beforeSrc);
                     done = true;
                 });
 

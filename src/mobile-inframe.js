@@ -9,12 +9,14 @@ var support     = require('./lib/support.js');
 var plugin      = require('./lib/plugins/contextData.js');
 var rAFPatch    = require('./lib/raf.js');
 var feed        = require('./lib/feed.js');
+//var hashData    = require('./lib/hashData');
 
 /*
     Mobile inframe.
     * fetch setupdata (parentUrl, level) from query/hash
 */
 var input = com.getHash();
+//var input = hashData.decode(global.location.hash);
 
 if (input.params.cdfs === 'true'){
     global[support.cdfsKey] = true;
