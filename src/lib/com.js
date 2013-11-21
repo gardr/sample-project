@@ -93,18 +93,4 @@ com.createManagerConnection = function(origin, prefix) {
     return com.createOutgoing(origin, global.parent || global.top, prefix);
 };
 
-var RE_SPLIT = /&/gm;
-com.getHash = function(hash) {
-    var args = (hash||global.location.hash).split('_|_');
-    if (args[0] !== '#' + com.PREFIX) {
-        throw new Error('Missing #'+com.PREFIX);
-    }
-
-    return {
-        name: args[1],
-        internal: paramUtil.deparam(args[2], RE_SPLIT),
-        params: paramUtil.deparam(args[3], RE_SPLIT)
-    };
-};
-
 module.exports = com;

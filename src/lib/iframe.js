@@ -1,5 +1,5 @@
 var com = require('./com.js');
-var paramUtil = require('./paramUtil.js');
+var hashData = require('./hashData.js');
 
 var VER = 1;
 var TYPE = 'pasties';
@@ -73,13 +73,7 @@ Iframe.prototype._getUrl = function(src) {
         '&',
         refresh,
         // Wrapped args in predefined order
-        '#',
-        com.PREFIX,
-        SEPARATOR,
-        this.name,
-        SEPARATOR, ['level=' + 1, 'key=' + this.key, 'origin=' + getOrigin(document.location)].join('&'),
-        SEPARATOR,
-        paramUtil.param(this.data)
+        hashData.encode(this.name, {key: this.key, origin: getOrigin(document.location)}, this.data)
     ].join('');
 };
 

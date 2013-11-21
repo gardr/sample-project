@@ -8,30 +8,6 @@ describe('Communcation / Messaging', function () {
         expect(com).toEqual(jasmine.any(Object));
     });
 
-    describe('getHash', function(){
-        //firefox returns addyn?
-
-        //http://helios.finn.no/addyn|3.0|72.23|4489198|0|16|ADTECH;cookie=info;loc=100;target=_blank;alias=realestate%2Fnewbuildings%2Fsearch%2Flist_mm;grp=196228776;kvuserid=1754579083;misc=527682197289185
-
-        var result = com.getHash(
-            '#'+com.PREFIX+'_|_1_|_a=a_|_a=a&url=http%3A//helios.finn.no/addyn%7C3.0%7C72.23%7C4489198%7C0%7C16%7CADTECH%3Bcookie%3Dinfo%3Bloc%3D100%3Btarget%3D_blank%3Balias%3Drealestate%252Fnewbuildings%252Fsearch%252Flist_mm%3Bgrp%3D196228776%3Bkvuserid%3D1754579083%3Bmisc%3D527682197289185&b=b&c=c&d=d'
-        );
-
-        it('should deparam internal and params', function(){
-            expect(result.name).toEqual('1');
-            expect(result.internal.a).toEqual('a');
-            expect(result.params.a).toEqual('a');
-            expect(result.params.b).toEqual('b');
-
-            expect(result.params.url)
-                .toEqual('http://helios.finn.no/addyn|3.0|72.23|4489198|0|16|ADTECH;cookie=info;loc=100;target=_blank;alias=realestate%2Fnewbuildings%2Fsearch%2Flist_mm;grp=196228776;kvuserid=1754579083;misc=527682197289185');
-
-        });
-
-
-
-    });
-
     function getOrigin(loc) {
         return loc.origin || (loc.protocol + '//' + loc.hostname + (loc.port ? ':' + loc.port : ''));
     }
