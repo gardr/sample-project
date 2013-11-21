@@ -42,4 +42,12 @@ describe('iframe', function () {
         var dataStr = iframe.iframe.src.substring(lastSepIndex + Iframe.prototype.SEPARATOR.length);
         expect(dataStr).toEqual('width=100&encodeUrl=http%3A%2F%2Ftest.com%2Fpath%3Fa%3Db%26c%3D%C3%A6%C3%B8%C3%A5');
     });
+
+    it('should resize', function(){
+        var iframe = new Iframe('resize-test', {width:100, height:100, iframeUrl:'about:blank'});
+        iframe.makeIframe();
+        iframe.resize(250, 200);
+        expect(iframe.iframe.style.width).toEqual('250px');
+        expect(iframe.iframe.style.height).toEqual('200px');
+    });
 });

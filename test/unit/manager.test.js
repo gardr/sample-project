@@ -328,6 +328,33 @@ describe('Manager', function () {
                 return done;
             });
         });
+
+        it('multiple document writes should work', function () {
+            var manager = helpers.testableManager({
+                iframeUrl: iframeUrl
+            });
+            var done = false;
+            var name = 'write_3_times_';
+            var elem = helpers.insertContainer(name);
+
+            manager.queue(name, {
+                container: elem,
+                width: 500,
+                height: 100,
+                url: '/base/test/fixtures/docwrite1.js'
+            });
+
+            manager.render(name, function (err, item) {
+                expect(err).toBeUndefined();
+                expect(item.input.width).toEqual(500);
+                expect(item.input.height).toEqual(100);
+                done = true;
+            });
+
+            waitsFor(function () {
+                return done;
+            });
+        });
     });
     
     describe('renderAll', function () {
@@ -481,14 +508,12 @@ describe('Manager', function () {
 
                 expect(item.rendered).toEqual(1);
                 var beforeSrc = item.iframe.iframe.src;
-                item.width = 500;
 
                 manager.refresh(name, function (err, item) {
 
                     expect(item.rendered).toEqual(2);
                     expect(item.iframe.iframe.src).not.toBeUndefined();
                     expect(item.iframe.iframe.src).not.toEqual(beforeSrc);
-                    expect(item.input.width).toEqual(500);
                     done = true;
                 });
 
@@ -498,6 +523,7 @@ describe('Manager', function () {
                 return done;
             });
         });
+
 
         it('calling refresh on missing iframe should reset', function(){
 
@@ -589,6 +615,31 @@ describe('Manager', function () {
             manager._fail(name);
         });
 
+
+        it('should fail on empty pixel', function(){
+            var manager = helpers.testableManager({iframeUrl: iframeUrl});
+            var done = false;
+            var name = '_fail'+helpers.getRandomName();
+
+            manager.queue(name, {
+                container: helpers.insertContainer(name),
+                width: 11,
+                height: 12,
+                url: '/base/test/fixtures/fail.js',
+                fail: function(){
+                    done = true;
+                }
+            });
+
+            manager.render(name, function (err, item) {
+                expect(item.isUsable()).toBe(true, 'Expected item be usable');
+                expect(item.hasFailed()).toBe(true, 'Expected item be in fail-state');
+            });
+
+            waitsFor(function () {
+                return done;
+            });
+        });
     });
 
     describe('BannerFlags', function () {

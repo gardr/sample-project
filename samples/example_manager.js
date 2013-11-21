@@ -39,8 +39,8 @@ util.on('load', window, function () {
 
         manager.queue('example', {
             url: '/example_content.js?misc=PASTIES_UNIQUE_ID',
-            //width: 500,
-            //height: 200,
+            width: 250,
+            height: 137,
             // threshold:
             // before:
             // done:
@@ -59,8 +59,8 @@ util.on('load', window, function () {
         manager.queue('writes',
             {
                 url: '/example_write1.js?misc=PASTIES_UNIQUE_ID',
-                width: 100,
-                height: 25,
+                width: 250,
+                height: 137,
                 container: 'pasties_container'
             });
         manager.queue('example_responsive1', getStuff());
@@ -68,31 +68,31 @@ util.on('load', window, function () {
         manager.queue('example2',
         {
             url: '/example_content.js?misc=PASTIES_UNIQUE_ID',
-            width: 300,
-            height: 225,
+            width: 250,
+            height: 137,
             container: 'pasties_container'
         });
         manager.queue('responsive_alterniatve',
             {
                 url: '/example_relative_container.js',
-                width: 500,
-                height: 1,
+                width: 250,
+                height: 137,
                 container: 'pasties_container',
                 ignoreResize: false
             });
         manager.queue('responsive_alt2',
             {
                 url: '/example_relative_container.js',
-                width: 100,
-                height: 100,
+                width: 250,
+                height: 137,
                 container: 'pasties_container',
                 ignoreResize: false
             });
         manager.queue('failing',
             {
                 url: '/example_scripterror_pre.js',
-                width: 100,
-                height: 100,
+                width: 250,
+                height: 137,
                 container: 'pasties_container',
                 ignoreResize: false
             });
@@ -106,8 +106,8 @@ util.on('load', window, function () {
 
         manager.queue('example3', {
             url: '/example_content.js',
-            width: 900,
-            height: 100,
+            width: 250,
+            height: 137,
             container: 'pasties_container'
         });
 
