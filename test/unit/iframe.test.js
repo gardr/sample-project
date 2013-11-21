@@ -25,29 +25,37 @@ describe('iframe', function () {
 
         frame.makeIframe('some=parameters&and=another');
 
-        expect(frame.iframe.src.indexOf(iframeUrl) === 0).toBe(true);
+        expect(frame.element.src.indexOf(iframeUrl) === 0).toBe(true);
 
 
         //....
     });
 
+    it('should have width and height from constructor options', function(){
+        var iframe = new Iframe('resize-test', {width:100, height:200, iframeUrl:'about:blank'});
+        iframe.makeIframe();
+        //expect(iframe.element.width).toEqual('100px');
+        expect(iframe.element.style.width).toEqual('100px');
+        expect(iframe.element.style.height).toEqual('200px');
+    });
+
     it('should encode data object to query string', function () {
         var iframe = new Iframe('data-test', {iframeUrl: 'about:blank'});
         iframe.setData({
-            width: 100,
+            aNumber: 100,
             encodeUrl: 'http://test.com/path?a=b&c=æøå'
         });
         iframe.makeIframe();
-        var lastSepIndex = iframe.iframe.src.lastIndexOf(Iframe.prototype.SEPARATOR);
-        var dataStr = iframe.iframe.src.substring(lastSepIndex + Iframe.prototype.SEPARATOR.length);
-        expect(dataStr).toEqual('width=100&encodeUrl=http%3A%2F%2Ftest.com%2Fpath%3Fa%3Db%26c%3D%C3%A6%C3%B8%C3%A5');
+        var lastSepIndex = iframe.element.src.lastIndexOf(Iframe.prototype.SEPARATOR);
+        var dataStr = iframe.element.src.substring(lastSepIndex + Iframe.prototype.SEPARATOR.length);
+        expect(dataStr).toEqual('aNumber=100&encodeUrl=http%3A%2F%2Ftest.com%2Fpath%3Fa%3Db%26c%3D%C3%A6%C3%B8%C3%A5');
     });
 
     it('should resize', function(){
         var iframe = new Iframe('resize-test', {width:100, height:100, iframeUrl:'about:blank'});
         iframe.makeIframe();
         iframe.resize(250, 200);
-        expect(iframe.iframe.style.width).toEqual('250px');
-        expect(iframe.iframe.style.height).toEqual('200px');
+        expect(iframe.element.style.width).toEqual('250px');
+        expect(iframe.element.style.height).toEqual('200px');
     });
 });

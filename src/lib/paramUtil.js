@@ -1,8 +1,5 @@
-var util = require('./utility.js');
-
 var paramUtils = {};
 
-/* using escape and unescape for utf8/iso-issues? */
 var REXP_SPLIT = /&amp;|&|;/gmi;
 paramUtils.deparam = function(str, sep) {
     sep = sep||REXP_SPLIT;
@@ -24,7 +21,8 @@ paramUtils.param = function(o, sep) {
     var list = [];
     var key;
     for (key in o) {
-        if (typeof o[key] !== 'undefined' && typeof o[key] !== 'object' && !util.isFunction(o[key])) {
+        if (o[key] != null && typeof o[key] != 'object' &&
+                typeof o[key] != 'function') {
             list.push(encodeURIComponent(key) + '=' + encodeURIComponent(o[key]));
         }
     }
