@@ -116,12 +116,8 @@ proto._delegate = function (msg, item) {
     case 'sizes':
         // TODO refactor out and test. check if minsize
         // check if minsize
-        item.input.width = msg.r ? '100%' : msg.w;
+        item.input.width = msg.w;
         item.input.height = msg.h;
-        item.input.responsive = msg.r;
-        if (item.ignoreResize !== true) {
-            item.iframe.resize(item.input.width, item.input.height);
-        }
         this._resolve(msg.name);
         break;
     case 'debug':

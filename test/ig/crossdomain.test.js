@@ -51,8 +51,6 @@ describe('Cross domain iframe test', function () {
                     done = true;
                 }
 
-                expect(item.input.width).toEqual(123);
-                expect(item.input.height).toEqual(321);
                 var src = item.iframe.iframe.getAttribute('src');
 
                 // as this will test in not usable browsers, we need to asure result

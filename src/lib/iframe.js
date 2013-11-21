@@ -46,9 +46,8 @@ Iframe.prototype.remove = function() {
 Iframe.prototype.resize = function(w, h) {
     if (w) { this.width = w; }
     if (h) { this.height = h; }
-    this.iframe.setAttribute('style', 'width:' + validWidth(this.width) + ';height:' + this.height + 'px;border:0px;');
-    this.iframe.setAttribute('height', this.height);
-    this.iframe.setAttribute('width', this.width);
+    this.iframe.style.width = validWidth(this.width);
+    this.iframe.style.height = this.height + 'px';
     return this;
 };
 

@@ -72,18 +72,15 @@ com.incomming(function(msg) {
 function getSizes() {
     var elem = document.getElementById(com.PREFIX);
     var size = getSize(elem);
-    var isResponsive = responsive.isResponsive(size.height, elem);
+    var isResponsive = true;
 
     insertCss( responsive.getCSS(isResponsive) );
-
-    // legacy iframes needs to collect sizes with wrapped container
-    if (!isResponsive) { size = getSize(elem); }
-
+    
     return {
         cmd: 'sizes',
         r: isResponsive,
         w: size.width,
-        h: isResponsive ? 225 : size.height
+        h: size.height
     };
 }
 
