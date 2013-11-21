@@ -5,9 +5,8 @@ var util = require('../src/lib/utility.js');
 util.on('load', window, function () {
     //console.log((+new Date+'').substring(8), 'example_manager.js load');
 
-    function getStuff(i) {
+    function getStuff() {
         return {
-            name: 'example_responsive' + i,
             url: '/example_content_responsive.js',
             width: 900,
             height: 225,
@@ -27,8 +26,7 @@ util.on('load', window, function () {
         };
 
         if (window.bannerUrl) {
-            manager.queue({
-                name: 'banner',
+            manager.queue('banner', {
                 url: bannerUrl,
                 done: function (err, item) {
                     console.log((+new Date()+'').substring(8), 'banner DONE', err, item);
@@ -39,8 +37,7 @@ util.on('load', window, function () {
             return;
         }
 
-        manager.queue({
-            name: 'example',
+        manager.queue('example', {
             url: '/example_content.js?misc=PASTIES_UNIQUE_ID',
             //width: 500,
             //height: 200,
@@ -59,58 +56,55 @@ util.on('load', window, function () {
 
         });
 
-        manager.queue([
+        manager.queue('writes',
             {
-                name: 'writes',
                 url: '/example_write1.js?misc=PASTIES_UNIQUE_ID',
                 width: 100,
                 height: 25,
                 container: 'pasties_container'
-            },
-            getStuff('1'),
-            getStuff('2'),
+            });
+        manager.queue('example_responsive1', getStuff());
+        manager.queue('example_responsive2',getStuff());
+        manager.queue('example2',
+        {
+            url: '/example_content.js?misc=PASTIES_UNIQUE_ID',
+            width: 300,
+            height: 225,
+            container: 'pasties_container'
+        });
+        manager.queue('responsive_alterniatve',
             {
-                name: 'example2',
-                url: '/example_content.js?misc=PASTIES_UNIQUE_ID',
-                width: 300,
-                height: 225,
-                container: 'pasties_container'
-            },
-            {
-                name: 'responsive_alterniatve',
                 url: '/example_relative_container.js',
                 width: 500,
                 height: 1,
                 container: 'pasties_container',
                 ignoreResize: false
-            },
+            });
+        manager.queue('responsive_alt2',
             {
-                name: 'responsive_alt2',
                 url: '/example_relative_container.js',
                 width: 100,
                 height: 100,
                 container: 'pasties_container',
                 ignoreResize: false
-            },
+            });
+        manager.queue('failing',
             {
-                name: 'failing',
                 url: '/example_scripterror_pre.js',
                 width: 100,
                 height: 100,
                 container: 'pasties_container',
                 ignoreResize: false
-            },
-            getStuff('3'),
-            getStuff('4'),
-            getStuff('5'),
-            getStuff('7'),
-            getStuff('8'),
-            getStuff('9'),
-            getStuff('10')
-        ]);
+            });
+        manager.queue('example_responsive3', getStuff());
+        manager.queue('example_responsive4', getStuff());
+        manager.queue('example_responsive5', getStuff());
+        manager.queue('example_responsive6', getStuff());
+        manager.queue('example_responsive8', getStuff());
+        manager.queue('example_responsive9', getStuff());
+        manager.queue('example_responsive10', getStuff());
 
-        manager.queue({
-            name: 'example3',
+        manager.queue('example3', {
             url: '/example_content.js',
             width: 900,
             height: 100,
@@ -122,7 +116,6 @@ util.on('load', window, function () {
 
             manager.renderAll('writes,example2,example3', function (err, items) {
                 console.log((+new Date()+'').substring(8), 'ALL DONE', items);
-
             });
         });
 
