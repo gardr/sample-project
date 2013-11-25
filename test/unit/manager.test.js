@@ -194,6 +194,17 @@ describe('Manager', function () {
             expect(result[0].foo).toEqual('fighters');
 
         });
+
+        it('should be able to queue multiple times for same config name', function () {
+            var name = helpers.getRandomName();
+            manager.config(name, {test: 'multiple'});
+
+            manager.queue(name);
+            manager.queue(name);
+            var items = manager._get(name);
+            expect(items.length).toEqual(2);
+            expect(items[0].name).not.toEqual(items[1].name);
+        });
     });
 
     describe('render', function () {
