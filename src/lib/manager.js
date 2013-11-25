@@ -79,16 +79,16 @@ function Manager(options) {
     // this.sharedState = {};
     com.incomming(function (msg, contentWindow, origin) {
 
-        var item = manager._get(msg.name);
-
-        if (!item || item.isActive() !== true) {
-            return;
-        }
-        if (item && !item.com) {
-            // create a communication channel back
-            item.com = com.createOutgoing(origin, contentWindow, com.PREFIX);
-        }
-        manager._delegate(msg, item);
+        manager._get(msg.name).forEach(function (item) {
+            if (!item || item.isActive() !== true) {
+                return;
+            }
+            if (item && !item.com) {
+                // create a communication channel back
+                item.com = com.createOutgoing(origin, contentWindow, com.PREFIX);
+            }
+            manager._delegate(msg, item);
+        });
     }, this.key, this.options.deactivateCDFS);
 }
 var proto = Manager.prototype;
@@ -141,10 +141,9 @@ proto.extendInframeData = function (o) {
 };
 
 proto._get = function (name) {
-    var filteredItems = this.items.filter(function(item){
+    return this.items.filter(function(item){
         return item.name === name;
     });
-    return filteredItems[0];
 };
 
 proto._getConfig = function (name) {
@@ -183,36 +182,37 @@ proto._setCallback = function(name, cb) {
 /* Insert iframe into page. */
 proto.render = function (name, cb) {
     //console.log('render()- '+name);
-    var item = this._get(name);
+    this._forEachWithName(name, function (item) {
 
-    this._setCallback(name, cb);
-    if (!item) {
-        return this._resolve(name, new Error(name + ' missing item'));
-    }
-    if (!item.container || !item.url) {
-        item.set(State.INCOMPLETE);
-        return this._resolve(name, new Error(name + ' missing queued config'));
-    }
-
-    if (utility.isString(item.container)) {
-        item.container = document.getElementById(item.container);
-        if (!item.container) {
-            return this._resolve(name, new Error(name + ' missing container'));
+        this._setCallback(name, cb);
+        if (!item) {
+            return this._resolve(name, new Error(name + ' missing item'));
         }
-    }
-
-    this.createIframe(item);
-
-    if (item.isActive()) {
-        if (item.isResolved()) {
-            this._resolve(name, null, true);
+        if (!item.container || !item.url) {
+            item.set(State.INCOMPLETE);
+            return this._resolve(name, new Error(name + ' missing queued config'));
         }
-    } else {
-        item.set(State.ACTIVE);
-        item.container.appendChild(item.iframe.wrapper);
 
-    }
-    return item;
+        if (utility.isString(item.container)) {
+            item.container = document.getElementById(item.container);
+            if (!item.container) {
+                return this._resolve(name, new Error(name + ' missing container'));
+            }
+        }
+
+        this.createIframe(item);
+
+        if (item.isActive()) {
+            if (item.isResolved()) {
+                this._resolve(name, null, true);
+            }
+        } else {
+            item.set(State.ACTIVE);
+            item.container.appendChild(item.iframe.wrapper);
+
+        }
+        //return item;
+    });
 };
 
 function commaStringToArray(list) {
@@ -282,26 +282,27 @@ proto._runCallbacks = function(name, args) {
 
 proto._resolve = function(name, error, ignoreNewState, type) {
     type = type||'done';
-    var item = this._get(name);
-
-    if (item && ignoreNewState !== true) {
-        item.rendered++;
-        item.set(State.RESOLVED);
-    }
-    if (item && utility.isFunction(item[type])){
-        item[type](error, item);
-    }
-    if (item && item.isResolved()) {
-        this._runCallbacks(name, [error, item]);
-    }
+    this._forEachWithName(name, function (item) {
+        if (item && ignoreNewState !== true) {
+            item.rendered++;
+            item.set(State.RESOLVED);
+        }
+        if (item && utility.isFunction(item[type])){
+            item[type](error, item);
+        }
+        if (item && item.isResolved()) {
+            this._runCallbacks(name, [error, item]);
+        }
+    });
 };
 
 proto._fail = function (name, obj){
-    var item = this._get(name);
-    if (item){
-        item.set(State.FAILED);
-    }
-    this._resolve(name, obj && obj.message, true, 'fail');
+    this._forEachWithName(name, function (item) {
+        if (item){
+            item.set(State.FAILED);
+        }
+        this._resolve(name, obj && obj.message, true, 'fail');
+    });
 };
 
 proto._checkResolvedStatus = function() {
@@ -312,6 +313,10 @@ proto._checkResolvedStatus = function() {
 
 proto._forEachItem = function (fn) {
     this.items.forEach(fn.bind(this));
+};
+
+proto._forEachWithName = function (name, fn) {
+    this._get(name).forEach(fn.bind(this));
 };
 
 proto._renderUntouched = function () {
@@ -331,24 +336,25 @@ proto._refreshUntouched = function() {
 };
 
 proto.refresh = function(name, cb) {
-    var item = this._get(name);
-    if (!item) { return cb(new Error('Missing config '+name)); }
-    if (item.isUsable()) {
-        this._setCallback(name, cb);
-        item.iframe.setData( this._getItemData(item) );
-        item.set(State.REFRESHING);
-        try{
-            item.iframe.refresh();
-        } catch(err){
-            item.iframe = null;
-            item.set(item.DESTROYED);
-            // reset:
-            this.render(name, cb);
+    this._forEachWithName(name, function (item) {
+        if (!item) { return cb(new Error('Missing config ' + name)); }
+        if (item.isUsable()) {
+            this._setCallback(name, cb);
+            item.iframe.setData( this._getItemData(item) );
+            item.set(State.REFRESHING);
+            try{
+                item.iframe.refresh();
+            } catch(err){
+                item.iframe = null;
+                item.set(item.DESTROYED);
+                // reset:
+                this.render(name, cb);
+            }
+        } else {
+            // todo: change to failed with master merge, + add test
+            this._fail(name);
         }
-    } else {
-        // todo: change to failed with master merge, + add test
-        this._fail(name);
-    }
+    });
 };
 
 proto.refreshAll = function(prioritized, cb) {

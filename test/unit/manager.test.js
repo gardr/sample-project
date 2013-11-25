@@ -55,15 +55,15 @@ describe('Manager', function () {
         it('should be undefined for new name', function(){
             var manager = helpers.testableManager();
 
-            var obj = manager._get( helpers.getRandomName() );
-            expect(obj).toBeUndefined();
+            var arr = manager._get( helpers.getRandomName() );
+            expect(arr[0]).toBeUndefined();
         });
 
         it('should be defined for registered objects', function(){
             var manager = helpers.testableManager();
             var name = 'VALUE_1';
             manager.queue(name);
-            var objRes = manager._get(name);
+            var objRes = manager._get(name)[0];
             expect(objRes).toBeDefined();
         });
     });
@@ -143,7 +143,6 @@ describe('Manager', function () {
                 scriptUrl: scriptUrl
             });
 
-            //expect(manager._getConfig(name).unique).toEqual(name);
             expect(manager._getConfig(name)).toBeUndefined();
         });
 
@@ -162,7 +161,8 @@ describe('Manager', function () {
                 scriptUrl: scriptUrl
             });
 
-            expect(manager._get(name).unique).toEqual(name);
+            expect(manager._get(name).length).toEqual(1);
+            expect(manager._get(name)[0].unique).toEqual(name);
         });
 
         it('should extend queued object with correct config object', function(){
@@ -174,8 +174,8 @@ describe('Manager', function () {
             manager.queue(name);
 
             var result = manager._get(name);
-            expect(result).toBeDefined();
-            expect(result.foo).toEqual('bar');
+            expect(result.length).toEqual(1);
+            expect(result[0].foo).toEqual('bar');
 
         });
 
@@ -190,8 +190,8 @@ describe('Manager', function () {
             });
 
             var result = manager._get(name);
-            expect(result).toBeDefined();
-            expect(result.foo).toEqual('fighters');
+            expect(result.length).toEqual(1);
+            expect(result[0].foo).toEqual('fighters');
 
         });
     });
@@ -223,10 +223,10 @@ describe('Manager', function () {
                 container: document.createElement('div'),
                 url: 'test'
             });
-            expect(manager._get(name).iframe).toBeUndefined();
+            expect(manager._get(name)[0].iframe).toBeUndefined();
             manager.render(name, function () {});
 
-            expect(manager._get(name).iframe).toBeDefined();
+            expect(manager._get(name)[0].iframe).toBeDefined();
         });
 
         it('should pass width and height to iframe', function () {
@@ -242,7 +242,7 @@ describe('Manager', function () {
             });
             manager.render(name, function () {});
 
-            var iframe = manager._get(name).iframe;
+            var iframe = manager._get(name)[0].iframe;
             expect(iframe.width).toEqual(width);
             expect(iframe.height).toEqual(height);
 
@@ -257,7 +257,7 @@ describe('Manager', function () {
             });
             
             manager.render(name, function () {});
-            expect(manager._get(name).iframe.data.url).toEqual(scriptUrl);
+            expect(manager._get(name)[0].iframe.data.url).toEqual(scriptUrl);
 
         });
 
@@ -270,17 +270,14 @@ describe('Manager', function () {
                 url: scriptUrl
             });
 
-            var item = manager.render(name, function (err, _state) {
+            manager.render(name, function (err, _state) {
                 done = true;
                 expect(err).toEqual(null);
                 expect(_state).toEqual(jasmine.any(State));
             });
 
-            expect(item.state).toEqual(State.ACTIVE);
-
             runs(function () {
                 manager._resolve(name);
-                expect(item.state).toEqual(State.RESOLVED);
             });
 
             waitsFor(function () {
@@ -382,7 +379,7 @@ describe('Manager', function () {
                 expect(err).toBeUndefined();
                 expect(items).toBeDefined();
                 expect(items.length).toEqual(num);
-                var first = rand.manager._get(rand.names[0]);
+                var first = rand.manager._get(rand.names[0])[0];
                 expect(first).toEqual(jasmine.any(State));
             });
 
@@ -576,7 +573,7 @@ describe('Manager', function () {
             rand.manager.renderAll();
             rand.forceResolveAll();
 
-            var first = rand.manager._get(rand.names[0]);
+            var first = rand.manager._get(rand.names[0])[0];
 
             rand.manager.refreshAll(function (err, items) {
                 expect(err).toBeUndefined();
