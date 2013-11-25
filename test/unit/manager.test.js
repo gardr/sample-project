@@ -377,14 +377,11 @@ describe('Manager', function () {
             var rand = queueRandom(num);
             var done = false;
 
-
-            expect(Object.keys(rand.manager.items).length).toEqual(num);
-
             rand.manager.renderAll(function (err, items) {
                 done = true;
                 expect(err).toBeUndefined();
                 expect(items).toBeDefined();
-                expect(Object.keys(items).length).toEqual(num);
+                expect(items.length).toEqual(num);
                 var first = rand.manager._get(rand.names[0]);
                 expect(first).toEqual(jasmine.any(State));
             });
@@ -396,14 +393,11 @@ describe('Manager', function () {
             });
         });
 
-        it('should call "__all"-callback when _resolved', function () {
+        it('should call "__all"-callback only once', function () {
             var num = 5;
             var rand = queueRandom(num);
             var counter = num;
             var done = 0;
-
-
-            expect(Object.keys(rand.manager.items).length).toEqual(num);
 
             rand.manager.renderAll(function (err) {
                 done++;
@@ -429,8 +423,6 @@ describe('Manager', function () {
             var rand = queueRandom(num);
             var counter = num;
             var done = false;
-
-            expect(Object.keys(rand.manager.items).length).toEqual(num);
 
             rand.manager.renderAll(function (err) {
                 done = true;
@@ -589,7 +581,7 @@ describe('Manager', function () {
             rand.manager.refreshAll(function (err, items) {
                 expect(err).toBeUndefined();
                 expect(items).toBeDefined();
-                expect(Object.keys(items).length).toEqual(num);
+                expect(items.length).toEqual(num);
 
                 expect(first).toEqual(jasmine.any(State));
                 expect(first.rendered).toEqual(2, first.name + ' should be rendered 2 times');

@@ -33,7 +33,7 @@ function getLogTo(hash) {
 }
 
 function Manager(options) {
-    this.items = {};
+    this.items = [];
     this.itemConfigs = {};
 
     this.key = options && options.key||com.PARENT_PREFIX;
@@ -141,7 +141,10 @@ proto.extendInframeData = function (o) {
 };
 
 proto._get = function (name) {
-    return this.items[name];
+    var filteredItems = this.items.filter(function(item){
+        return item.name === name;
+    });
+    return filteredItems[0];
 };
 
 proto._getConfig = function (name) {
@@ -163,7 +166,7 @@ proto._addToMap = function (name, input) {
     }
     var config = this._getConfig(name);
     var item = State.create(name);
-    this.items[name] = utility.extend(item, config, input);
+    this.items.push( utility.extend(item, config, input) );
 };
 
 proto._setCallback = function(name, cb) {
@@ -302,30 +305,25 @@ proto._fail = function (name, obj){
 };
 
 proto._checkResolvedStatus = function() {
-    var self = this;
-    var itemList = Object.keys(this.items).map(function (name) {
-        return self.items[name];
-    });
-
-    return itemList.every(function (item) {
+    return this.items.every(function (item) {
         return item.isResolved();
     });
 };
 
 proto._renderUntouched = function () {
-    for (var key in this.items) {
-        if (this.items[key].isActive() === false) {
-            this.render(key);
+    this.items.forEach(function(item){
+        if ( item.isActive() === false ){
+            this.render(item.name);
         }
-    }
+    }.bind(this));
 };
 
 proto._refreshUntouched = function() {
-    for (var key in this.items) {
-        if (this.items[key].needsRefresh() === true) {
-            this.refresh(key);
+    this.items.forEach(function(item){
+        if ( item.needsRefresh() === true ){
+            this.refresh(item.name);
         }
-    }
+    }.bind(this));
 };
 
 proto.refresh = function(name, cb) {
@@ -349,13 +347,6 @@ proto.refresh = function(name, cb) {
     }
 };
 
-proto._forEachItem = function (fn) {
-    var manager = this;
-    Object.keys(this.items).map(function (name) {
-        return manager._get(name);
-    }).forEach(fn);
-};
-
 proto.refreshAll = function(prioritized, cb) {
     if (utility.isFunction(prioritized)) {
         cb = prioritized;
@@ -365,7 +356,7 @@ proto.refreshAll = function(prioritized, cb) {
 
     prioritized = commaStringToArray(prioritized);
 
-    this._forEachItem(function (item) {
+    this.items.forEach(function(item){
         item.set(State.NEEDS_REFRESH);
     });
 
