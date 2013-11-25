@@ -310,20 +310,24 @@ proto._checkResolvedStatus = function() {
     });
 };
 
+proto._forEachItem = function (fn) {
+    this.items.forEach(fn.bind(this));
+};
+
 proto._renderUntouched = function () {
-    this.items.forEach(function(item){
+    this._forEachItem(function(item){
         if ( item.isActive() === false ){
             this.render(item.name);
         }
-    }.bind(this));
+    });
 };
 
 proto._refreshUntouched = function() {
-    this.items.forEach(function(item){
+    this._forEachItem(function(item){
         if ( item.needsRefresh() === true ){
             this.refresh(item.name);
         }
-    }.bind(this));
+    });
 };
 
 proto.refresh = function(name, cb) {
@@ -356,7 +360,7 @@ proto.refreshAll = function(prioritized, cb) {
 
     prioritized = commaStringToArray(prioritized);
 
-    this.items.forEach(function(item){
+    this._forEachItem(function(item){
         item.set(State.NEEDS_REFRESH);
     });
 
