@@ -7,3 +7,4 @@ dist
 target
 *.iml
 *.sublime-workspace
+*.sublime-project

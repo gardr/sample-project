@@ -1,9 +1,0 @@
-{
-	"folders":
-	[
-		{
-			"path": "/Users/micgunnu/code/Finntech/pasties-js",
-			"folder_exclude_patterns": ["target", "node_modules"]
-		}
-	]
-}
