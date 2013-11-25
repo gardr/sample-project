@@ -1,5 +1,8 @@
 {
   "libs": [
+  	"browser",
+  	"ecma5",
+  	"jasmine"
   ],
   "loadEagerly": [
     "src/**/*.js"
