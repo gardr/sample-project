@@ -19,12 +19,11 @@ function getOrigin(loc) {
     return loc.origin || (loc.protocol + '//' + loc.hostname + (loc.port ? ':' + loc.port : ''));
 }
 
-function Iframe(name, options) {
-    this.name = name;
+function Iframe(id, options) {
+    this.id = id;
     if (!options || typeof options.iframeUrl === 'undefined') {
         throw new Error('Iframe missing options and iframeUrl');
     }
-    this.id = options.id || name + (+new Date());
     this.element = null;
     this.iframeUrl = options.iframeUrl;
     this.width = options.width || '100%';
@@ -64,6 +63,9 @@ Iframe.prototype.setData = function (data) {
 
 Iframe.prototype._getUrl = function(src) {
     var baseUrl = this.iframeUrl;
+    if (typeof baseUrl != 'string') {
+        throw new Error('iframeUrl must be a string');
+    }
     var sep = baseUrl.indexOf('?') !== -1 ? '&' : '?';
     var refresh = src && src.indexOf(REFRESH_KEY) === -1 ? REFRESH_KEY + '=true&' : '';
     return [
@@ -73,7 +75,7 @@ Iframe.prototype._getUrl = function(src) {
         '&',
         refresh,
         // Wrapped args in predefined order
-        hashData.encode(this.name, {key: this.key, origin: getOrigin(document.location)}, this.data)
+        hashData.encode(this.id, {key: this.key, origin: getOrigin(document.location)}, this.data)
     ].join('');
 };
 
@@ -85,7 +87,7 @@ Iframe.prototype.makeIframe = function() {
     var wrapper = this.wrapper = document.createElement('div');
     var i = this.element = document.createElement('iframe');
     var inner = document.createElement('div');
-    var classes = [TYPE, TYPE + '-' + this.name];
+    var classes = [TYPE, TYPE + '-' + this.id];
 
     if (this.classes) {
         classes.push(this.classes);
@@ -94,10 +96,10 @@ Iframe.prototype.makeIframe = function() {
         classes.push(TYPE + '-hidden');
         wrapper.style.display = 'none';
     }
-    wrapper.id = this.id;
+    //wrapper.id = this.id;
     wrapper.className = (classes.join(' ')).toLowerCase();
-    wrapper.setAttribute('data-' + TYPE, this.name);
-    i.setAttribute('data-automation-id', this.name);
+    wrapper.setAttribute('data-' + TYPE, this.id);
+    i.setAttribute('data-automation-id', this.id);
 
     i.src = this._getUrl();
     i.className = TYPE + '-iframe';

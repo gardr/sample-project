@@ -78,19 +78,18 @@ function Manager(options) {
 
     // this.sharedState = {};
     com.incomming(function (msg, contentWindow, origin) {
-
-        manager._get(msg.name).forEach(function (item) {
-            if (!item || item.isActive() !== true) {
-                return;
-            }
-            if (item && !item.com) {
-                // create a communication channel back
-                item.com = com.createOutgoing(origin, contentWindow, com.PREFIX);
-            }
-            manager._delegate(msg, item);
-        });
+        var item = manager._getById(msg.id);
+        if (!item || item.isActive() !== true) {
+            return;
+        }
+        if (item && !item.com) {
+            // create a communication channel back
+            item.com = com.createOutgoing(origin, contentWindow, com.PREFIX);
+        }
+        manager._delegate(msg, item);
     }, this.key, this.options.deactivateCDFS);
 }
+Manager._ALL = ALL;
 var proto = Manager.prototype;
 
 proto._delegate = function (msg, item) {
@@ -104,7 +103,7 @@ proto._delegate = function (msg, item) {
         break;
     case 'fail':
         item.iframe.addFailedClass();
-        this._fail(msg.name, msg);
+        this._fail(msg.id, msg);
         break;
     case 'get':
         item.com({
@@ -118,7 +117,7 @@ proto._delegate = function (msg, item) {
         // check if minsize
         item.input.width = msg.w;
         item.input.height = msg.h;
-        this._resolve(msg.name);
+        this._resolve(msg.id);
         break;
     case 'debug':
         this.debug = this.debug||[];
@@ -146,6 +145,12 @@ proto._get = function (name) {
     });
 };
 
+proto._getById = function(id) {
+    for(var i=0, l=this.items.length; i<l; i++) {
+        if (this.items[i].id === id) { return this.items[i]; }
+    }
+};
+
 proto._getConfig = function (name) {
     return this.itemConfigs[name];
 };
@@ -156,14 +161,15 @@ proto.config = function (name, configData) {
 
 /* Add data. "Queue" banner for render. */
 proto.queue = function (name, obj) {
-    this._addToMap(name, obj || {});
-};
-
-proto._addToMap = function (name, input) {
-    if (!input || !name) {
-        throw new Error('Missing name on configuration object');
+    var input = obj || {};
+    if (!name) {
+        throw new Error('Can\'t queue without a name');
     }
-    var config = this._getConfig(name);
+    var config = this._getConfig(name) || {};
+    if (!config.container || input.container) {
+        //throw new Error('Can\'t queue without a container');
+        input.container = document.body.appendChild( document.createElement('div') );
+    }
     var item = State.create(name);
     this.items.push( utility.extend(item, config, input) );
 };
@@ -176,27 +182,27 @@ proto._setCallback = function(name, cb) {
     if (utility.isFunction(cb)) {
         list.push(cb);
     }
-    // console.log('name:', name, 'cb', !!cb, 'list:', this.callbacks[name], 'all:', this.callbacks);
 };
 
 /* Insert iframe into page. */
 proto.render = function (name, cb) {
-    //console.log('render()- '+name);
-    this._forEachWithName(name, function (item) {
 
-        this._setCallback(name, cb);
+    this._setCallback(name, cb);
+    this._forEachWithName(name, function (item) {
+        //item.addCallback(cb);
+
         if (!item) {
-            return this._resolve(name, new Error(name + ' missing item'));
+            return this._resolve(item.id, new Error(name + ' missing item'));
         }
         if (!item.container || !item.url) {
             item.set(State.INCOMPLETE);
-            return this._resolve(name, new Error(name + ' missing queued config'));
+            return this._resolve(item.id, new Error(name + ' missing queued config'));
         }
 
         if (utility.isString(item.container)) {
             item.container = document.getElementById(item.container);
             if (!item.container) {
-                return this._resolve(name, new Error(name + ' missing container'));
+                return this._resolve(item.id, new Error(name + ' missing container'));
             }
         }
 
@@ -204,7 +210,7 @@ proto.render = function (name, cb) {
 
         if (item.isActive()) {
             if (item.isResolved()) {
-                this._resolve(name, null, true);
+                this._runCallbacks(item.id, [null, item]);
             }
         } else {
             item.set(State.ACTIVE);
@@ -250,7 +256,7 @@ proto._getItemData = function (item) {
 proto.createIframe = function (item) {
     if (!item.iframe) {
         // todo, check if actually iframe is on different domain
-        item.iframe = new Iframe(item.name, {
+        item.iframe = new Iframe(item.id, {
             iframeUrl: (
                 support.hasCrossDomainFrameSupport(
                     this.options.deactivateCDFS) ? this.options.iframeUrl : this.options.sameDomainIframeUrl
@@ -258,7 +264,6 @@ proto.createIframe = function (item) {
             key: this.key,
             width: item.width,
             height: item.height,
-            id: item.id,
             hidden: item.hidden,
             classes: ''
         });
@@ -268,41 +273,57 @@ proto.createIframe = function (item) {
     }
 };
 
-proto._runCallbacks = function(name, args) {
-    var list = this.callbacks[name] || [];
-    this.callbacks[name] = [];
-    list.filter(utility.isFunction).forEach(function(fn) {
+proto._getCallbacks = function (id) {
+    var name;
+    if (id !== ALL) {
+        name = this._getById(id).name;
+    } else {
+        name = id;
+    }
+    return this.callbacks[name] || [];
+};
+
+proto._runCallbacks = function(id, args) {
+    // TODO test callback id/name issues
+    var list = this._getCallbacks(id);
+    var length = list.length;
+    while (length > 0) {
+        list.shift().apply(global, args);
+        length--;
+    }
+    /*list.forEach(function(fn) {
         fn.apply(global, args);
     });
+    list.length = 0;*/
 
-    if (name !== ALL && this.callbacks[ALL] && this._checkResolvedStatus()) {
+    if (id !== ALL && this.callbacks[ALL] && this._checkResolvedStatus()) {
         this._runCallbacks(ALL, [args[0], this.items]);
     }
 };
 
-proto._resolve = function(name, error, ignoreNewState, type) {
-    type = type||'done';
-    this._forEachWithName(name, function (item) {
-        if (item && ignoreNewState !== true) {
-            item.rendered++;
-            item.set(State.RESOLVED);
-        }
-        if (item && utility.isFunction(item[type])){
-            item[type](error, item);
-        }
-        if (item && item.isResolved()) {
-            this._runCallbacks(name, [error, item]);
-        }
-    });
+proto._resolve = function(id, error, ignoreNewState) {
+    var type = 'done';
+    if (error) { type = 'fail'; }
+
+    var item = this._getById(id);
+    if (item && ignoreNewState !== true) {
+        item.rendered++;
+        item.set(State.RESOLVED);
+    }
+    if (item && utility.isFunction(item[type])){
+        item[type](error, item);
+    }
+    if (item && item.isResolved()) {
+        this._runCallbacks(id, [error, item]);
+    }
 };
 
-proto._fail = function (name, obj){
-    this._forEachWithName(name, function (item) {
-        if (item){
-            item.set(State.FAILED);
-        }
-        this._resolve(name, obj && obj.message, true, 'fail');
-    });
+proto._fail = function (id, obj){
+    var item = this._getById(id);
+    if (item){
+        item.set(State.FAILED);
+    }
+    this._resolve(id, new Error(obj.message), true);
 };
 
 proto._checkResolvedStatus = function() {
@@ -336,10 +357,10 @@ proto._refreshUntouched = function() {
 };
 
 proto.refresh = function(name, cb) {
+    this._setCallback(name, cb);
     this._forEachWithName(name, function (item) {
         if (!item) { return cb(new Error('Missing config ' + name)); }
         if (item.isUsable()) {
-            this._setCallback(name, cb);
             item.iframe.setData( this._getItemData(item) );
             item.set(State.REFRESHING);
             try{
@@ -352,7 +373,7 @@ proto.refresh = function(name, cb) {
             }
         } else {
             // todo: change to failed with master merge, + add test
-            this._fail(name);
+            this._resolve(item.id, new Error('item is not usable'));
         }
     });
 };

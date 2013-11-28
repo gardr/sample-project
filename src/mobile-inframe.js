@@ -49,7 +49,7 @@ var comParent = function(o, cb) {
             data: keyvalues
         })(cb);
     }
-    o.name = input.name;
+    o.id = input.id;
     return _comParent(o);
 };
 
@@ -62,7 +62,7 @@ var internals = global.banner = api.init(input, comParent, getSizes, logAppender
     * check for sizes
 */
 com.incomming(function(msg) {
-    //parent.console.log('incomming msg', internals.name, msg);
+    //parent.console.log('incomming msg', internals.id, msg);
     if (msg.cmd === 'callback' && utility.isNumber(msg.index)) {
         internals.callback(msg);
     } else if (msg.cmd === 'getSizes') {

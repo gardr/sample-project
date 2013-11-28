@@ -102,8 +102,6 @@ describe('Cross domain iframe test', function () {
             expect(err).toBeUndefined();
             expect(item.input.width).toEqual(123);
             expect(item.input.height).toEqual(300);
-            // cdfs_fallback sets a global from iframe. This wont work deactivateCDFS failed
-            expect(window[name]).toEqual(name);
             var src = item.iframe.element.getAttribute('src');
             expect(src.indexOf(base) === -1).toBe(true);
             done = true;

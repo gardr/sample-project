@@ -10,14 +10,14 @@ document.write(
     'px;height:',
     window.banner.params.height,
     'px;background:green;color:white;"></div>'
-].join('')
+  ].join('')
 );
 
-try {
-    window.parent[window.banner.name] = window.banner.name;
+/*try {
+    window.parent[window.banner.id] = window.banner.id;
 } catch (e) {
     if (window.console) {
         window.console.log(e);
     }
     throw e;
-}
+}*/

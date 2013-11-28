@@ -11,6 +11,7 @@ describe('state', function() {
         var obj = State.create('someName');
 
         expect(obj).toEqual(jasmine.any(Object));
+        expect(obj.id).toBeDefined();
         expect(obj.state).toBe(0);
     });
 
@@ -20,6 +21,10 @@ describe('state', function() {
         var url2 = State.create('test_unique2', opts).getData().url;
         expect(url1.indexOf('PASTIES_UNIQUE_ID')).toEqual(-1);
         expect(url1).not.toEqual(url2.url);
+    });
+
+    it('creating two states with same name should have unique ids', function () {
+        expect(State.create('unique').id).not.toEqual(State.create('unique').id);
     });
 
 });

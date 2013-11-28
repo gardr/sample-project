@@ -17,11 +17,11 @@ describe('iframe', function () {
             new Iframe('some-test-123', {});
         }).toThrow();
 
-        var name = 'iframe1';
+        var id = 'iframe1';
         var iframeUrl = 'about:blank';
-        var frame = new Iframe(name, {iframeUrl: iframeUrl});
+        var frame = new Iframe(id, {iframeUrl: iframeUrl});
 
-        expect(frame.name).toEqual(name);
+        expect(frame.id).toEqual(id);
 
         frame.makeIframe('some=parameters&and=another');
 
