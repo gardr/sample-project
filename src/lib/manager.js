@@ -178,7 +178,7 @@ proto.queue = function (name, obj) {
         throw new Error('Can\'t queue without a name');
     }
     var config = this._getConfig(name) || {};
-    if (!config.container || input.container) {
+    if (!config.container && !input.container) {
         //throw new Error('Can\'t queue without a container');
         input.container = document.body.appendChild( document.createElement('div') );
     }

@@ -175,6 +175,21 @@ describe('Manager', function () {
             expect(manager._get(name)).toBeDefined();
         });
 
+        it('should allow specifying container in config', function () {
+            var name = helpers.getRandomName();
+            var container = document.createElement('div');
+            manager.config(name, {container: container});
+            manager.queue(name, {url: 'test'});
+            expect(manager._get(name)[0].container).toEqual(container);
+        });
+
+        it('should allow specifying container in queue', function () {
+            var name = helpers.getRandomName();
+            var container = document.createElement('div');
+            manager.queue(name, {container: container,url: 'test'});
+            expect(manager._get(name)[0].container).toEqual(container);
+        });
+
         it('should queue object to queued map', function () {
             var name = helpers.getRandomName();
 
@@ -227,6 +242,8 @@ describe('Manager', function () {
             expect(items.length).toEqual(2);
             expect(items[0].id).not.toEqual(items[1].id);
         });
+
+
     });
 
     describe('render', function () {
