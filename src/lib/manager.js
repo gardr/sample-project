@@ -32,6 +32,18 @@ function getLogTo(hash) {
     return params.logto;
 }
 
+function addItemCallback (item, callback) {
+    if (typeof callback != 'function') {
+        return;
+    }
+    item._callbacks = item._callbacks || [];
+    item._callbacks.push(callback);
+}
+
+function getItemCallbacks (item) {
+    return item._callbacks || [];
+}
+
 function Manager(options) {
     this.items = [];
     this.itemConfigs = {};
@@ -174,22 +186,11 @@ proto.queue = function (name, obj) {
     this.items.push( utility.extend(item, config, input) );
 };
 
-proto._setCallback = function(name, cb) {
-    var list = this.callbacks[name];
-    if (!utility.isArray(this.callbacks[name])) {
-        list = this.callbacks[name] = [];
-    }
-    if (utility.isFunction(cb)) {
-        list.push(cb);
-    }
-};
-
 /* Insert iframe into page. */
 proto.render = function (name, cb) {
 
-    this._setCallback(name, cb);
     this._forEachWithName(name, function (item) {
-        //item.addCallback(cb);
+        addItemCallback(item, cb);
 
         if (!item) {
             return this._resolve(item.id, new Error(name + ' missing item'));
@@ -210,7 +211,7 @@ proto.render = function (name, cb) {
 
         if (item.isActive()) {
             if (item.isResolved()) {
-                this._runCallbacks(item.id, [null, item]);
+                this._runCallbacks(item, [null, item]);
             }
         } else {
             item.set(State.ACTIVE);
@@ -273,28 +274,30 @@ proto.createIframe = function (item) {
     }
 };
 
-proto._getCallbacks = function (id) {
-    var name;
-    if (id !== ALL) {
-        name = this._getById(id).name;
-    } else {
-        name = id;
+proto._setCallback = function(name, cb) {
+    var list = this.callbacks[name];
+    if (!utility.isArray(this.callbacks[name])) {
+        list = this.callbacks[name] = [];
     }
-    return this.callbacks[name] || [];
+    if (utility.isFunction(cb)) {
+        list.push(cb);
+    }
 };
 
-proto._runCallbacks = function(id, args) {
+proto._runCallbacks = function(item, args) {
     // TODO test callback id/name issues
-    var list = this._getCallbacks(id);
+    var list;
+    if (typeof item == 'object') {
+        list = getItemCallbacks(item);
+    } else if (item === ALL) {
+        var id = ALL;
+        list = this.callbacks[id] || [];
+    }
     var length = list.length;
     while (length > 0) {
         list.shift().apply(global, args);
         length--;
     }
-    /*list.forEach(function(fn) {
-        fn.apply(global, args);
-    });
-    list.length = 0;*/
 
     if (id !== ALL && this.callbacks[ALL] && this._checkResolvedStatus()) {
         this._runCallbacks(ALL, [args[0], this.items]);
@@ -314,7 +317,7 @@ proto._resolve = function(id, error, ignoreNewState) {
         item[type](error, item);
     }
     if (item && item.isResolved()) {
-        this._runCallbacks(id, [error, item]);
+        this._runCallbacks(item, [error, item]);
     }
 };
 
@@ -357,8 +360,8 @@ proto._refreshUntouched = function() {
 };
 
 proto.refresh = function(name, cb) {
-    this._setCallback(name, cb);
     this._forEachWithName(name, function (item) {
+        addItemCallback(item, cb);
         if (!item) { return cb(new Error('Missing config ' + name)); }
         if (item.isUsable()) {
             item.iframe.setData( this._getItemData(item) );

@@ -238,17 +238,6 @@ describe('Manager', function () {
             });
         });
 
-        it('should add callback to callbacks', function () {
-            var name = helpers.getRandomName();
-            manager.queue(name, {url:'test'});
-
-            expect(manager.callbacks[name]).toBeUndefined();
-
-            manager.render(name, function () {});
-
-            expect(manager.callbacks[name].length).toEqual(1);
-        });
-
         it('should create an iframe', function () {
             var name = helpers.getRandomName();
 
@@ -374,6 +363,26 @@ describe('Manager', function () {
                 expect(calls).toEqual(5);
             });
 
+        });
+
+        it('should call the callback for each item with same name', function () {
+            var name = helpers.getRandomName();
+            manager.config(name, {
+                url: 'test'
+            });
+            manager.queue(name);
+            manager.queue(name);
+
+            var calls = 0;
+            manager.render(name, function (err, item) {
+                calls++;
+            });
+
+            manager._forEachWithName(name, function (item) {
+                manager._resolve(item.id);
+            });
+
+            expect(calls).toEqual(2);
         });
 
         it('should render and trigger callback', function () {
