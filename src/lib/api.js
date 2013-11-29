@@ -70,7 +70,7 @@ api.init = function(input, com, getSizes, logOutput) {
     input.params = input.params || {};
     
     banner = {
-        name: input.name,
+        id: input.id,
         params: input.params,
         _internal: input.internal,
 
@@ -85,7 +85,7 @@ api.init = function(input, com, getSizes, logOutput) {
             document.write(['<scr', 'ipt type="text/javascript" src="', url, '"></scr', 'ipt>'].join(''));
         },
 
-        log: logger.create(input.name, input.params.loglevel, logOutput),
+        log: logger.create(input.id, input.params.loglevel, logOutput),
         resize: applyCom('resize', ['w', 'h']),
         resolve: applyCom('resolve', ['msg']),
         fail: applyCom('fail', ['msg']),

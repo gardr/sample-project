@@ -33,18 +33,17 @@ var DEFAULTS = {
     name: null,
     url: null,
     width: null,
-    height: null
+    height: null,
+    iframe: null,
+    container: null
 };
 var UNIQUE_TOKEN_REGEX = /PASTIES_UNIQUE_ID/g;
 var uniqueCount = 0;
 
-function generateUniqueId() {
-    return '' + new Date().getTime() + (uniqueCount++);
-}
-
 function State(name, options) {
     utility.extend(this, DEFAULTS, options);
     this.name = name;
+    this.id = name + (++uniqueCount);
 }
 
 utility.extend(State, STATES);
@@ -80,7 +79,7 @@ proto.getData = function() {
 
     var url = this.url;
     if (url && UNIQUE_TOKEN_REGEX.test(url)) {
-        url = url.replace(UNIQUE_TOKEN_REGEX, generateUniqueId());
+        url = url.replace(UNIQUE_TOKEN_REGEX, '' + new Date().getTime() + (this.id));
     }
 
     return {

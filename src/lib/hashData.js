@@ -6,10 +6,10 @@ module.exports = {
 	SEPARATOR : '_|_',
 	HASH_CHAR : '#',
 
-	encode: function (name, internalParams, params) {
+	encode: function (id, internalParams, params) {
 		return [
 			this.HASH_CHAR + this.PREFIX,
-			name,
+			id,
 			paramUtil.param(internalParams),
 			paramUtil.param(params)
 		].join(this.SEPARATOR);
@@ -21,7 +21,7 @@ module.exports = {
 			throw new Error('Missing url-fragment prefix ' + this.HASH_CHAR + this.PREFIX);
 		}
 		return {
-			name: parts[1],
+			id: parts[1],
 			internal: paramUtil.deparam(parts[2], RE_SPLIT),
 			params: paramUtil.deparam(parts[3], RE_SPLIT)
 		};

@@ -1,2 +1,2 @@
-document.write('<div style="position:relative;z-index:1;display:block;background:blue;color:white;text-align:center;width:100%;height:225px;">'+window.banner.name+'</div>');
-console.log((+new Date+'').substring(8), banner.name, 'example_content_responsive.js');
+document.write('<div style="position:relative;z-index:1;display:block;background:blue;color:white;text-align:center;width:100%;height:225px;">'+window.banner.id+'</div>');
+console.log((+new Date+'').substring(8), banner.id, 'example_content_responsive.js');

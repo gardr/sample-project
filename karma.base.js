@@ -3,6 +3,7 @@ module.exports = function (karma) {
         basePath: "",
         frameworks: ["jasmine", "browserify"],
         files: [
+            "test/lib/Function-polyfill.js",
             "test/**/*.test.js",
             {
                 pattern: "test/fixtures/*",
