@@ -286,11 +286,11 @@ proto._setCallback = function(name, cb) {
 
 proto._runCallbacks = function(item, args) {
     // TODO test callback id/name issues
-    var list;
+    var list, id;
     if (typeof item == 'object') {
         list = getItemCallbacks(item);
     } else if (item === ALL) {
-        var id = ALL;
+        id = ALL;
         list = this.callbacks[id] || [];
     }
     var length = list.length;

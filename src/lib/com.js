@@ -1,5 +1,4 @@
 var utility = require('./utility.js');
-var paramUtil = require('./paramUtil.js');
 var support = require('./support.js');
 /*
     Communication from and to banner container

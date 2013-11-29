@@ -85,7 +85,7 @@ describe('Manager', function () {
             var result = manager._getById(stateItem.id);
             expect(result).toBeDefined();
             expect(result.id).toEqual(stateItem.id);
-            expect(result.name).toEqual(name); 
+            expect(result.name).toEqual(name);
         });
     });
 
@@ -275,7 +275,7 @@ describe('Manager', function () {
             var items = manager._get(name);
             var iframe1 = items[0].iframe;
             var iframe2 = items[1].iframe;
-            expect(iframe1.id).not.toEqual(iframe2.id); 
+            expect(iframe1.id).not.toEqual(iframe2.id);
         });
 
         it('should pass width and height to iframe', function () {
@@ -374,7 +374,7 @@ describe('Manager', function () {
             manager.queue(name);
 
             var calls = 0;
-            manager.render(name, function (err, item) {
+            manager.render(name, function () {
                 calls++;
             });
 
@@ -717,7 +717,7 @@ describe('Manager', function () {
             var manager = helpers.testableManager({
                 iframeUrl: iframeUrl
             });
-            manager.flags['foo'] = 'bar';
+            manager.flags.foo = 'bar';
             var name = 'bannerflags_' + helpers.getRandomName();
             var elem = helpers.insertContainer(name);
 
@@ -732,7 +732,7 @@ describe('Manager', function () {
                 var id = item.id;
 
                 waitsFor(function () {
-                    return manager.flags['flag'] = id;
+                    return manager.flags.flag == id;
                 });
             });
         });
