@@ -10,6 +10,10 @@
   "repository": "http://github.com/pasties/pasties-js",
   "bugs": "http://github.com/pasties/pasties-js/issues",
   "author": "sveinung rosaker <sveinung.rosaker@finn.no>",
+  "contributors": [
+    "Gregers Rygg <gregers@finn.no>",
+    "Michael Gunnulfsen <michael.gunnulfsen@finn.no>"
+  ],
   "main": "src/lib/manager.js",
   "license": "MIT",
   "devDependencies": {
