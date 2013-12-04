@@ -1,5 +1,5 @@
 var utility     = require('./lib/utility.js');
-var paramUtil   = require('./lib/paramUtil.js');
+var queryParams = require('query-params');
 var api         = require('./lib/api.js');
 var com         = require('./lib/com.js');
 var getSize     = require('./lib/size.js');
@@ -45,7 +45,7 @@ var comParent = function(o, cb) {
         return plugin({
             parameters: feeder.feedStr,
             params: feeder.feed,
-            keyvalues: paramUtil.param(keyvalues, ';'),
+            keyvalues: queryParams.code(keyvalues, ';'),
             data: keyvalues
         })(cb);
     }

@@ -1,4 +1,4 @@
-var paramUtil   = require('./paramUtil.js');
+var queryParams   = require('query-params');
 var getCookies  = require('./usercookies.js').getCookies;
 var extractFeed = require('./feed.js').extractFeed;
 /*
@@ -17,7 +17,7 @@ function parseParentUrl(url) {
         };
     }
 
-    var pParams     = paramUtil.deparam(_url[1], /&/gmi);
+    var pParams     = queryParams.decode(_url[1], /&/gmi);
     var obj         = extractFeed(pParams.url);
     var keyvalues   = getCookies();
 
@@ -25,9 +25,9 @@ function parseParentUrl(url) {
 
     return {
         input: pParams,
-        parameters: paramUtil.param(obj.feed, ';'),
+        parameters: queryParams.encode(obj.feed, ';'),
         params: obj.feed,
-        keyvalues: paramUtil.param(keyvalues, ';'),
+        keyvalues: queryParams.encode(keyvalues, ';'),
         data: keyvalues
     };
 }

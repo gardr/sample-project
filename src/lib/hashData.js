@@ -1,4 +1,4 @@
-var paramUtil = require('./paramUtil.js');
+var queryParams = require('query-params');
 var RE_SPLIT = /&/gm;
 
 module.exports = {
@@ -10,8 +10,8 @@ module.exports = {
 		return [
 			this.HASH_CHAR + this.PREFIX,
 			id,
-			paramUtil.param(internalParams),
-			paramUtil.param(params)
+			queryParams.encode(internalParams),
+			queryParams.encode(params)
 		].join(this.SEPARATOR);
 	},
 
@@ -22,8 +22,8 @@ module.exports = {
 		}
 		return {
 			id: parts[1],
-			internal: paramUtil.deparam(parts[2], RE_SPLIT),
-			params: paramUtil.deparam(parts[3], RE_SPLIT)
+			internal: queryParams.decode(parts[2], RE_SPLIT),
+			params: queryParams.decode(parts[3], RE_SPLIT)
 		};
 	}
 };
