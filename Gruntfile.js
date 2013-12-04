@@ -57,6 +57,14 @@ module.exports = function(grunt) {
                 src: ['src/mobile-inframe.js'],
                 dest: 'target/<%= pkg.name %>/js/pasties/mobile-inframe.js'
             },
+            'desktop': {
+                src: ['src/desktop.js'],
+                dest: 'target/<%= pkg.name %>/js/pasties/desktop.js'
+            },
+            'desktop-inframe': {
+                src: ['src/desktop-inframe.js'],
+                dest: 'target/<%= pkg.name %>/js/pasties/desktop-inframe.js'
+            },
             'app-inframe': {
                 src: ['src/app-inframe.js'],
                 dest: 'target/<%= pkg.name %>/js/pasties/app-inframe.js'
@@ -83,6 +91,14 @@ module.exports = function(grunt) {
             'mobile': {
                 src: 'target/<%= pkg.name %>/js/pasties/mobile.js',
                 dest: 'target/<%= pkg.name %>/js/pasties/mobile.min.js'
+            },
+            'desktop-inframe': {
+                src: 'target/<%= pkg.name %>/js/pasties/desktop-inframe.js',
+                dest: 'target/<%= pkg.name %>/js/pasties/desktop-inframe.min.js'
+            },
+            'desktop': {
+                src: 'target/<%= pkg.name %>/js/pasties/desktop.js',
+                dest: 'target/<%= pkg.name %>/js/pasties/desktop.min.js'
             }
         },
 
@@ -144,6 +160,22 @@ module.exports = function(grunt) {
                 }
             },
 
+            'process-desktop-template': {
+                options: {
+                    data: {
+                        version: '<%= pkg.name %> v<%= pkg.version %>',
+                        style: '',
+                        id: 'PASTIES',
+                        initScript: 'banner.start();',
+                        // relative to iframe url
+                        scriptUrl: '../../js/pasties/desktop-inframe.min.js'
+                    }
+                },
+                files: {
+                    'target/<%= pkg.name %>/html/pasties/desktop.htm': ['src/templates/iframe-template.html']
+                }
+            },
+
             'process-samples-template': {
                 options: {
                     data: {
@@ -194,11 +226,16 @@ module.exports = function(grunt) {
         'bower',
         'browserify:mobile',
         'browserify:mobile-inframe',
+        'browserify:desktop',
+        'browserify:desktop-inframe',
         'browserify:app-inframe',
         'uglify:mobile',
         'uglify:mobile-inframe',
+        'uglify:desktop',
+        'uglify:desktop-inframe',
         'uglify:app-inframe',
         'template:process-mobile-template',
+        'template:process-desktop-template',
         'template:process-samples-template'
     ];
 

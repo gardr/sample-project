@@ -1,8 +1,3 @@
-/*
-
-*/
-var manager = require('./lib/manager.js');
-
-this.FINN = this.FINN || {};
-this.FINN.webAds = this.FINN.webAds || {};
-this.FINN.webAds.manager = manager;
+var Manager = require('./lib/manager.js');
+module.exports = Manager;
+global.pasties = Manager;
