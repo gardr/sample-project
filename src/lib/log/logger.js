@@ -1,5 +1,6 @@
 /* jshint noarg:false */
 var util = require('../utility.js');
+var extend = require('util-extend');
 var CALLSTACK_MAX_DEPTH = 10;
 var FN_NAME_REGEX = /function ([\w\d\-_]+)\s*\(/;
 
@@ -13,7 +14,7 @@ function makeLogFn (out, name) {
             if (typeof objOrMsg === 'string') {
                 objOrMsg = {msg: objOrMsg};
             }
-            out( util.extend({
+            out( extend({
                 level: level,
                 name: name,
                 time: new Date().getTime()

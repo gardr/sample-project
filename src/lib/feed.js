@@ -1,4 +1,4 @@
-var util = require('./utility.js');
+var extend = require('util-extend');
 var queryParams = require('query-params');
 
 var ADTECH_SPLIT = '|ADTECH;';
@@ -23,7 +23,7 @@ function extractFeed(scriptUrl) {
 
     return {
         inject: function(inject) {
-            return _url[0] + ADTECH_SPLIT + queryParams.encode(util.extend({}, feed, inject), ';');
+            return _url[0] + ADTECH_SPLIT + queryParams.encode(extend(feed, inject), ';');
         },
         feedStr: _url[1],
         feed: feed
