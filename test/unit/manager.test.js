@@ -743,14 +743,22 @@ describe('Manager', function () {
                 container: elem
             });
 
-            manager.render(name, function (err, item) {
-                expect(err).toBeUndefined();
-                expect(item.name).toEqual(name);
-                var id = item.id;
+            var _err, _item;
 
-                waitsFor(function () {
-                    return manager.flags.flag == id;
+            runs(function () {
+                manager.render(name, function (err, item) {
+                    _err = err;
+                    _item = item;
                 });
+            });
+
+            waitsFor(function () {
+                return (_err || _item) && manager.flags.flag == _item.id;
+            });
+
+            runs(function () {
+                expect(_err).toBeUndefined();
+                expect(_item.name).toEqual(name);
             });
         });
     });
