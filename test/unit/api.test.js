@@ -1,13 +1,7 @@
-var assert    = require('assert');
 var api = require('../../src/lib/api.js');
 var helpers = require('../testHelpers.js');
 
 describe('Api', function () {
-
-    it('should be defined', function(){
-        assert(api);
-    });
-
 
     it('callbacks should be stored', function(){
         var done;
