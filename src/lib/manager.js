@@ -1,7 +1,6 @@
 /* jshint maxparams:4 */
 'use strict';
 var State = require('./state.js');
-var utility = require('./utility.js');
 var extend = require('util-extend');
 var Iframe = require('./iframe.js');
 var com = require('./com.js');
@@ -79,7 +78,7 @@ function Manager(options) {
     /*
         (ios-fix) backbutton cache buster, reload all ads.
     */
-    utility.on('pageshow', global, function(e){
+    window.addEventListener('pageshow', function(e){
         if(e.persisted === true){
             /*
                 TODO: Need to refactor lastOrder/priority to live in
@@ -87,7 +86,7 @@ function Manager(options) {
             */
             manager.refreshAll(this.lastOrder);
         }
-    });
+    }, false);
 
     // this.sharedState = {};
     com.incomming(function (msg, contentWindow, origin) {

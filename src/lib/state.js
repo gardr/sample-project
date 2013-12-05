@@ -1,5 +1,4 @@
 var extend = require('util-extend');
-var utility = require('./utility');
 /*
     Banner state
         - communicated via manager via com.js
