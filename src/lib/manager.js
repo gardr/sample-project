@@ -5,7 +5,7 @@ var utility = require('./utility.js');
 var Iframe = require('./iframe.js');
 var com = require('./com.js');
 var support = require('./support.js');
-var paramUtil = require('./paramUtil.js');
+var queryParams = require('query-params');
 var ALL = '__all';
 //var windowSize = require('window-size');
 /*
@@ -19,7 +19,7 @@ var ALL = '__all';
 
 function getLogLevel(hash) {
     hash = hash || '';
-    var params = paramUtil.deparam(hash.replace(/^#/, ''));
+    var params = queryParams.decode(hash.replace(/^#/, ''));
     if (params.loglevel) {
         return parseInt(params.loglevel, 10);
     }
@@ -28,7 +28,7 @@ function getLogLevel(hash) {
 
 function getLogTo(hash) {
     hash = hash || '';
-    var params = paramUtil.deparam(hash.replace(/^#/, ''));
+    var params = queryParams.decode(hash.replace(/^#/, ''));
     return params.logto;
 }
 

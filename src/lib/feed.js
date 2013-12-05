@@ -1,5 +1,5 @@
 var util = require('./utility.js');
-var paramUtil = require('./paramUtil.js');
+var queryParams = require('query-params');
 
 var ADTECH_SPLIT = '|ADTECH;';
 
@@ -14,16 +14,16 @@ function extractFeed(scriptUrl) {
             feedStr: '',
             inject: function(inject) {
                 var sep = scriptUrl.indexOf('?') === -1 ? '?' : '&';
-                return scriptUrl + sep + paramUtil.param(inject, ';');
+                return scriptUrl + sep + queryParams.encode(inject, ';');
             }
         };
     }
     _url = scriptUrl.split(ADTECH_SPLIT);
-    feed = paramUtil.deparam(_url[1]);
+    feed = queryParams.decode(_url[1]);
 
     return {
         inject: function(inject) {
-            return _url[0] + ADTECH_SPLIT + paramUtil.param(util.extend({}, feed, inject), ';');
+            return _url[0] + ADTECH_SPLIT + queryParams.encode(util.extend({}, feed, inject), ';');
         },
         feedStr: _url[1],
         feed: feed
