@@ -201,7 +201,7 @@ proto.render = function (name, cb) {
             return this._resolve(item.id, new Error(name + ' missing queued config'));
         }
 
-        if (utility.isString(item.container)) {
+        if (typeof item.container == 'string') {
             item.container = document.getElementById(item.container);
             if (!item.container) {
                 return this._resolve(item.id, new Error(name + ' missing container'));
@@ -224,14 +224,14 @@ proto.render = function (name, cb) {
 };
 
 function commaStringToArray(list) {
-    if (!utility.isString(list)) {
+    if (typeof list != 'string') {
         return [];
     }
     return list.split(',');
 }
 
 proto.renderAll = function(prioritized, cb) {
-    if (utility.isFunction(prioritized)) {
+    if (typeof prioritized == 'function') {
         cb = prioritized;
         prioritized = undefined;
     }
@@ -280,7 +280,7 @@ proto._setCallback = function(name, cb) {
     if (!this.callbacks[name]) {
         list = this.callbacks[name] = [];
     }
-    if (utility.isFunction(cb)) {
+    if (typeof cb == 'function') {
         list.push(cb);
     }
 };
@@ -314,7 +314,7 @@ proto._resolve = function(id, error, ignoreNewState) {
         item.rendered++;
         item.set(State.RESOLVED);
     }
-    if (item && utility.isFunction(item[type])){
+    if (item && typeof item[type] == 'function'){
         item[type](error, item);
     }
     if (item && item.isResolved()) {
@@ -383,7 +383,7 @@ proto.refresh = function(name, cb) {
 };
 
 proto.refreshAll = function(prioritized, cb) {
-    if (utility.isFunction(prioritized)) {
+    if (typeof prioritized == 'function') {
         cb = prioritized;
         prioritized = undefined;
     }

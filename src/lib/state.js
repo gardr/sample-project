@@ -73,7 +73,7 @@ proto.hasFailed = function(){
 
 proto.set = function(input) {
     this.lastState = this.state;
-    this.state = utility.isNumber(input) ? input : State[input];
+    this.state = (typeof input == 'number') ? input : State[input];
 };
 
 proto.getData = function() {

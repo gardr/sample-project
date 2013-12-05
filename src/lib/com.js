@@ -20,7 +20,7 @@ var getOriginFromUrl = function(url) {
 
 /*  */
 com._postMessage = function(targetOrigin, targetWindow, prefix) {
-    prefix = utility.isString(prefix) ? prefix : com.PREFIX;
+    prefix = (typeof prefix == 'string') ? prefix : com.PREFIX;
     // targetOrigin implementation deviates in IE8, "*" not supported
     if (!targetOrigin || targetOrigin === '*') {
         targetOrigin = getOriginFromUrl(window.location.toString());
@@ -58,7 +58,7 @@ com._postMessage = function(targetOrigin, targetWindow, prefix) {
 
 /* Handle incomming messages */
 com.incomming = function(cb, prefix, deactivateCDFS) {
-    if (!utility.isFunction(cb)) {
+    if (typeof cb != 'function') {
         throw new Error('Missing callback');
     }
     prefix = prefix || com.PREFIX;
@@ -68,7 +68,7 @@ com.incomming = function(cb, prefix, deactivateCDFS) {
         // todo... document not working o nchrome
         utility.on('message', global, function(e) {
             var res = e.data;
-            if (res && utility.isString(res) && res.indexOf(prefix) === 0) {
+            if (res && typeof res == 'string' && res.indexOf(prefix) === 0) {
                 try {
                     var input = res.substring(prefix.length);
                     res = JSON.parse(input);

@@ -63,7 +63,7 @@ var internals = global.banner = api.init(input, comParent, getSizes, logAppender
 */
 com.incomming(function(msg) {
     //parent.console.log('incomming msg', internals.id, msg);
-    if (msg.cmd === 'callback' && utility.isNumber(msg.index)) {
+    if (msg.cmd === 'callback' && typeof msg.index == 'number') {
         internals.callback(msg);
     } else if (msg.cmd === 'getSizes') {
         internals.processSize();
