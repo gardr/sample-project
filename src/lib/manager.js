@@ -2,6 +2,7 @@
 'use strict';
 var State = require('./state.js');
 var utility = require('./utility.js');
+var extend = require('util-extend');
 var Iframe = require('./iframe.js');
 var com = require('./com.js');
 var support = require('./support.js');
@@ -147,7 +148,7 @@ proto._delegate = function (msg, item) {
 
 proto.extendInframeData = function (o) {
     if (o) {
-        utility.extend(this.__inject, o);
+        extend(this.__inject, o);
     }
 };
 
@@ -183,7 +184,7 @@ proto.queue = function (name, obj) {
         input.container = document.body.appendChild( document.createElement('div') );
     }
     var item = State.create(name);
-    this.items.push( utility.extend(item, config, input) );
+    this.items.push( extend( extend(item, config), input) );
 };
 
 /* Insert iframe into page. */
@@ -251,7 +252,7 @@ proto.renderAll = function(prioritized, cb) {
 };
 
 proto._getItemData = function (item) {
-    return utility.extend(item.getData(), this.__inject);
+    return extend(item.getData(), this.__inject);
 };
 
 proto.createIframe = function (item) {
@@ -276,7 +277,7 @@ proto.createIframe = function (item) {
 
 proto._setCallback = function(name, cb) {
     var list = this.callbacks[name];
-    if (!utility.isArray(this.callbacks[name])) {
+    if (!this.callbacks[name]) {
         list = this.callbacks[name] = [];
     }
     if (utility.isFunction(cb)) {

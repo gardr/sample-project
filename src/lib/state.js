@@ -1,3 +1,4 @@
+var extend = require('util-extend');
 var utility = require('./utility');
 /*
     Banner state
@@ -41,12 +42,12 @@ var UNIQUE_TOKEN_REGEX = /PASTIES_UNIQUE_ID/g;
 var uniqueCount = 0;
 
 function State(name, options) {
-    utility.extend(this, DEFAULTS, options);
+    extend( extend(this, DEFAULTS), options);
     this.name = name;
     this.id = name + (++uniqueCount);
 }
 
-utility.extend(State, STATES);
+extend(State, STATES);
 var proto = State.prototype;
 
 proto.isActive = function() {
