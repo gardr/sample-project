@@ -82,4 +82,4 @@ There are some examples on how to use garðr located in the samples [folder](./s
 
 ## Samples in the wild
 
-* All of the display adverst on [m.finn.no](http://m.finn.no/) is using paties-js to safely embed responsive adverts written in HTML, CSS and JS.
+* All of the display adverst on [m.finn.no](http://m.finn.no/) is using gardr to safely embed responsive adverts written in HTML, CSS and JS.
