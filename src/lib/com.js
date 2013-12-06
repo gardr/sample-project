@@ -1,4 +1,3 @@
-var utility = require('./utility.js');
 var support = require('./support.js');
 /*
     Communication from and to banner container
@@ -66,7 +65,7 @@ com.incomming = function(cb, prefix, deactivateCDFS) {
     if (support.hasCrossDomainFrameSupport(deactivateCDFS)) {
         // must use document and not window to support IE8
         // todo... document not working o nchrome
-        utility.on('message', global, function(e) {
+        global.addEventListener('message', function(e) {
             var res = e.data;
             if (res && typeof res == 'string' && res.indexOf(prefix) === 0) {
                 try {
@@ -75,7 +74,7 @@ com.incomming = function(cb, prefix, deactivateCDFS) {
                 } catch (err) {}
                 cb(res, e.source, e.origin);
             }
-        });
+        }, false);
     } else {
         global[prefix + com.GLOBAL_POSTMESSAGE_FALLBACK] = cb;
     }

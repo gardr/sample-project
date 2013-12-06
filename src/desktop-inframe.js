@@ -1,4 +1,3 @@
-var utility     = require('./lib/utility.js');
 var queryParams = require('query-params');
 var api         = require('./lib/api.js');
 var com         = require('./lib/com.js');
@@ -85,6 +84,6 @@ function getSizes() {
     };
 }
 
-utility.on('load', global, internals.processSize);
+global.addEventListener('load', internals.processSize, false);
 
 module.exports = internals;

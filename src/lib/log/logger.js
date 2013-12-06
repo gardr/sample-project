@@ -1,5 +1,4 @@
 /* jshint noarg:false */
-var util = require('../utility.js');
 var extend = require('util-extend');
 var CALLSTACK_MAX_DEPTH = 10;
 var FN_NAME_REGEX = /function ([\w\d\-_]+)\s*\(/;
@@ -53,10 +52,10 @@ function create(name, strLevel, out) {
     };
 
     if (level > 0) {
-        util.on('error', window, function (e) {
+        window.addEventListener('error', function (e) {
             var caller = arguments.callee && arguments.callee.caller;
             logInstance.error( retrieveErrorData(e, caller) );
-        });
+        }, false);
     }
     
     return logInstance;

@@ -52,6 +52,11 @@ By default it will display an overlay inside each banner with the log output. If
 *NB!* If the banner injects another iframe we have no good way of catching errors :(
 
 
+## Polyfills required for older IE support
+
+* [ES5-shim](https://npmjs.org/package/es5-shim) You do not need a sham (unsafe polyfills).
+* [addEventListener polyfill](https://gist.github.com/eirikbacker/2864711/dcc32b15ea79f8f364ca1707f81ec74a15fa25db)
+
 # Releasing new versions
 This task releases a new version to the Maven repository. 
 
