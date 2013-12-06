@@ -4,7 +4,6 @@ var State = require('./state.js');
 var extend = require('util-extend');
 var Iframe = require('./iframe.js');
 var com = require('./com.js');
-var support = require('./support.js');
 var queryParams = require('query-params');
 var ALL = '__all';
 //var windowSize = require('window-size');
@@ -258,10 +257,7 @@ proto.createIframe = function (item) {
     if (!item.iframe) {
         // todo, check if actually iframe is on different domain
         item.iframe = new Iframe(item.id, {
-            iframeUrl: (
-                support.hasCrossDomainFrameSupport(
-                    this.options.deactivateCDFS) ? this.options.iframeUrl : this.options.sameDomainIframeUrl
-            ),
+            iframeUrl: this.options.iframeUrl,
             key: this.key,
             width: item.width,
             height: item.height,

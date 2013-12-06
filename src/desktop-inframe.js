@@ -4,9 +4,8 @@ var com         = require('./lib/com.js');
 var getSize     = require('./lib/size.js');
 var insertCss   = require('./lib/style/insertCss.js');
 var responsive  = require('./lib/responsive.js');
-var support     = require('./lib/support.js');
 var plugin      = require('./lib/plugins/contextData.js');
-var rAFPatch    = require('./lib/raf.js');
+var rafPolyfill = require('./lib/rafPolyfill.js');
 var feed        = require('./lib/feed.js');
 var hashData    = require('./lib/hashData.js');
 
@@ -16,16 +15,8 @@ var hashData    = require('./lib/hashData.js');
 */
 var input = hashData.decode(window.location.hash);
 
-if (input.params.cdfs === 'true'){
-    global[support.cdfsKey] = true;
-}
-
 // patch or polifill request animation frame
-var ver = support.iOSversion();
-var ios = ver && ver[0] < 7;
-if (ios){
-    rAFPatch();
-}
+rafPolyfill();
 
 var _comParent = com.createManagerConnection(input.internal.origin, input.internal.key);
 
