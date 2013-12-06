@@ -1,15 +1,15 @@
-# pasties-js - the safe way to add advertisments to your site
+# garðr - the safe way to add third party content to your site
 
-[![Build Status](https://travis-ci.org/pasties/pasties-js.png)](https://travis-ci.org/pasties/pasties-js)
-[![NPM](https://nodei.co/npm/pasties-js.png?stars=true&downloads=true)](https://npmjs.org/package/pasties-js)
+[![Build Status](https://travis-ci.org/gardr/gardr.png)](https://travis-ci.org/gardr/gardr)
+[![NPM](https://nodei.co/npm/gardr.png?stars=true&downloads=true)](https://npmjs.org/package/gardr)
 
-Pasties is a library for embedding content from external sources such as advertisements or similar third party content. 
+Garðr is a library for embedding content from external sources such as advertisements or similar third party content. 
 
 Removes the need for friendly iframes support in delivery systems and supports both HTML, Image and Flash based adverts.
 
 # Installation
 
-	$ npm install pasies-js
+	$ npm install gardr
 
 
 # Building
@@ -44,7 +44,7 @@ We put bower modules inside node_modules folder so it just works. It's not optim
 
 ## Logging
 
-Debugging can be done by configuring logging to either the browser console or as an overlay inside the iframes rendered by pasties. 
+Debugging can be done by configuring logging to either the browser console or as an overlay inside the iframes rendered by garðr. 
 
 You can turn on logging by adding an url-fragment with log level: #loglevel=4
 By default it will display an overlay inside each banner with the log output. If the banner isn't visible, you can output to console by using: #loglevel=4&logto=console
@@ -71,7 +71,7 @@ This task releases a new version to the Maven repository.
 
 # Demos and samples
 
-There are some examples on how to use pasties located in the samples [folder](./samples).
+There are some examples on how to use garðr located in the samples [folder](./samples).
 * Run the following commands to install the samples applciation
 
 	$ cd samples/

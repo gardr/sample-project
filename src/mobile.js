@@ -29,4 +29,4 @@ function getManager(options) {
 
 
 module.exports = getManager;
-global.getManager = global.pastiesHack = getManager;
+global.getManager = global.gardrHack = getManager;

@@ -10,19 +10,19 @@ util.on('load', window, function () {
             url: '/example_content_responsive.js',
             width: 900,
             height: 225,
-            container: 'pasties_container'
+            container: 'gardr_container'
         };
     }
 
     var body = document.getElementsByTagName('body')[0];
     if (body) {
         var container = document.createElement('div');
-        container.id = 'pasties_container';
+        container.id = 'gardr_container';
         body.appendChild(container);
 
         manager.options = {
-            iframeUrl: 'http://127.0.0.1:9966/html/pasties/example.htm',
-            sameDomainIframeUrl: '/html/pasties/example.htm'
+            iframeUrl: 'http://127.0.0.1:9966/html/gardr/example.htm',
+            sameDomainIframeUrl: '/html/gardr/example.htm'
         };
 
         if (window.bannerUrl) {
@@ -31,14 +31,14 @@ util.on('load', window, function () {
                 done: function (err, item) {
                     console.log((+new Date()+'').substring(8), 'banner DONE', err, item);
                 },
-                container: 'pasties_container'
+                container: 'gardr_container'
             });
             manager.renderAll();
             return;
         }
 
         manager.queue('example', {
-            url: '/example_content.js?misc=PASTIES_UNIQUE_ID',
+            url: '/example_content.js?misc=GARDR_UNIQUE_ID',
             width: 250,
             height: 137,
             // threshold:
@@ -52,32 +52,32 @@ util.on('load', window, function () {
                 console.log((+new Date()+'').substring(8), 'example DONE', err, item);
 
             },
-            container: 'pasties_container'
+            container: 'gardr_container'
 
         });
 
         manager.queue('writes',
             {
-                url: '/example_write1.js?misc=PASTIES_UNIQUE_ID',
+                url: '/example_write1.js?misc=GARDR_UNIQUE_ID',
                 width: 250,
                 height: 137,
-                container: 'pasties_container'
+                container: 'gardr_container'
             });
         manager.queue('example_responsive1', getStuff());
         manager.queue('example_responsive2',getStuff());
         manager.queue('example2',
         {
-            url: '/example_content.js?misc=PASTIES_UNIQUE_ID',
+            url: '/example_content.js?misc=GARDR_UNIQUE_ID',
             width: 250,
             height: 137,
-            container: 'pasties_container'
+            container: 'gardr_container'
         });
         manager.queue('responsive_alterniatve',
             {
                 url: '/example_relative_container.js',
                 width: 250,
                 height: 137,
-                container: 'pasties_container',
+                container: 'gardr_container',
                 ignoreResize: false
             });
         manager.queue('responsive_alt2',
@@ -85,7 +85,7 @@ util.on('load', window, function () {
                 url: '/example_relative_container.js',
                 width: 250,
                 height: 137,
-                container: 'pasties_container',
+                container: 'gardr_container',
                 ignoreResize: false
             });
         manager.queue('failing',
@@ -93,7 +93,7 @@ util.on('load', window, function () {
                 url: '/example_scripterror_pre.js',
                 width: 250,
                 height: 137,
-                container: 'pasties_container',
+                container: 'gardr_container',
                 ignoreResize: false
             });
         manager.queue('example_responsive3', getStuff());
@@ -108,7 +108,7 @@ util.on('load', window, function () {
             url: '/example_content.js',
             width: 250,
             height: 137,
-            container: 'pasties_container'
+            container: 'gardr_container'
         });
 
         manager.render('example', function (err, item) {

@@ -32,7 +32,7 @@ describe('logToBanner', function () {
 			msg: 'Uncaught SyntaxError: Test',
 			time: new Date().getTime(),
 			level: 1,
-			url: 'http://pastiestest.com/scripterror.js',
+			url: 'http://gardrtest.com/scripterror.js',
 			line: 123,
 			stack: []
 		};

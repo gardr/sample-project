@@ -2,7 +2,7 @@ var com = require('./com.js');
 var hashData = require('./hashData.js');
 
 var VER = 1;
-var TYPE = 'pasties';
+var TYPE = 'gardr';
 var REFRESH_KEY = 'refresh-' + TYPE;
 var FAILED_CLASS = TYPE + '-failed';
 var SEPARATOR = '_|_';

@@ -2,7 +2,7 @@ var queryParams = require('query-params');
 var RE_SPLIT = /&/gm;
 
 module.exports = {
-	PREFIX : 'PASTIES',
+	PREFIX : 'GARDR',
 	SEPARATOR : '_|_',
 	HASH_CHAR : '#',
 

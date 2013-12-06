@@ -44,7 +44,7 @@ describe('logger', function () {
         });
         var errorData = {
             message: 'Test error',
-            filename: 'http://pastiestest.com/errorTest.js',
+            filename: 'http://gardrtest.com/errorTest.js',
             lineno: 123
         };
         var restoreOnError = helper.undefine(window, 'onerror');

@@ -1,4 +1,3 @@
-var helpers = require('../testHelpers.js');
 var Manager = require('../../src/lib/manager.js');
 var iframeSrc = '/base/test/fixtures/iframe.html';
 

@@ -3,7 +3,7 @@
 */
 var com = {};
 
-com.PREFIX = 'PASTIES';
+com.PREFIX = 'GARDR';
 com.PARENT_PREFIX = 'MANAGER';
 com.GLOBAL_POSTMESSAGE_FALLBACK = '__' + com.PREFIX + '_POSTMESSAGE_FALLBACK';
 com.ORIGIN_KEY = 'origin';
@@ -42,7 +42,7 @@ com._postMessage = function(targetOrigin, targetWindow, prefix) {
 };
 
 /* Handle incomming messages */
-com.incomming = function(cb, prefix, deactivateCDFS) {
+com.incomming = function(cb, prefix) {
     if (typeof cb != 'function') {
         throw new Error('Missing callback');
     }

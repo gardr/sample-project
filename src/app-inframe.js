@@ -21,6 +21,6 @@ module.exports = window.banner = api.init({
     }
 }, function(){
     // getsizes -> inject CSS
-    var resp = responsive.isResponsive(getSize(document.getElementById('PASTIES')));
+    var resp = responsive.isResponsive(getSize(document.getElementById('GARDR')));
     insertCss( responsive.getCSS(resp) );
 });

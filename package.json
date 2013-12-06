@@ -1,14 +1,14 @@
 {
-  "name": "pasties-js",
+  "name": "gardr",
   "version": "0.5.17-SNAPSHOT",
   "description": "Library for managing external content in iframes",
   "scripts": {
     "start": "npm install && grunt",
     "test": "./node_modules/karma/bin/karma start --single-run --browser PhantomJS"
   },
-  "homepage": "http://pasties.github.io",
-  "repository": "http://github.com/pasties/pasties-js",
-  "bugs": "http://github.com/pasties/pasties-js/issues",
+  "homepage": "http://gardr.github.io",
+  "repository": "http://github.com/gardr/gardr",
+  "bugs": "http://github.com/gardr/gardr/issues",
   "author": "sveinung rosaker <sveinung.rosaker@finn.no>",
   "contributors": [
     "Gregers Rygg <gregers@finn.no>",
