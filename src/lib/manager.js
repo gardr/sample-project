@@ -258,10 +258,7 @@ proto.createIframe = function (item) {
     if (!item.iframe) {
         // todo, check if actually iframe is on different domain
         item.iframe = new Iframe(item.id, {
-            iframeUrl: (
-                support.hasCrossDomainFrameSupport(
-                    this.options.deactivateCDFS) ? this.options.iframeUrl : this.options.sameDomainIframeUrl
-            ),
+            iframeUrl: this.options.iframeUrl,
             key: this.key,
             width: item.width,
             height: item.height,

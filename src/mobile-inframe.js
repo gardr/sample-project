@@ -16,10 +16,6 @@ var hashData    = require('./lib/hashData.js');
 */
 var input = hashData.decode(window.location.hash);
 
-if (input.params.cdfs === 'true'){
-    global[support.cdfsKey] = true;
-}
-
 // patch or polifill request animation frame
 rafPolyfill();
 

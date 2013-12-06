@@ -27,32 +27,19 @@ com._postMessage = function(targetOrigin, targetWindow, prefix) {
             return;
         }
     }
-    // default to parent window (TODO: parent or window.top)
+    // default to parent window
     targetWindow = targetWindow || window.top;
 
-    var res;
-    if (support.hasCrossDomainFrameSupport()) {
-        res = function(msg) {
-            try {
-                msg = prefix + JSON.stringify(msg || '');
-                targetWindow.postMessage(msg, targetOrigin);
-            } catch (e) {
-                if (global.console) {
-                    global.console.error(e);
-                }
-            }
-        };
-    } else {
+    return function(msg) {
         try {
-            res = targetWindow[prefix + com.GLOBAL_POSTMESSAGE_FALLBACK];
+            msg = prefix + JSON.stringify(msg || '');
+            targetWindow.postMessage(msg, targetOrigin);
         } catch (e) {
             if (global.console) {
                 global.console.error(e);
             }
         }
-    }
-
-    return res;
+    };
 };
 
 /* Handle incomming messages */
@@ -62,22 +49,16 @@ com.incomming = function(cb, prefix, deactivateCDFS) {
     }
     prefix = prefix || com.PREFIX;
 
-    if (support.hasCrossDomainFrameSupport(deactivateCDFS)) {
-        // must use document and not window to support IE8
-        // todo... document not working o nchrome
-        global.addEventListener('message', function(e) {
-            var res = e.data;
-            if (res && typeof res == 'string' && res.indexOf(prefix) === 0) {
-                try {
-                    var input = res.substring(prefix.length);
-                    res = JSON.parse(input);
-                } catch (err) {}
-                cb(res, e.source, e.origin);
-            }
-        }, false);
-    } else {
-        global[prefix + com.GLOBAL_POSTMESSAGE_FALLBACK] = cb;
-    }
+    global.addEventListener('message', function(e) {
+        var res = e.data;
+        if (res && typeof res == 'string' && res.indexOf(prefix) === 0) {
+            try {
+                var input = res.substring(prefix.length);
+                res = JSON.parse(input);
+            } catch (err) {}
+            cb(res, e.source, e.origin);
+        }
+    }, false);
 };
 
 com.createOutgoing = function(origin, targetWindow, prefix) {

@@ -55,11 +55,7 @@ describe('Cross domain iframe test', function () {
 
                 // as this will test in not usable browsers, we need to asure result
 
-                if (support.crossDomainFrameSupport)  {
-                    expect(src.indexOf(base) !== -1).toBe(true);
-                } else {
-                    expect(src.indexOf(base) === -1).toBe(true);
-                }
+                expect(src.indexOf(base) !== -1).toBe(true);
             }
         });
 
@@ -70,42 +66,6 @@ describe('Cross domain iframe test', function () {
         setTimeout(function () {
             manager.render(name);
         }, 100);
-
-        waitsFor(function () {
-            return done;
-        });
-
-    });
-
-    it('should switch to fallback', function () {
-
-        var base = '//127.0.0.1';
-
-        var manager = new Manager({
-            iframeUrl: base + getPort(document.location.port) + iframeSrc,
-            sameDomainIframeUrl: iframeSrc,
-            deactivateCDFS: true
-        });
-
-        var name = 'cross_domain_force_fallback';
-        var elem = helpers.insertContainer(name);
-        var done = false;
-
-        manager.queue(name, {
-            container: elem,
-            url: '/base/test/fixtures/cdfs_fallback.js',
-            width: 123,
-            height: 300
-        });
-
-        manager.render(name, function (err, item) {
-            expect(err).toBeUndefined();
-            expect(item.input.width).toEqual(123);
-            expect(item.input.height).toEqual(300);
-            var src = item.iframe.element.getAttribute('src');
-            expect(src.indexOf(base) === -1).toBe(true);
-            done = true;
-        });
 
         waitsFor(function () {
             return done;
