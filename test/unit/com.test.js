@@ -1,6 +1,5 @@
 /* jshint maxlen: 99999 */
 var com       = require('../../src/lib/com.js');
-var support   = require('../../src/lib/support.js');
 var helpers   = require('../testHelpers.js');
 
 describe('Communcation / Messaging', function () {

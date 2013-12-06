@@ -4,7 +4,6 @@ var State = require('./state.js');
 var extend = require('util-extend');
 var Iframe = require('./iframe.js');
 var com = require('./com.js');
-var support = require('./support.js');
 var queryParams = require('query-params');
 var ALL = '__all';
 //var windowSize = require('window-size');

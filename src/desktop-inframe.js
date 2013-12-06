@@ -4,7 +4,6 @@ var com         = require('./lib/com.js');
 var getSize     = require('./lib/size.js');
 var insertCss   = require('./lib/style/insertCss.js');
 var responsive  = require('./lib/responsive.js');
-var support     = require('./lib/support.js');
 var plugin      = require('./lib/plugins/contextData.js');
 var rafPolyfill = require('./lib/rafPolyfill.js');
 var feed        = require('./lib/feed.js');

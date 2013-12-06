@@ -1,4 +1,3 @@
-var support = require('./support.js');
 /*
     Communication from and to banner container
 */

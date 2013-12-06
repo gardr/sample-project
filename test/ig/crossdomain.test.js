@@ -1,7 +1,5 @@
 var helpers = require('../testHelpers.js');
 var Manager = require('../../src/lib/manager.js');
-var support = require('../../src/lib/support.js');
-
 var iframeSrc = '/base/test/fixtures/iframe.html';
 
 function getPort(port) {
