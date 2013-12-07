@@ -37,7 +37,7 @@ var DEFAULTS = {
     iframe: null,
     container: null
 };
-var UNIQUE_TOKEN_REGEX = /GARDR_UNIQUE_ID/g;
+var UNIQUE_TOKEN_REGEX = /(GARDR|PASTIES)_UNIQUE_ID/g;
 var uniqueCount = 0;
 
 function State(name, options) {
