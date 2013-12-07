@@ -1,13 +1,14 @@
-# garðr - the safe way to add third party content to your site
+# Garðr - the safe way to add third party content to your site
 
 [![Build Status](https://travis-ci.org/gardr/gardr.png)](https://travis-ci.org/gardr/gardr)
 [![NPM](https://nodei.co/npm/gardr.png?stars=true&downloads=true)](https://npmjs.org/package/gardr)
 
 Garðr is a library for embedding content from external sources such as advertisements or similar third party content. 
 
-Removes the need for friendly iframes support in delivery systems and supports both HTML, Image and Flash based adverts.
+Removes the need for friendly iframes support in delivery systems and supports both HTML, Image and Flash based adverts. The iframe should be hosted on a different domain to enable security-features in the browser that prevents third party content to insert content or get user info from the parent page. postMessage is used for cross-domain communication.
 
 # Installation
+We're working on making Garðr a real npm-package you can just require into you project, but for now you have to build from the git repo.
 
 	$ npm install gardr
 
@@ -20,8 +21,9 @@ Removes the need for friendly iframes support in delivery systems and supports b
 
 ## Building a distribution
 
+	$ cd node_modules/gardr
 	$ npm install
-	$ grunt --force
+	$ grunt
 
 ## Testing
 Easiest way is through npm.
@@ -44,7 +46,7 @@ We put bower modules inside node_modules folder so it just works. It's not optim
 
 ## Logging
 
-Debugging can be done by configuring logging to either the browser console or as an overlay inside the iframes rendered by garðr. 
+Debugging can be done by configuring logging to either the browser console or as an overlay inside the iframes rendered by Garðr. 
 
 You can turn on logging by adding an url-fragment with log level: #loglevel=4
 By default it will display an overlay inside each banner with the log output. If the banner isn't visible, you can output to console by using: #loglevel=4&logto=console
@@ -52,12 +54,14 @@ By default it will display an overlay inside each banner with the log output. If
 *NB!* If the banner injects another iframe we have no good way of catching errors :(
 
 
-## Polyfills required for older IE support
+## Polyfills required for IE8+ support
 
 * [ES5-shim](https://npmjs.org/package/es5-shim) You do not need a sham (unsafe polyfills).
 * [addEventListener polyfill](https://gist.github.com/eirikbacker/2864711/dcc32b15ea79f8f364ca1707f81ec74a15fa25db)
+* postMessage is required, so it won't work in IE7 at the moment. This is possible to solve if there is a demand for it.
 
 # Releasing new versions
+(Sorry this is specific to FINN, we're working on re-structure the project to avoid having this inside Garðr)
 This task releases a new version to the Maven repository. 
 
 	# Trigger the Maven release plugin
@@ -71,7 +75,7 @@ This task releases a new version to the Maven repository.
 
 # Demos and samples
 
-There are some examples on how to use garðr located in the samples [folder](./samples).
+There are some examples on how to use Garðr located in the samples [folder](./samples).
 * Run the following commands to install the samples applciation
 
 	$ cd samples/
@@ -82,4 +86,4 @@ There are some examples on how to use garðr located in the samples [folder](./s
 
 ## Samples in the wild
 
-* All of the display adverst on [m.finn.no](http://m.finn.no/) is using gardr to safely embed responsive adverts written in HTML, CSS and JS.
+* All of the display adverst on [m.finn.no](http://m.finn.no/) is using Garðr to safely embed responsive adverts written in HTML, CSS and JS.
