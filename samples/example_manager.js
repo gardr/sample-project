@@ -1,8 +1,7 @@
 var manager = require('../src/mobile.js')();
-var util = require('../src/lib/utility.js');
 //console.log((+new Date+'').substring(8), 'example_manager.js');
 
-util.on('load', window, function () {
+window.addEventListener('load', function () {
     //console.log((+new Date+'').substring(8), 'example_manager.js load');
 
     function getStuff() {
@@ -121,4 +120,4 @@ util.on('load', window, function () {
 
     }
 
-});
+}, false);
