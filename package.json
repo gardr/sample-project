@@ -49,6 +49,7 @@
     "karma": "~0.11.0"
   },
   "dependencies": {
+    "gardr-iframe-params": "~0.0.1",
     "get-style-property": "~0.1.1",
     "cookies-js": "~0.3.1",
     "browserify": "~2.35.1",

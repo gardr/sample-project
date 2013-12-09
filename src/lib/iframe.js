@@ -1,5 +1,5 @@
-var com = require('./com.js');
-var hashData = require('./hashData.js');
+var com          = require('./com.js');
+var iframeParams = require('gardr-iframe-params');
 
 var VER = 1;
 var TYPE = 'gardr';
@@ -75,7 +75,7 @@ Iframe.prototype._getUrl = function(src) {
         '&',
         refresh,
         // Wrapped args in predefined order
-        hashData.encode(this.id, {key: this.key, origin: getOrigin(document.location)}, this.data)
+        iframeParams.encode(this.id, {key: this.key, origin: getOrigin(document.location)}, this.data)
     ].join('');
 };
 

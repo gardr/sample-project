@@ -1,19 +1,19 @@
-var queryParams = require('query-params');
-var api         = require('./lib/api.js');
-var com         = require('./lib/com.js');
-var getSize     = require('./lib/size.js');
-var insertCss   = require('./lib/style/insertCss.js');
-var responsive  = require('./lib/responsive.js');
-var plugin      = require('./lib/plugins/contextData.js');
-var rafPolyfill = require('./lib/rafPolyfill.js');
-var feed        = require('./lib/feed.js');
-var hashData    = require('./lib/hashData.js');
+var queryParams  = require('query-params');
+var api          = require('./lib/api.js');
+var com          = require('./lib/com.js');
+var getSize      = require('./lib/size.js');
+var insertCss    = require('./lib/style/insertCss.js');
+var responsive   = require('./lib/responsive.js');
+var plugin       = require('./lib/plugins/contextData.js');
+var rafPolyfill  = require('./lib/rafPolyfill.js');
+var feed         = require('./lib/feed.js');
+var iframeParams = require('gardr-iframe-params');
 
 /*
     Mobile inframe.
     * fetch setupdata (parentUrl, level) from query/hash
 */
-var input = hashData.decode(window.location.hash);
+var input = iframeParams.decode(window.location.hash);
 
 // patch or polifill request animation frame
 rafPolyfill();
