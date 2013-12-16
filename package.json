@@ -54,7 +54,8 @@
     "cookies-js": "~0.3.1",
     "browserify": "~2.35.1",
     "query-params": "~0.0.1",
-    "util-extend": "~1.0.1"
+    "util-extend": "~1.0.1",
+    "eventlistener": "~0.0.1"
   },
   "engines": {
     "node": ">=0.10.15"

@@ -3,6 +3,9 @@
 <head>
 <meta charset="utf-8"><style>* { padding: 0;margin: 0; border: 0; }body{padding:0;margin:0;}iframe {border: 1px inset black !important;margin-bottom:40px;}input { padding: 1px; border: 2px inset;}</style>
 <meta name="viewport" content="width=device-width, minimum-scale=1, maximum-scale=1, user-scalable=no">
+<!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/es5-shim/2.1.0/es5-shim.min.js"></script>
+<![endif]-->
 <script>
     var bannerUrl = '{{bannerUrl}}';
 </script>

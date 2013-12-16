@@ -1,5 +1,6 @@
 /* jshint noarg:false */
 var extend = require('util-extend');
+var eventListener = require('eventlistener');
 var CALLSTACK_MAX_DEPTH = 10;
 var FN_NAME_REGEX = /function ([\w\d\-_]+)\s*\(/;
 
@@ -52,7 +53,7 @@ function create(name, strLevel, out) {
     };
 
     if (level > 0) {
-        window.addEventListener('error', function (e) {
+        eventListener.add(window, 'error', function (e) {
             var caller = arguments.callee && arguments.callee.caller;
             logInstance.error( retrieveErrorData(e, caller) );
         }, false);

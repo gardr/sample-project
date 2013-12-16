@@ -8,6 +8,7 @@ var plugin       = require('./lib/plugins/contextData.js');
 var rafPolyfill  = require('./lib/rafPolyfill.js');
 var feed         = require('./lib/feed.js');
 var iframeParams = require('gardr-iframe-params');
+var eventListener = require('eventlistener');
 
 /*
     Mobile inframe.
@@ -75,6 +76,6 @@ function getSizes() {
     };
 }
 
-global.addEventListener('load', internals.processSize, false);
+eventListener.add(global, 'load', internals.processSize, false);
 
 module.exports = internals;

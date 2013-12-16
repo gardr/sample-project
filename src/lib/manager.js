@@ -5,6 +5,7 @@ var extend = require('util-extend');
 var Iframe = require('./iframe.js');
 var com = require('./com.js');
 var queryParams = require('query-params');
+var eventListener = require('eventlistener');
 var ALL = '__all';
 //var windowSize = require('window-size');
 /*
@@ -77,7 +78,8 @@ function Manager(options) {
     /*
         (ios-fix) backbutton cache buster, reload all ads.
     */
-    window.addEventListener('pageshow', function(e){
+
+    eventListener.add(window, 'pageshow', function(e){
         if(e.persisted === true){
             /*
                 TODO: Need to refactor lastOrder/priority to live in

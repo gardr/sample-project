@@ -1,6 +1,7 @@
 /*
     Communication from and to banner container
 */
+var eventListener = require('eventlistener');
 var com = {};
 
 com.PREFIX = 'GARDR';
@@ -48,7 +49,7 @@ com.incomming = function(cb, prefix) {
     }
     prefix = prefix || com.PREFIX;
 
-    global.addEventListener('message', function(e) {
+    eventListener.add(global, 'message', function(e) {
         var res = e.data;
         if (res && typeof res == 'string' && res.indexOf(prefix) === 0) {
             try {

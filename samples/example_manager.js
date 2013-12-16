@@ -1,7 +1,8 @@
 var manager = require('../src/mobile.js')();
+var eventListener = require('eventlistener');
 //console.log((+new Date+'').substring(8), 'example_manager.js');
 
-window.addEventListener('load', function () {
+eventListener.add(window, 'load', function () {
     //console.log((+new Date+'').substring(8), 'example_manager.js load');
 
     function getStuff() {
