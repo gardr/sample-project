@@ -36,7 +36,7 @@ var comParent = function(o, cb) {
         return plugin({
             parameters: feeder.feedStr,
             params: feeder.feed,
-            keyvalues: queryParams.code(keyvalues, ';'),
+            keyvalues: queryParams.encode(keyvalues, ';'),
             data: keyvalues
         })(cb);
     }
