@@ -37,7 +37,7 @@ var DEFAULTS = {
     iframe: null,
     container: null
 };
-var UNIQUE_TOKEN_REGEX = /(GARDR|PASTIES)_UNIQUE_ID/g;
+var UNIQUE_TOKEN_REGEX = /(GARDR|PASTIES)_UNIQUE_ID/;
 var uniqueCount = 0;
 
 function State(name, options) {
@@ -78,7 +78,9 @@ proto.set = function(input) {
 proto.getData = function() {
 
     var url = this.url;
-    if (url && UNIQUE_TOKEN_REGEX.test(url)) {
+    // We cannot use a global regex because of this bug:
+    // // http://stackoverflow.com/questions/3827456/what-is-wrong-with-my-date-regex/3827500#3827500
+    while (url && UNIQUE_TOKEN_REGEX.test(url)) {
         url = url.replace(UNIQUE_TOKEN_REGEX, '' + new Date().getTime() + (this.id));
     }
 
@@ -95,5 +97,7 @@ proto.getData = function() {
 State.create = function(name, options) {
     return new State(name, options);
 };
+
+State._UNIQUE_TOKEN_REGEX = UNIQUE_TOKEN_REGEX;
 
 module.exports = State;
