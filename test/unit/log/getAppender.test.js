@@ -4,10 +4,10 @@ var getAppender = require('../../../src/lib/log/getAppender.js');
 
 describe('getAppender', function () {
 	it('should default to bannerAppender', function () {
-		expect(getAppender()).toEqual(bannerAppender);
+		expect(getAppender()).to.equal(bannerAppender);
 	});
 
 	it('should return consoleAppender for logTo \'console\'', function () {
-		expect(getAppender('console')).toEqual(consoleAppender);
+		expect(getAppender('console')).to.equal(consoleAppender);
 	});
 });

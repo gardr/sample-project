@@ -4,7 +4,7 @@ var helpers   = require('../testHelpers.js');
 
 describe('Communcation / Messaging', function () {
     it('should be defined', function(){
-        expect(com).toEqual(jasmine.any(Object));
+        expect(com).to.be.an('object');
     });
 
     function getOrigin(loc) {
@@ -13,40 +13,25 @@ describe('Communcation / Messaging', function () {
 
     describe('postMessage', function(){
 
-        it('with support', function(){
-            var done, result, win, origin;
+        it('with support', function(done){
             var obj    = {a: 'a', b: 'b'};
             var prefix = helpers.getRandomName();
             var ori = getOrigin(document.location);
 
-            runs(function () {
-                com.incomming(function(_result, _win, _origin){
-                    result = _result;
-                    win = _win;
-                    origin = _origin;
-                    done = true;
-                }, prefix);
-
-                var fn = com._postMessage(ori, global, prefix);
-
-                expect(fn).toEqual(jasmine.any(Function));
-
-                fn(obj);
-            });
-
-            waitsFor(function(){
-                return done;
-            });
-
-            runs(function () {
-                expect(result === obj).toBe(false);
-                expect(result).toEqual(obj);
-                expect(result.a).toEqual(obj.a);
+            com.incomming(function(result, win, origin){
+                expect(result === obj).to.equal(false);
+                expect(result).to.eql(obj);
+                expect(result.a).to.equal(obj.a);
 
                 //check additional arguments
-                expect(origin).toEqual(ori);
-                expect(win).toEqual(global);
-            });
+                expect(origin).to.equal(ori);
+                expect(win).to.equal(global);
+                done();
+            }, prefix);
+
+            var fn = com._postMessage(ori, global, prefix);
+            expect(fn).to.be.a('function');
+            fn(obj);
         });
     });
 

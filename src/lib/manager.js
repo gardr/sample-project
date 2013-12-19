@@ -116,7 +116,7 @@ proto._delegate = function (msg, item) {
         break;
     case 'fail':
         item.iframe.addFailedClass();
-        this._fail(msg.id, msg);
+        this._fail(msg.id, msg.message);
         break;
     case 'get':
         item.com({
@@ -194,17 +194,17 @@ proto.render = function (name, cb) {
         addItemCallback(item, cb);
 
         if (!item) {
-            return this._resolve(item.id, new Error(name + ' missing item'));
+            return this._fail(item.id, name + ' missing item');
         }
         if (!item.container || !item.url) {
             item.set(State.INCOMPLETE);
-            return this._resolve(item.id, new Error(name + ' missing queued config'));
+            return this._fail(item.id, name + ' missing queued config');
         }
 
         if (typeof item.container == 'string') {
             item.container = document.getElementById(item.container);
             if (!item.container) {
-                return this._resolve(item.id, new Error(name + ' missing container'));
+                return this._fail(item.id, name + ' missing container');
             }
         }
 
@@ -314,17 +314,17 @@ proto._resolve = function(id, error, ignoreNewState) {
     if (item && typeof item[type] == 'function'){
         item[type](error, item);
     }
-    if (item && item.isResolved()) {
+    if (item && item.isResolved() || error) {
         this._runCallbacks(item, [error, item]);
     }
 };
 
-proto._fail = function (id, obj){
+proto._fail = function (id, message){
     var item = this._getById(id);
     if (item){
         item.set(State.FAILED);
     }
-    this._resolve(id, new Error(obj.message), true);
+    this._resolve(id, new Error(message), true);
 };
 
 proto._checkResolvedStatus = function() {
@@ -374,7 +374,7 @@ proto.refresh = function(name, cb) {
             }
         } else {
             // todo: change to failed with master merge, + add test
-            this._resolve(item.id, new Error('item is not usable'));
+            this._fail(item.id, 'item is not usable');
         }
     });
 };

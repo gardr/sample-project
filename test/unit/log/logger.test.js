@@ -5,12 +5,12 @@ var ErrorEvent = window.ErrorEvent || require('../../lib/ErrorEvent.js');
 describe('logger', function () {
 	it('should default logLevel to 0 if not undefined', function () {
         var log = logger.create('no_loglevel_test', undefined, function () {});
-        expect(log.level).toEqual(0);
+        expect(log.level).to.equal(0);
     });
 
     it('should set logLevel when specified', function () {
         var log = logger.create('logLevel_test', '3', function () {});
-        expect(log.level).toEqual(3);
+        expect(log.level).to.equal(3);
     });
 
     it('should not send log message when logLevel is 0', function () {
@@ -20,7 +20,7 @@ describe('logger', function () {
         };
         var log = logger.create('no_log_call', '0', out);
         log.debug('test');
-        expect(logData.length).toEqual(0);
+        expect(logData.length).to.equal(0);
     });
 
     it('should send log message when logLevel is high enough', function () {
@@ -30,11 +30,11 @@ describe('logger', function () {
         });
         var startTime = new Date().getTime();
         log.debug('test');
-        expect(logData.length).toEqual(1);
-        expect(logData[0].msg).toEqual('test');
-        expect(logData[0].level).toEqual(4);
-        expect(logData[0].name).toEqual('log_debug_test');
-        expect(logData[0].time).not.toBeLessThan(startTime);
+        expect(logData.length).to.equal(1);
+        expect(logData[0].msg).to.equal('test');
+        expect(logData[0].level).to.equal(4);
+        expect(logData[0].name).to.equal('log_debug_test');
+        expect(logData[0].time).not.to.be.lessThan(startTime);
     });
 
     it('should catch errors', function () {
@@ -52,13 +52,13 @@ describe('logger', function () {
         window.dispatchEvent(evt);
         restoreOnError();
         
-        expect(logData.length).toEqual(1);
+        expect(logData.length).to.equal(1);
         var logObj = logData[0];
-        expect(logObj.msg).toEqual(errorData.message);
-        expect(logObj.level).toEqual(1);
-        expect(logObj.name).toEqual('error_test');
-        expect(logObj.time).not.toBeUndefined();
-        expect(logObj.url).toEqual(errorData.filename);
-        expect(logObj.line).toEqual(errorData.lineno);
+        expect(logObj.msg).to.equal(errorData.message);
+        expect(logObj.level).to.equal(1);
+        expect(logObj.name).to.equal('error_test');
+        expect(logObj.time).not.to.be.undefined;
+        expect(logObj.url).to.equal(errorData.filename);
+        expect(logObj.line).to.equal(errorData.lineno);
     });
 });
