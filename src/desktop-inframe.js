@@ -1,4 +1,3 @@
-var queryParams  = require('query-params');
 var api          = require('./lib/api.js');
 var com          = require('./lib/com.js');
 var getSize      = require('./lib/size.js');
@@ -22,22 +21,13 @@ rafPolyfill();
 var _comParent = com.createManagerConnection(input.internal.origin, input.internal.key);
 
 var feeder = feed.extractFeed(input.params.url);
-var keyvalues = {
-    kvuserid: input.params.kvuserid,
-    kvuserareaid: input.params.kvuserareaid
-};
-
-// inject extra keyvalues
-input.params.url = feeder.inject(keyvalues);
 
 // Intercept communication to parent manager and check for contextData "plugin".
 var comParent = function(o, cb) {
     if (o.cmd === 'plugin' && o.plugin === 'contextData') {
         return plugin({
             parameters: feeder.feedStr,
-            params: feeder.feed,
-            keyvalues: queryParams.encode(keyvalues, ';'),
-            data: keyvalues
+            params: feeder.feed
         })(cb);
     }
     o.id = input.id;
