@@ -3,54 +3,35 @@ var helpers = require('../testHelpers.js');
 
 describe('Api', function () {
 
-    it('callbacks should be stored', function(){
-        var done;
-
+    it('callbacks should be stored', function(done){
         var apiInstance = api.init({name: 'callbacks_tests'}, function(comObj){
-            expect(apiInstance._callbacks.length).toEqual(1);
-            expect(comObj.index).toEqual(0);
-            done  = true;
+            expect(apiInstance._callbacks.length).to.equal(1);
+            expect(comObj.index).to.equal(0);
+            done();
         });
 
-        expect(apiInstance).toEqual(jasmine.any(Object));
-        expect(apiInstance._callbacks.length).toEqual(0);
+        expect(apiInstance).to.be.an('object');
+        expect(apiInstance._callbacks.length).to.equal(0);
 
         apiInstance.plugin('some_plug', {}, function(){});
-
-        waitsFor(function(){
-            return done;
-        });
-
     });
 
-    it('should resolve callback when response is incomming', function(){
-
-        var done = false;
-
+    it('should resolve callback when response is incomming', function(done){
         var raw = {result: 'asdf'};
-
 
         var apiInstance = api.init({name: 'callbacks_tests'}, function(comObj){
             raw.index = comObj.index;
             apiInstance.callback(raw);
         });
 
-
         apiInstance.plugin('some_plug', {}, function(result, _raw){
-            expect(_raw).toEqual(raw);
-            expect(result).toEqual(raw.result);
-            done = true;
+            expect(_raw).to.equal(raw);
+            expect(result).to.equal(raw.result);
+            done();
         });
-
-        waitsFor(function(){
-            return done;
-        });
-
-
     });
 
-    it('setBannerFlag and callback inside applyCom', function(){
-        var done = false;
+    it('setBannerFlag and callback inside applyCom', function(done){
         var name = helpers.getRandomName();
 
         var apiInstance = api.init({name: 'bannerflag_tests'}, function(comObj){
@@ -59,11 +40,7 @@ describe('Api', function () {
         });
 
         apiInstance.setBannerFlag(name, 'val', function(){
-            done = true;
-        });
-
-        waitsFor(function(){
-            return done;
+            done();
         });
     });
 
@@ -75,7 +52,7 @@ describe('Api', function () {
             }
         };
         var banner = api.init(input);
-        expect(banner.log.level).toEqual(3);
+        expect(banner.log.level).to.equal(3);
     });
 
     it('should not throw error when init is called with no logOut parameter', function () {
@@ -84,7 +61,7 @@ describe('Api', function () {
                 name: 'no_logOut',
                 params: {logLevel: 4}
             });
-        }).not.toThrow();
+        }).to.not.throw(Error);
     });
 
     it('should output log data to supplied logOut function', function () {
@@ -101,8 +78,8 @@ describe('Api', function () {
         var msg = 'test';
         banner.log.debug(msg);
 
-        expect(logData.length).toEqual(lenBefore + 1);
+        expect(logData.length).to.equal(lenBefore + 1);
         var logObj = logData[logData.length - 1];
-        expect(logObj.msg).toEqual(msg);
+        expect(logObj.msg).to.equal(msg);
     });
 });

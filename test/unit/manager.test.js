@@ -36,19 +36,19 @@ describe('Manager', function () {
 
     it('should be defined', function () {
         var manager = helpers.testableManager();
-        expect(manager).toEqual(jasmine.any(Manager));
+        expect(manager).to.be.an.instanceof(Manager);
     });
 
     describe('options', function () {
 
         it('should have logLevel default to 0', function () {
             var manager = new Manager();
-            expect(manager.logLevel).toEqual(0);
+            expect(manager.logLevel).to.equal(0);
         });
 
         it('should parse urlFragment for loglevel', function () {
             var manager = new Manager({ urlFragment: '#loglevel=3' });
-            expect(manager.logLevel).toEqual(3);
+            expect(manager.logLevel).to.equal(3);
         });
 
     });
@@ -58,7 +58,7 @@ describe('Manager', function () {
             var manager = helpers.testableManager();
 
             var arr = manager._get( helpers.getRandomName() );
-            expect(arr[0]).toBeUndefined();
+            expect(arr[0]).to.be.undefined;
         });
 
         it('should be defined for registered objects', function(){
@@ -66,14 +66,14 @@ describe('Manager', function () {
             var name = 'VALUE_1';
             manager.queue(name);
             var objRes = manager._get(name)[0];
-            expect(objRes).toBeDefined();
+            expect(objRes).to.exist;
         });
     });
 
     describe('_getById', function () {
         it('should return undefined for nonexisting id', function () {
             var manager = helpers.testableManager();
-            expect(manager._getById('does-not-exist')).toBeUndefined();
+            expect(manager._getById('does-not-exist')).to.be.undefined;
         });
 
         it('should return the state item given an existing id', function() {
@@ -83,9 +83,9 @@ describe('Manager', function () {
             var stateItem = manager._get(name)[0];
 
             var result = manager._getById(stateItem.id);
-            expect(result).toBeDefined();
-            expect(result.id).toEqual(stateItem.id);
-            expect(result.name).toEqual(name);
+            expect(result).to.exist;
+            expect(result.id).to.equal(stateItem.id);
+            expect(result.name).to.equal(name);
         });
     });
 
@@ -93,7 +93,7 @@ describe('Manager', function () {
         var manager = helpers.testableManager();
 
         it('should be defined', function () {
-            expect(typeof manager.config === 'function').toBe(true);
+            expect(typeof manager.config === 'function').to.equal(true);
         });
 
 
@@ -102,7 +102,7 @@ describe('Manager', function () {
 
             manager.config(name);
 
-            expect(manager._getConfig(name)).toBeDefined();
+            expect(manager._getConfig(name)).to.exist;
         });
 
         it('should set value and store config', function () {
@@ -114,30 +114,22 @@ describe('Manager', function () {
 
             var obj2 = manager._getConfig(name);
 
-            expect(obj2).toBeDefined();
-            expect(obj2.KEY_1).toBe('VALUE_1');
+            expect(obj2).to.exist;
+            expect(obj2.KEY_1).to.equal('VALUE_1');
         });
 
         it('should call config done when _resolve is called', function () {
 
-            var called = 0;
+            var spy = sinon.spy();
             var name = helpers.getRandomName();
 
-            manager.config(name, {
-                done: function () {
-                    called++;
-                }
-            });
+            manager.config(name, {done: spy});
             manager.queue(name, {
                 scriptUrl: scriptUrl
             });
 
             manager._resolve(manager._get(name)[0].id);
-
-            waitsFor(function () {
-                return called === 1;
-            });
-
+            sinon.assert.calledOnce(spy);
         });
 
         it('extendInframeData', function () {
@@ -145,7 +137,7 @@ describe('Manager', function () {
                 a: helpers.getRandomName()
             };
             manager.extendInframeData(input);
-            expect(manager.__inject.a).toEqual(input.a);
+            expect(manager.__inject.a).to.equal(input.a);
         });
 
     });
@@ -161,18 +153,18 @@ describe('Manager', function () {
                 scriptUrl: scriptUrl
             });
 
-            expect(manager._getConfig(name)).toBeUndefined();
+            expect(manager._getConfig(name)).to.be.undefined;
         });
 
         it('should throw on missing name', function () {
-            expect(manager.queue).toThrow();
+            expect(manager.queue).to.throw();
         });
 
         it('should allow queueing without options', function () {
             var name = helpers.getRandomName();
 
             manager.queue(name);
-            expect(manager._get(name)).toBeDefined();
+            expect(manager._get(name)).to.exist;
         });
 
         it('should allow specifying container in config', function () {
@@ -180,14 +172,14 @@ describe('Manager', function () {
             var container = document.createElement('div');
             manager.config(name, {container: container});
             manager.queue(name, {url: 'test'});
-            expect(manager._get(name)[0].container).toEqual(container);
+            expect(manager._get(name)[0].container).to.equal(container);
         });
 
         it('should allow specifying container in queue', function () {
             var name = helpers.getRandomName();
             var container = document.createElement('div');
             manager.queue(name, {container: container,url: 'test'});
-            expect(manager._get(name)[0].container).toEqual(container);
+            expect(manager._get(name)[0].container).to.equal(container);
         });
 
         it('should queue object to queued map', function () {
@@ -198,8 +190,8 @@ describe('Manager', function () {
                 scriptUrl: scriptUrl
             });
 
-            expect(manager._get(name).length).toEqual(1);
-            expect(manager._get(name)[0].unique).toEqual(name);
+            expect(manager._get(name).length).to.equal(1);
+            expect(manager._get(name)[0].unique).to.equal(name);
         });
 
         it('should extend queued object with correct config object', function(){
@@ -211,8 +203,8 @@ describe('Manager', function () {
             manager.queue(name);
 
             var result = manager._get(name);
-            expect(result.length).toEqual(1);
-            expect(result[0].foo).toEqual('bar');
+            expect(result.length).to.equal(1);
+            expect(result[0].foo).to.equal('bar');
 
         });
 
@@ -227,8 +219,8 @@ describe('Manager', function () {
             });
 
             var result = manager._get(name);
-            expect(result.length).toEqual(1);
-            expect(result[0].foo).toEqual('fighters');
+            expect(result.length).to.equal(1);
+            expect(result[0].foo).to.equal('fighters');
 
         });
 
@@ -239,8 +231,8 @@ describe('Manager', function () {
             manager.queue(name);
             manager.queue(name);
             var items = manager._get(name);
-            expect(items.length).toEqual(2);
-            expect(items[0].id).not.toEqual(items[1].id);
+            expect(items.length).to.equal(2);
+            expect(items[0].id).not.to.equal(items[1].id);
         });
 
 
@@ -251,7 +243,7 @@ describe('Manager', function () {
 
         it('should return a Error if non existing configname', function () {
             manager.render(helpers.getRandomName(), function (err) {
-                expect(err).toEqual(jasmine.any(Error));
+                expect(err).to.equal(jasmine.any(Error));
             });
         });
 
@@ -262,26 +254,24 @@ describe('Manager', function () {
                 container: document.createElement('div'),
                 url: 'test'
             });
-            expect(manager._get(name)[0].iframe).toBeNull();
+            expect(manager._get(name)[0].iframe).not.to.exist;
             manager.render(name, function () {});
 
-            expect(manager._get(name)[0].iframe).toBeDefined();
+            expect(manager._get(name)[0].iframe).to.exist;
         });
 
         it('should pass id as unique name to iframe', function () {
             var name = helpers.getRandomName();
             manager.queue(name, {url: 'test'});
-            var spec = jasmine.getEnv().currentSpec;
-            manager.render(name, function (err) {
-                spec.expect(err).toBeUndefined();
-            });
+            
+            manager.render(name, function () {});
             
             var items = manager._get(name);
-            expect(items.length).toBeGreaterThan(0);
-            expect(items[0]).toBeDefined();
-            expect(items[0].iframe).toBeDefined();
+            expect(items).to.have.length.above(0);
+            expect(items[0]).to.exist;
+            expect(items[0].iframe).to.exist;
             var iframe = manager._get(name)[0].iframe;
-            expect(iframe.name).not.toEqual(name);
+            expect(iframe.name).not.to.equal(name);
         });
 
         it('two items with same name should have different iframe ids', function () {
@@ -292,7 +282,7 @@ describe('Manager', function () {
             var items = manager._get(name);
             var iframe1 = items[0].iframe;
             var iframe2 = items[1].iframe;
-            expect(iframe1.id).not.toEqual(iframe2.id);
+            expect(iframe1.id).not.to.equal(iframe2.id);
         });
 
         it('should pass width and height to iframe', function () {
@@ -309,8 +299,8 @@ describe('Manager', function () {
             manager.render(name, function () {});
 
             var iframe = manager._get(name)[0].iframe;
-            expect(iframe.width).toEqual(width);
-            expect(iframe.height).toEqual(height);
+            expect(iframe.width).to.equal(width);
+            expect(iframe.height).to.equal(height);
 
         });
 
@@ -323,12 +313,11 @@ describe('Manager', function () {
             });
             
             manager.render(name, function () {});
-            expect(manager._get(name)[0].iframe.data.url).toEqual(scriptUrl);
+            expect(manager._get(name)[0].iframe.data.url).to.equal(scriptUrl);
 
         });
 
-        it('resolving banner should call callback', function () {
-            var done = false;
+        it('resolving banner should call callback', function (done) {
             var name = helpers.getRandomName();
 
             manager.queue(name, {
@@ -337,19 +326,12 @@ describe('Manager', function () {
             });
 
             manager.render(name, function (err, _state) {
-                done = true;
-                expect(err).toEqual(null);
-                expect(_state).toEqual(jasmine.any(State));
+                expect(err).not.to.exist;
+                expect(_state).to.be.an.instanceof(State);
+                done();
             });
 
-            runs(function () {
-                manager._resolve(manager._get(name)[0].id);
-            });
-
-            waitsFor(function () {
-                return done;
-            });
-
+            manager._resolve(manager._get(name)[0].id);
         });
 
         it('more than one callback should _resolve before and after as well', function () {
@@ -371,15 +353,11 @@ describe('Manager', function () {
 
             manager.render(name, handler);
             manager.render(name, handler);
-
-            runs(function () {
-                manager._resolve(manager._get(name)[0].id);
-                manager.render(name, handler);
-                manager.render(name, handler);
-                manager.render(name, handler);
-                expect(calls).toEqual(5);
-            });
-
+            manager._resolve(manager._get(name)[0].id);
+            manager.render(name, handler);
+            manager.render(name, handler);
+            manager.render(name, handler);
+            expect(calls).to.equal(5);
         });
 
         it('should call the callback for each item with same name', function () {
@@ -399,17 +377,15 @@ describe('Manager', function () {
                 manager._resolve(item.id);
             });
 
-            expect(calls).toEqual(2);
+            expect(calls).to.equal(2);
         });
 
-        it('should render and trigger callback', function () {
+        it('should render and trigger callback', function (done) {
             var man = helpers.testableManager({
                 iframeUrl: iframeUrl
             });
             var name = 'full_render-' + helpers.getRandomName();
             var id = 'container_' + name;
-            var done = false;
-
             helpers.insertContainer(id);
 
             man.queue(name, {
@@ -418,19 +394,14 @@ describe('Manager', function () {
             });
 
             man.render(name, function () {
-                done = true;
-            });
-
-            waitsFor(function () {
-                return done;
+                done();
             });
         });
 
-        it('multiple document writes should work', function () {
+        it('multiple document writes should work', function (done) {
             var manager = helpers.testableManager({
                 iframeUrl: iframeUrl
             });
-            var done = false;
             var name = 'write_3_times_';
             var elem = helpers.insertContainer(name);
 
@@ -442,14 +413,10 @@ describe('Manager', function () {
             });
 
             manager.render(name, function (err, item) {
-                expect(err).toBeUndefined();
-                expect(item.input.width).toEqual(500);
-                expect(item.input.height).toEqual(100);
-                done = true;
-            });
-
-            waitsFor(function () {
-                return done;
+                expect(err).to.be.undefined;
+                expect(item.input.width).to.equal(500);
+                expect(item.input.height).to.equal(100);
+                done();
             });
         });
     });
@@ -459,58 +426,39 @@ describe('Manager', function () {
         it('should call "__all"-callback when _resolved', function () {
             var num = 5;
             var rand = queueRandom(num);
-            var done = false;
+            var spy = sinon.spy();
 
-            rand.manager.renderAll(function (err, items) {
-                done = true;
-                expect(err).toBeUndefined();
-                expect(items).toBeDefined();
-                expect(items.length).toEqual(num);
-                var first = rand.manager._get(rand.names[0])[0];
-                expect(first).toEqual(jasmine.any(State));
-            });
-
+            rand.manager.renderAll(spy);
             rand.forceResolveAll();
 
-            waitsFor(function () {
-                return done;
-            });
+            var err = spy.args[0][0];
+            var items = spy.args[0][1];
+
+            expect(err).to.be.undefined;
+            expect(items).to.exist;
+            expect(items.length).to.equal(num);
+            var first = rand.manager._get(rand.names[0])[0];
+            expect(first).to.be.an.instanceof(State);
         });
 
         it('should call "__all"-callback only once', function () {
-            var num = 5;
-            var rand = queueRandom(num);
-            var counter = num;
-            var done = 0;
-
-            rand.manager.renderAll(function (err) {
-                done++;
-                expect(done).toEqual(1);
-                expect(err).toBeUndefined();
-            });
-
-            rand.names.forEach(function (name) {
-                rand.manager.render(name, function () {
-                    counter--;
-                });
-            });
-
+            var rand = queueRandom(5);
+            var spy = sinon.spy();
+            rand.manager.renderAll(spy);
             rand.forceResolveAll();
+            expect(spy.calledOnce).to.be.true;
 
-            waitsFor(function () {
-                return done === 1 && counter === 0;
-            });
         });
 
-        it('should _resolve all without commastring', function () {
+        it('should _resolve all without commastring', function (done) {
             var num = 5;
             var rand = queueRandom(num);
             var counter = num;
-            var done = false;
 
             rand.manager.renderAll(function (err) {
-                done = true;
-                expect(err).toBeUndefined();
+                expect(err).to.be.undefined;
+                expect(counter).to.equal(0);
+                done();
             });
 
             rand.names.forEach(function (name) {
@@ -520,58 +468,52 @@ describe('Manager', function () {
                 var item = rand.manager._get(name)[0];
                 rand.manager._resolve(item.id);
             });
-
-            waitsFor(function () {
-                return done && counter === 0;
-            });
         });
 
-        it('should render in the priority order', function () {
+        it('should render in the priority order', function (done) {
             var num = 5;
-            var done = false;
             var rand = queueRandom(num);
             var manager = rand.manager;
             var reverseNames = rand.names.slice(0).reverse();
-
-            spyOn(manager, 'render').andCallFake(function (name, cb) {
+            var stub = sinon.stub(manager, 'render', function (name, cb) {
                 manager._resolve(manager._get(name)[0].id);
                 if (cb) {cb();}
             });
 
             rand.manager.renderAll(reverseNames.join(','), function (err) {
-                done = true;
-                expect(err).toBeUndefined();
+                expect(err).to.be.undefined;
+                done();
             });
-
-            expect(manager.render).toHaveBeenCalled();
-            expect(manager.render.callCount).toEqual(rand.names.length);
-            expect(manager.render.argsForCall[0][0]).toEqual(reverseNames[0]);
-            expect(manager.render.argsForCall[1][0]).toEqual(reverseNames[1]);
-            expect(manager.render.argsForCall[4][0]).toEqual(reverseNames[4]);
+            expect(manager.render.callCount).to.equal(rand.names.length);
+            expect(manager.render.args[0][0]).to.equal(reverseNames[0]);
+            expect(manager.render.args[1][0]).to.equal(reverseNames[1]);
+            expect(manager.render.args[4][0]).to.equal(reverseNames[4]);
 
         });
 
-        it('should _resolve not prioritated banners', function () {
+        it('should _resolve not prioritated banners', function (done) {
             var num = 3;
-            var done = false;
             var rand = queueRandom(num);
             var manager = rand.manager;
-
-            spyOn(manager, 'render').andCallFake(function (name, cb) {
-                manager._resolve(manager._get(name)[0].id);
+            var stub = sinon.stub(manager, 'render', function (name, cb) {
+                manager._forEachWithName(name, function (item) {
+                    manager._resolve(item.id);
+                });
                 if (cb) {cb();}
             });
 
-            rand.manager.renderAll(rand.names[num -1], function (err) {
-                done = true;
-                expect(err).toBeUndefined();
+            manager.renderAll(rand.names[num -1], function (err) {
+                expect(err).to.be.undefined;
+
+                //stub.restore();
+                done();
             });
 
-            expect(manager.render).toHaveBeenCalled();
-            expect(manager.render.callCount).toEqual(rand.names.length);
-            expect(manager.render.argsForCall[0][0]).toEqual(rand.names[num -1]);
-            expect(manager.render.argsForCall[1][0]).toEqual(rand.names[0]);
-            expect(manager.render.argsForCall[2][0]).toEqual(rand.names[1]);
+            expect(stub.calledThrice).to.be.true;
+            expect(manager.render.callCount).to.equal(rand.names.length);
+            expect(manager.render.args[0][0]).to.equal(rand.names[num -1]);
+            expect(manager.render.args[1][0]).to.equal(rand.names[0]);
+            expect(manager.render.args[2][0]).to.equal(rand.names[1]);
 
         });
 
@@ -580,9 +522,8 @@ describe('Manager', function () {
 
     describe('refresh', function () {
 
-        it('should refresh single banner', function () {
+        it('should refresh single banner', function (done) {
             var name = 'iframe_refresh' + helpers.getRandomName();
-            var done = false;
             var manager = new Manager({iframeUrl: iframeUrl});
             var container = helpers.insertContainer(name);
 
@@ -594,30 +535,24 @@ describe('Manager', function () {
             });
 
             manager.render(name, function(err, item){
-                expect(item.state).toEqual(State.RESOLVED);
+                expect(item.state).to.equal(State.RESOLVED);
 
-                expect(item.rendered).toEqual(1);
+                expect(item.rendered).to.equal(1);
                 var beforeSrc = item.iframe.element.src;
 
                 manager.refresh(name, function (err, item) {
-                    expect(item.rendered).toEqual(2);
-                    expect(item.iframe.element.src).not.toBeUndefined();
-                    expect(item.iframe.element.src).not.toEqual(beforeSrc);
-                    done = true;
+                    expect(item.rendered).to.equal(2);
+                    expect(item.iframe.element.src).not.to.be.undefined;
+                    expect(item.iframe.element.src).not.to.equal(beforeSrc);
+                    done();
                 });
 
-            });
-
-            waitsFor(function(){
-                return done;
             });
         });
 
 
-        it('calling refresh on missing iframe should reset', function(){
-
+        it('calling refresh on missing iframe should reset', function(done){
             var name = 'iframe_refresh_crash';
-            var done = false;
             var manager = new Manager({iframeUrl: iframeUrl});
             var container = helpers.insertContainer(name);
 
@@ -629,33 +564,29 @@ describe('Manager', function () {
             });
 
             manager.render(name, function(err, item){
-                expect(item.state).toEqual(State.RESOLVED);
-                expect(item.rendered).toEqual(1);
+                expect(item.state).to.equal(State.RESOLVED);
+                expect(item.rendered).to.equal(1);
 
                 item.iframe.remove();
 
                 var oldIframe = item.iframe;
                 manager.refresh(name, function (err, item2) {
-                    expect(item2.rendered).toEqual(2);
-                    expect(item).toBe(item2);
-                    expect(oldIframe).not.toEqual(item2.iframe);
-                    done = true;
+                    expect(item2.rendered).to.equal(2);
+                    expect(item).to.equal(item2);
+                    expect(oldIframe).not.to.equal(item2.iframe);
+                    expect(item.isResolved()).to.equal(true);
+                    done();
                 });
 
-            });
-
-            waitsFor(function(){
-                return done;
             });
         });
     });
 
     describe('refreshAll', function () {
 
-        it('should refresh all banners', function () {
+        it('should refresh all banners', function (done) {
             var num = 10;
             var rand = queueRandom(num);
-            var done = false;
 
             rand.manager.renderAll();
             rand.forceResolveAll();
@@ -663,25 +594,18 @@ describe('Manager', function () {
             var first = rand.manager._get(rand.names[0])[0];
 
             rand.manager.refreshAll(function (err, items) {
-                expect(err).toBeUndefined();
-                expect(items).toBeDefined();
-                expect(items.length).toEqual(num);
+                expect(err).to.be.undefined;
+                expect(items).to.exist;
+                expect(items.length).to.equal(num);
 
-                expect(first).toEqual(jasmine.any(State));
-                expect(first.rendered).toEqual(2, first.name + ' should be rendered 2 times');
-                done = true;
+                expect(first).to.be.an.instanceof(State);
+                expect(first.rendered).to.equal(2, first.name + ' should be rendered 2 times');
+                done();
             });
 
-            setTimeout(function(){
-                expect(first.state).toEqual(State.REFRESHING, 'expected state to be equal to NEEDS_REFRESH');
-                expect(first.rendered).toEqual(1);
-
-                rand.forceResolveAll();
-            }, 0);
-
-            waitsFor(function () {
-                return done === true;
-            });
+            expect(first.state).to.equal(State.REFRESHING, 'expected state to be equal to NEEDS_REFRESH');
+            expect(first.rendered).to.equal(1);
+            rand.forceResolveAll();
         });
 
 
@@ -689,48 +613,52 @@ describe('Manager', function () {
 
     describe('fail', function(){
 
-        it('should _resolve banner', function(){
+        it('should run callback with error', function (done) {
             var manager = helpers.testableManager();
             var name    = helpers.getRandomName();
 
             manager.queue(name, {url: 'test'});
 
             manager.render(name, function(err){
-                expect(err).toBeDefined();
+                expect(err).to.exist;
+                done();
             });
 
-            manager._fail(name, {message: 'error'});
+            var item = manager._get(name)[0];
+            manager._fail(item.id, {message: 'error'});
         });
 
 
-        it('should fail on empty pixel', function(){
+        it('should fail on empty pixel', function (done) {
             var manager = helpers.testableManager();
-            var done = false;
-            var name = '_fail'+helpers.getRandomName();
+            var name = '_fail' + helpers.getRandomName();
+            var spy = sinon.spy();
 
             manager.queue(name, {
                 width: 11,
                 height: 12,
                 url: 'test',
-                fail: function(){
-                    done = true;
-                }
+                fail: spy
             });
 
             manager.render(name, function (err, item) {
-                expect(item.isUsable()).toBe(true, 'Expected item be usable');
-                expect(item.hasFailed()).toBe(true, 'Expected item be in fail-state');
+                expect(item.isUsable()).to.equal(true, 'Expected item be usable');
+                expect(item.hasFailed()).to.equal(true, 'Expected item be in fail-state');
+                expect(spy.calledOnce).to.equal(true);
+                done();
             });
 
+            var item = manager._get(name)[0];
             manager._delegate({
                 cmd: 'fail',
-                msg: 'pixel'
-            }, manager._get(name)[0]);
+                msg: 'pixel',
+                id: item.id
+            }, item);
         });
     });
 
     describe('BannerFlags', function () {
-        it('should be able to set flag', function () {
+        it('should be able to set flag', function (done) {
             var manager = helpers.testableManager({
                 iframeUrl: iframeUrl
             });
@@ -743,22 +671,11 @@ describe('Manager', function () {
                 container: elem
             });
 
-            var _err, _item;
-
-            runs(function () {
-                manager.render(name, function (err, item) {
-                    _err = err;
-                    _item = item;
-                });
-            });
-
-            waitsFor(function () {
-                return (_err || _item) && manager.flags.flag == _item.id;
-            });
-
-            runs(function () {
-                expect(_err).toBeUndefined();
-                expect(_item.name).toEqual(name);
+            manager.render(name, function (err, item) {
+                expect(err).to.be.undefined;
+                expect(item.name).to.equal(name);
+                expect(manager.flags.flag).to.equal(item.id);
+                done();
             });
         });
     });

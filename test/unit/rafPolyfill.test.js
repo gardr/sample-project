@@ -5,25 +5,27 @@ describe('rafPolyfill', function () {
     var CRAF_KEY = 'cancelAnimationFrame';
     var orgRAF = window[RAF_KEY];
     var orgCRAF = window[CRAF_KEY];
+    var clock;
     
     beforeEach(function () {
         window[RAF_KEY] = true;
         window[CRAF_KEY] = true;
         rafPolyfill(true);
-        jasmine.Clock.useMock();
+        clock = sinon.useFakeTimers();
     });
 
     afterEach(function () {
         rafPolyfill._reset();
         window[RAF_KEY] = orgRAF;
         window[CRAF_KEY] = orgCRAF;
+        clock.restore();
     });
 
     describe('requestAnimationFrame', function () {
         it('should be a function without native code', function () {
             var raf = window[RAF_KEY];
-            expect(typeof raf).toEqual('function');
-            expect(raf.toString()).not.toContain('[native code]');
+            expect(typeof raf).to.equal('function');
+            expect(raf.toString()).not.to.have.string('[native code]');
         });
 
         it('should hollaback', function () {
@@ -33,19 +35,19 @@ describe('rafPolyfill', function () {
                 window.requestAnimationFrame(function(){
                     done = true;
                 });
-                jasmine.Clock.tick(16);
+                clock.tick(16);
             });
-            jasmine.Clock.tick(16);
+            clock.tick(16);
 
-            expect(done).toEqual(true);
+            expect(done).to.equal(true);
         });
     });
 
     describe('cancelRequestAnimationFrame', function () {
         it('should be a function without native code', function () {
             var craf = window[CRAF_KEY];
-            expect(typeof craf).toEqual('function');
-            expect(craf.toString()).not.toContain('[native code]');
+            expect(craf).to.be.a('function');
+            expect(craf.toString()).not.have.string('[native code]');
         });
 
         it('should cancel when calling cancelAnimationFrame', function(){
@@ -55,9 +57,9 @@ describe('rafPolyfill', function () {
                 called = true;
             });
             window.cancelAnimationFrame(req);
-            jasmine.Clock.tick(16);
+            clock.tick(16);
 
-            expect(called).toEqual(false);
+            expect(called).to.equal(false);
         });
     });
 });

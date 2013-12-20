@@ -1,7 +1,7 @@
 module.exports = function (karma) {
     return {
         basePath: "",
-        frameworks: ["jasmine", "browserify"],
+        frameworks: ["mocha", "chai", "browserify", "sinon"],
         files: [
             "test/lib/Function-polyfill.js",
             "test/**/*.test.js",

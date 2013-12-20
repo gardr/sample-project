@@ -6,28 +6,32 @@ describe('logToBanner', function () {
 		level: 4,
 		name: 'testName'
 	};
+	var clock;
+
+	beforeEach(function () {
+		clock = sinon.useFakeTimers();
+	});
 
 	afterEach(function () {
 		logToBanner.reset();
+		clock.restore();
 	});
 	
 	it('should render an overlay the first time it\'s called', function () {
 		logToBanner(logObj);
 		var output = document.getElementById('logoutput');
-		expect(output).not.toBeNull();
+		expect(output).to.exist;
 	});
 
 	it('should output a div for each log message', function () {
-		jasmine.Clock.useMock();
 		logToBanner(logObj);
 		var output = document.getElementById('logoutput');
-		jasmine.Clock.tick(51);
-		expect(output.children.length).toEqual(1);
-		expect(output.children[0].textContent).toContain(logObj.msg);
+		clock.tick(51);
+		expect(output.children.length).to.equal(1);
+		expect(output.children[0].textContent).to.have.string(logObj.msg);
 	});
 
 	it('should include script url and line for script errors', function () {
-		jasmine.Clock.useMock();
 		var errObj = {
 			msg: 'Uncaught SyntaxError: Test',
 			time: new Date().getTime(),
@@ -38,8 +42,8 @@ describe('logToBanner', function () {
 		};
 		logToBanner(errObj);
 		var output = document.getElementById('logoutput');
-		jasmine.Clock.tick(51);
-		expect(output.children.length).toEqual(1);
-		expect(output.children[0].textContent).toContain(errObj.url + ':' + errObj.line);
+		clock.tick(51);
+		expect(output.children.length).to.equal(1);
+		expect(output.children[0].textContent).to.have.string(errObj.url + ':' + errObj.line);
 	});
 });

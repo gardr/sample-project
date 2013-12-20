@@ -4,28 +4,28 @@ var Iframe       = require('../../src/lib/iframe.js');
 describe('iframe', function () {
 
     it('should be defined', function(){
-        expect(Iframe).toEqual(jasmine.any(Function));
+        expect(Iframe).to.exist;
     });
 
     it('should require iframeUrl', function(){
 
         expect(function(){
             new Iframe('some-test-123');
-        }).toThrow();
+        }).to.throw();
 
         expect(function(){
             new Iframe('some-test-123', {});
-        }).toThrow();
+        }).to.throw();
 
         var id = 'iframe1';
         var iframeUrl = 'about:blank';
         var frame = new Iframe(id, {iframeUrl: iframeUrl});
 
-        expect(frame.id).toEqual(id);
+        expect(frame.id).to.equal(id);
 
         frame.makeIframe('some=parameters&and=another');
 
-        expect(frame.element.src.indexOf(iframeUrl) === 0).toBe(true);
+        expect(frame.element.src.indexOf(iframeUrl) === 0).to.equal(true);
 
 
         //....
@@ -34,9 +34,9 @@ describe('iframe', function () {
     it('should have width and height from constructor options', function(){
         var iframe = new Iframe('resize-test', {width:100, height:200, iframeUrl:'about:blank'});
         iframe.makeIframe();
-        //expect(iframe.element.width).toEqual('100px');
-        expect(iframe.element.style.width).toEqual('100px');
-        expect(iframe.element.style.height).toEqual('200px');
+        //expect(iframe.element.width).to.equal('100px');
+        expect(iframe.element.style.width).to.equal('100px');
+        expect(iframe.element.style.height).to.equal('200px');
     });
 
     it('should encode data object to query string', function () {
@@ -48,14 +48,14 @@ describe('iframe', function () {
         iframe.makeIframe();
         var lastSepIndex = iframe.element.src.lastIndexOf(Iframe.prototype.SEPARATOR);
         var dataStr = iframe.element.src.substring(lastSepIndex + Iframe.prototype.SEPARATOR.length);
-        expect(dataStr).toEqual('aNumber=100&encodeUrl=http%3A%2F%2Ftest.com%2Fpath%3Fa%3Db%26c%3D%C3%A6%C3%B8%C3%A5');
+        expect(dataStr).to.equal('aNumber=100&encodeUrl=http%3A%2F%2Ftest.com%2Fpath%3Fa%3Db%26c%3D%C3%A6%C3%B8%C3%A5');
     });
 
     it('should resize', function(){
         var iframe = new Iframe('resize-test', {width:100, height:100, iframeUrl:'about:blank'});
         iframe.makeIframe();
         iframe.resize(250, 200);
-        expect(iframe.element.style.width).toEqual('250px');
-        expect(iframe.element.style.height).toEqual('200px');
+        expect(iframe.element.style.width).to.equal('250px');
+        expect(iframe.element.style.height).to.equal('200px');
     });
 });

@@ -14,20 +14,20 @@ var realInput = 'http://someHost.com:9090/api/banner?url='+ decodeURIComponent(s
 describe('App.js collector', function () {
 
     it('should be defined', function () {
-        expect(parseParentUrl).toBeDefined();
+        expect(parseParentUrl).to.exist;
     });
 
     it('should return expected result', function () {
         var result = parseParentUrl(realInput);
 
-        expect(result).toBeDefined();
+        expect(result).to.exist;
 
         var url = result.params.url;
-        expect(url).toContain(smokeTest);
-        expect(url).toContain(smokeTest2);
+        expect(url).to.have.string(smokeTest);
+        expect(url).to.have.string(smokeTest2);
 
-        expect(result.input.width).toEqual('123');
-        expect(result.input.height).toEqual('321');
+        expect(result.input.width).to.equal('123');
+        expect(result.input.height).to.equal('321');
     });
 
 });
