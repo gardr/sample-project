@@ -34,7 +34,7 @@ describe('state', function() {
     it('should not use a regexp with global flag to replace unique token. \n\
         See http://stackoverflow.com/questions/3827456/what-is-wrong-with-my-date-regex/3827500#3827500', function () {
         expect(State._UNIQUE_TOKEN_REGEX.global).toBeFalsy();
-    })
+    });
 
     it('creating two states with same name should have unique ids', function () {
         expect(State.create('unique').id).not.toEqual(State.create('unique').id);
