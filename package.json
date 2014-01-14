@@ -1,6 +1,6 @@
 {
   "name": "gardr",
-  "version": "0.5.17-SNAPSHOT",
+  "version": "0.5.17",
   "description": "Library for managing external content in iframes",
   "scripts": {
     "start": "npm install && grunt",
