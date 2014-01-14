@@ -1,25 +1,25 @@
 module.exports = function (karma) {
     return {
-        basePath: "",
-        frameworks: ["mocha", "chai", "browserify", "sinon"],
+        basePath: '',
+        frameworks: ['mocha', 'chai', 'browserify', 'sinon'],
         files: [
-            "test/lib/Function-polyfill.js",
-            "test/**/*.test.js",
+            'test/lib/Function-polyfill.js',
+            'test/**/*.test.js',
             {
-                pattern: "test/fixtures/*",
+                pattern: 'test/fixtures/*',
                 included: false,
                 served: true,
                 watched: true
             },
             {
-                pattern: "src/**/*.js",
+                pattern: 'src/**/*.js',
                 included: false,
                 served: true,
                 watched: true
             }
         ],
         exclude: [],
-        reporters: ["progress"],
+        reporters: ['progress', 'coverage'],
         port: 9876,
 
         runnerPort: 9100,
@@ -30,7 +30,7 @@ module.exports = function (karma) {
 
         autoWatch: true,
 
-        browsers: ["PhantomJS"],
+        browsers: ['PhantomJS'],
 
         captureTimeout: 60000,
         singleRun: false,
@@ -38,10 +38,11 @@ module.exports = function (karma) {
             watch: true
         },
         preprocessors: {
-            "test/unit/**/*.js": "browserify",
-            "test/ig/**/*.js": "browserify",
-            "src/**/*.js": "browserify_plain"
+            'test/unit/**/*.js': 'browserify',
+            'test/ig/**/*.js': 'browserify',
+            'src/**/*.js': 'browserify_plain',
+            'src/*.js': ['coverage']
         },
-        plugins: ["karma-*", require("./browserify_plain.js")]
+        plugins: ['karma-*', require('./browserify_plain.js')]
     };
 };

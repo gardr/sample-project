@@ -1,9 +1,14 @@
 # Garðr - the safe way to add third party content to your site
 
 [![Build Status](https://travis-ci.org/gardr/gardr.png)](https://travis-ci.org/gardr/gardr)
+[![Coverage Status](https://coveralls.io/repos/gardr/gardr/badge.png)](https://coveralls.io/r/gardr/gardr)
+[![NPM version](https://badge.fury.io/js/gardr.png)](http://badge.fury.io/js/gardr)
+[![Dependency Status](https://david-dm.org/gardr/gardr.png)](https://david-dm.org/gardr/gardr)
+[![devDependency Status](https://david-dm.org/gardr/gardr/dev-status.png)](https://david-dm.org/gardr/gardr#info=devDependencies)
+
 [![NPM](https://nodei.co/npm/gardr.png?stars=true&downloads=true)](https://npmjs.org/package/gardr)
 
-Garðr is a library for embedding content from external sources such as advertisements or similar third party content. 
+Garðr is a library for embedding content from external sources such as advertisements or similar third party content.
 
 Removes the need for friendly iframes support in delivery systems and supports both HTML, Image and Flash based adverts. The iframe should be hosted on a different domain to enable security-features in the browser that prevents third party content to insert content or get user info from the parent page. postMessage is used for cross-domain communication.
 
@@ -46,7 +51,7 @@ We put bower modules inside node_modules folder so it just works. It's not optim
 
 ## Logging
 
-Debugging can be done by configuring logging to either the browser console or as an overlay inside the iframes rendered by Garðr. 
+Debugging can be done by configuring logging to either the browser console or as an overlay inside the iframes rendered by Garðr.
 
 You can turn on logging by adding an url-fragment with log level: #loglevel=4
 By default it will display an overlay inside each banner with the log output. If the banner isn't visible, you can output to console by using: #loglevel=4&logto=console
@@ -62,13 +67,13 @@ By default it will display an overlay inside each banner with the log output. If
 
 # Releasing new versions
 (Sorry this is specific to FINN, we're working on re-structure the project to avoid having this inside Garðr)
-This task releases a new version to the Maven repository. 
+This task releases a new version to the Maven repository.
 
 	# Trigger the Maven release plugin
 	$ grunt release
-	
+
 	# Make sure you push the commits made by the release plugin
-	$ git push	
+	$ git push
 
 	# Push the tags for the release
 	$ git push --tags
