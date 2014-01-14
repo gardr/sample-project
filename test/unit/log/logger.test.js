@@ -1,3 +1,4 @@
+/*jshint expr: true*/
 var logger = require('../../../src/lib/log/logger.js');
 var helper = require('../../testHelpers.js');
 var ErrorEvent = window.ErrorEvent || require('../../lib/ErrorEvent.js');

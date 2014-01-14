@@ -2,16 +2,14 @@
     "globals": {
         "jQuery"    : false,
         "$"         : false,
-        "jasmine"   : false,
+        "sinon"     : false,
         "describe"  : false,
         "it"        : false,
         "xit"       : false,
         "expect"    : false,
-        "waitsFor"  : false,
-        "runs"      : false,
         "beforeEach": false,
         "afterEach" : false,
-        "spyOn"     : false
+        "assert"    : false
     },
 
     "bitwise"       : true,

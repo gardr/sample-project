@@ -1,3 +1,4 @@
+/*jshint expr: true*/
 var logToBanner = require('../../../../src/lib/log/appender/banner.js');
 describe('logToBanner', function () {
 	var logObj = {

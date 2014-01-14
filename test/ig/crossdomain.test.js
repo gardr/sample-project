@@ -1,3 +1,4 @@
+/*jshint expr: true*/
 var Manager = require('../../src/lib/manager.js');
 var iframeSrc = '/base/test/fixtures/iframe.html';
 

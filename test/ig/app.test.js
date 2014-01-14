@@ -1,3 +1,4 @@
+/*jshint expr: true*/
 var bannerApi     = require('../../src/app-inframe.js');
 
 describe('test app.js', function () {

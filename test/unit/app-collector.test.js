@@ -1,4 +1,4 @@
-/* jshint maxlen: 99999 */
+/* jshint maxlen: 99999, expr: true */
 var Cookies     = require('cookies-js');
 var cookieVal   = '_' + (+new Date());
 Cookies.set('USERID', cookieVal);

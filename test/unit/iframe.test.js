@@ -1,4 +1,4 @@
-/* jshint nonew: false */
+/* jshint nonew: false, expr: true */
 var Iframe       = require('../../src/lib/iframe.js');
 
 describe('iframe', function () {

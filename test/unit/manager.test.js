@@ -1,3 +1,4 @@
+/*jshint expr: true*/
 var State = require('../../src/lib/state.js');
 var helpers = require('../testHelpers.js');
 
@@ -243,7 +244,7 @@ describe('Manager', function () {
 
         it('should return a Error if non existing configname', function () {
             manager.render(helpers.getRandomName(), function (err) {
-                expect(err).to.equal(jasmine.any(Error));
+                expect(err).to.be.an.instanceof(Error);
             });
         });
 
@@ -475,7 +476,7 @@ describe('Manager', function () {
             var rand = queueRandom(num);
             var manager = rand.manager;
             var reverseNames = rand.names.slice(0).reverse();
-            var stub = sinon.stub(manager, 'render', function (name, cb) {
+            sinon.stub(manager, 'render', function (name, cb) {
                 manager._resolve(manager._get(name)[0].id);
                 if (cb) {cb();}
             });

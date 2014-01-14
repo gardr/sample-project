@@ -1,3 +1,4 @@
+/*jshint expr: true*/
 var State = require('../../src/lib/state.js');
 
 describe('state', function() {
