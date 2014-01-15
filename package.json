@@ -4,8 +4,8 @@
   "description": "Library for managing external content in iframes",
   "scripts": {
     "start": "npm install && grunt",
-    "test": "./node_modules/karma/bin/karma start --single-run --browser PhantomJS",
-    "test-ci": "./node_modules/karma/bin/karma start --single-run --browser PhantomJS && cat ./coverage/lcov.info | node_modules/coveralls/bin/coveralls.js"
+    "test": "./node_modules/karma/bin/karma start",
+    "test-travis-ci": "./node_modules/karma/bin/karma start test/karma.travis.js && node ./test/coveragePipe.js | node_modules/coveralls/bin/coveralls.js"
   },
   "homepage": "http://gardr.github.io",
   "repository": "http://github.com/gardr/gardr",
@@ -35,7 +35,6 @@
     "karma-firefox-launcher": "~0.1.3",
     "karma-junit-reporter": "~0.2.1",
     "karma-phantomjs-launcher": "0.1.1",
-    "karma-browserify": "~0.0.6",
     "karma-growl-reporter": "0.1.0",
     "karma-sinon": "~1.0.0",
     "karma-html2js-preprocessor": "~0.1.0",
@@ -47,7 +46,8 @@
     "karma-chai": "0.0.2",
     "coveralls": "~2.6.1",
     "jshint": "~2.4.1",
-    "karma-coverage": "~0.1.4"
+    "karma-coverage": "~0.1.4",
+    "glob": "~3.2.8"
   },
   "peerDependencies": {
     "karma": "~0.11.0"
