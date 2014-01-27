@@ -3,7 +3,9 @@
 var State = require('./state.js');
 var extend = require('util-extend');
 var Iframe = require('./iframe.js');
-var com = require('./com.js');
+//var com = require('./com.js');
+var com = {incomming: function () {}};
+var xde = require('cross-domain-events');
 var queryParams = require('query-params');
 var eventListener = require('eventlistener');
 var ALL = '__all';
@@ -48,7 +50,6 @@ function Manager(options) {
     this.items = [];
     this.itemConfigs = {};
 
-    this.key = options && options.key||com.PARENT_PREFIX;
     this.callbacks = {};
     this.options = options || {};
     this.__inject = {};
@@ -90,7 +91,11 @@ function Manager(options) {
     }, false);
 
     // this.sharedState = {};
-    com.incomming(function (msg, contentWindow, origin) {
+    xde.on('rendered', function(msg) {
+        this._resolve(msg.data.id);
+    }.bind(this));
+
+    /*com.incomming(function (msg, contentWindow, origin) {
         var item = manager._getById(msg.id);
         if (!item || item.isActive() !== true) {
             return;
@@ -100,9 +105,25 @@ function Manager(options) {
             item.com = com.createOutgoing(origin, contentWindow, com.PREFIX);
         }
         manager._delegate(msg, item);
-    }, this.key, this.options.deactivateCDFS);
+    }, this.key, this.options.deactivateCDFS);*/
 }
 Manager._ALL = ALL;
+/*if (Object.defineProperty) {
+    Object.defineProperty(Manager, '_xde', {
+        get: function () {
+            return xde;
+        }
+    });
+}*/
+Manager._xde = xde;
+Manager._setCom = function (newCom) {
+    com = newCom;
+};
+Manager._Iframe = Iframe;
+Manager._setIframe = function (newIframe) {
+    Iframe = newIframe;
+};
+
 var proto = Manager.prototype;
 
 proto._delegate = function (msg, item) {
@@ -212,7 +233,9 @@ proto.render = function (name, cb) {
 
         if (item.isActive()) {
             if (item.isResolved()) {
-                this._runCallbacks(item, [null, item]);
+                setTimeout(function () {
+                    this._runCallbacks(item, [null, item]);
+                }.bind(this), 0);
             }
         } else {
             item.set(State.ACTIVE);
@@ -260,7 +283,6 @@ proto.createIframe = function (item) {
         // todo, check if actually iframe is on different domain
         item.iframe = new Iframe(item.id, {
             iframeUrl: this.options.iframeUrl,
-            key: this.key,
             width: item.width,
             height: item.height,
             hidden: item.hidden,
