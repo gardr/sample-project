@@ -129,15 +129,12 @@ module.exports = function(grunt) {
 
         'karma': {
             options: {},
-            ci: {
-                configFile: 'karma.ci.js',
-            },
             watch: {
-                configFile: 'karma.conf.js',
+                configFile: 'test/karma.conf.js',
                 singleRun: false
             },
             default: {
-                configFile: 'karma.conf.js',
+                configFile: 'test/karma.conf.js',
                 singleRun: true
             }
         },
