@@ -1,6 +1,6 @@
 # Garðr - the safe way to add third party content to your site
 
-[![Build Status](https://travis-ci.org/gardr/gardr.png)](https://travis-ci.org/gardr/gardr)
+[![Build Status](https://api.travis-ci.org/gardr/gardr.png?branch=master)](https://travis-ci.org/gardr/gardr)
 [![NPM](https://nodei.co/npm/gardr.png?stars=true&downloads=true)](https://npmjs.org/package/gardr)
 
 Garðr is a library for embedding content from external sources such as advertisements or similar third party content. 
@@ -32,7 +32,7 @@ Easiest way is through npm.
 
 When working with the code you can use karma and grunt to get continuous feedback on your tests.
 
-	$ grunt karam:watch
+	$ grunt karma:watch
 
 	or
 
@@ -40,7 +40,7 @@ When working with the code you can use karma and grunt to get continuous feedbac
 
 ## Config
 
-We put bower modules inside node_modules folder so it just works. It's not optimal, but works for now.
+We put bower modules inside the node_modules folder so it just works. It's not optimal, but works for now.
 
 # Debugging
 
@@ -76,7 +76,7 @@ This task releases a new version to the Maven repository.
 # Demos and samples
 
 There are some examples on how to use Garðr located in the samples [folder](./samples).
-* Run the following commands to install the samples applciation
+* Run the following commands to install the samples application
 
 	$ cd samples/
 	$ npm install
