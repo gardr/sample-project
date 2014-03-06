@@ -32,7 +32,7 @@ Easiest way is through npm.
 
 When working with the code you can use karma and grunt to get continuous feedback on your tests.
 
-	$ grunt karam:watch
+	$ grunt karma:watch
 
 	or
 
@@ -76,7 +76,7 @@ This task releases a new version to the Maven repository.
 # Demos and samples
 
 There are some examples on how to use Garðr located in the samples [folder](./samples).
-* Run the following commands to install the samples applciation
+* Run the following commands to install the samples application
 
 	$ cd samples/
 	$ npm install
