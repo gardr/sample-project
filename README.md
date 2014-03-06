@@ -1,6 +1,6 @@
 # Garðr - the safe way to add third party content to your site
 
-[![Build Status](https://travis-ci.org/gardr/gardr.png)](https://travis-ci.org/gardr/gardr)
+[![Build Status](https://api.travis-ci.org/gardr/gardr.png)](https://travis-ci.org/gardr/gardr)
 [![NPM](https://nodei.co/npm/gardr.png?stars=true&downloads=true)](https://npmjs.org/package/gardr)
 
 Garðr is a library for embedding content from external sources such as advertisements or similar third party content. 
