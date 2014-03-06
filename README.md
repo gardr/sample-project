@@ -40,7 +40,7 @@ When working with the code you can use karma and grunt to get continuous feedbac
 
 ## Config
 
-We put bower modules inside node_modules folder so it just works. It's not optimal, but works for now.
+We put bower modules inside the node_modules folder so it just works. It's not optimal, but works for now.
 
 # Debugging
 
