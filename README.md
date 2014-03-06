@@ -1,5 +1,9 @@
 # Garðr - the safe way to add third party content to your site
 
+NB! This repo (gardr/gardr) will be converted to a sample project. So it's not worth looking at anything here ;) The code has been moved (or rewritten). See [gardr-host](https://github.com/gardr/host/) and [gardr-ext](https://github.com/gardr/ext/). They're not 100% ready yet, but you can have this as a dependency from npm, and just require them into your project. That makes it possible to make custom bundles with the plugins you need. Instead of forking this project and manually hacking on the Grunt config.
+
+
+
 [![Build Status](https://api.travis-ci.org/gardr/gardr.png?branch=master)](https://travis-ci.org/gardr/gardr)
 [![NPM](https://nodei.co/npm/gardr.png?stars=true&downloads=true)](https://npmjs.org/package/gardr)
 
