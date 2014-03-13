@@ -38,18 +38,16 @@
         gardr.queue('banner1', {
             url: 'banners/animation/index.js',
             height: 225,
-            done: callback,
             container: 'banner1'
         });
 
         gardr.queue('1px',{
             url: 'banners/1px/index.js',
             height: 225,
-            container: '1px',
-            done: callback
+            container: '1px'
         });
 
-        gardr.renderAll();
+        gardr.renderAll(callback);
 
     }
 
