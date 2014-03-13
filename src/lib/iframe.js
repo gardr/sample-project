@@ -83,9 +83,13 @@ Iframe.prototype.refresh = function () {
     this.element.src = this._getUrl(this.element.src);
 };
 
+Iframe.prototype._createIframeElement = function () {
+    return document.createElement('iframe');
+};
+
 Iframe.prototype.makeIframe = function() {
     var wrapper = this.wrapper = document.createElement('div');
-    var i = this.element = document.createElement('iframe');
+    var i = this.element = this._createIframeElement();
     var inner = document.createElement('div');
     var classes = [TYPE, TYPE + '-' + this.id];
 
