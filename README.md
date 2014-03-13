@@ -1,59 +1,51 @@
 # Garðr - the safe way to add third party content to your site
 
-NB! This repo (gardr/gardr) will be converted to a sample project. So it's not worth looking at anything here ;) The code has been moved (or rewritten). See [gardr-host](https://github.com/gardr/host/) and [gardr-ext](https://github.com/gardr/ext/). They're not 100% ready yet, but you can have this as a dependency from npm, and just require them into your project. That makes it possible to make custom bundles with the plugins you need. Instead of forking this project and manually hacking on the Grunt config.
-
-
-
 [![Build Status](https://api.travis-ci.org/gardr/gardr.png?branch=master)](https://travis-ci.org/gardr/gardr)
 [![NPM](https://nodei.co/npm/gardr.png?stars=true&downloads=true)](https://npmjs.org/package/gardr)
 
-Garðr is a library for embedding content from external sources such as advertisements or similar third party content. 
+Garðr is a library for embedding content from external sources such as advertisements or similar third party content.
 
-Removes the need for friendly iframes support in delivery systems and supports both HTML, Image and Flash based adverts. The iframe should be hosted on a different domain to enable security-features in the browser that prevents third party content to insert content or get user info from the parent page. postMessage is used for cross-domain communication.
+This repo (gardr/gardr) is just a sample project on how to use the Garðr client libraries;
+gardr-host](https://github.com/gardr/host/) and [gardr-ext](https://github.com/gardr/ext/). You can have them as
+dependencies from npm, and just require them into your project. That makes it possible to make custom bundles with only
+the plugins you need. If you don't use CommonJS it's easy to convert to AMD or a global instead.
 
-# Installation
-We're working on making Garðr a real npm-package you can just require into you project, but for now you have to build from the git repo.
-
-	$ npm install gardr
-
-
-# Building
+Removes the need for friendly iframes support in delivery systems and supports both HTML, Image and Flash based adverts.
+The iframe should be hosted on a different domain to enable security-features in the browser that prevents third party
+content to insert content or get user info from the parent page. postMessage is used for cross-domain communication
+between the frames.
 
 ## Pre-requisits
 * [NodeJS + NPM](http://nodejs.org)
-* [grunt](http://gruntjs.com/)
 
-## Building a distribution
+# Running the samples
 
-	$ cd node_modules/gardr
 	$ npm install
-	$ grunt
+	$ npm start
+
+* Open browser [http://localhost:9966/example.html](http://localhost:9966/example.html)
+
+## Building bundles
+
+	$ npm run browserify
+
+Will run the `browserify` task from package.json, and generate a browser-version of the files in /lib.
 
 ## Testing
 Easiest way is through npm.
 
 	$ npm test
 
-When working with the code you can use karma and grunt to get continuous feedback on your tests.
-
-	$ grunt karma:watch
-
-	or
-
-	$ karma start
-
-## Config
-
-We put bower modules inside the node_modules folder so it just works. It's not optimal, but works for now.
-
 # Debugging
 
 ## Logging
 
-Debugging can be done by configuring logging to either the browser console or as an overlay inside the iframes rendered by Garðr. 
+Debugging can be done by configuring logging to either the browser console or as an overlay inside the iframes rendered
+by Garðr.
 
 You can turn on logging by adding an url-fragment with log level: #loglevel=4
-By default it will display an overlay inside each banner with the log output. If the banner isn't visible, you can output to console by using: #loglevel=4&logto=console
+By default it will display an overlay inside each banner with the log output. If the banner isn't visible, you can
+output to console by using: #loglevel=4&logto=console
 
 *NB!* If the banner injects another iframe we have no good way of catching errors :(
 
@@ -61,33 +53,9 @@ By default it will display an overlay inside each banner with the log output. If
 ## Polyfills required for IE8+ support
 
 * [ES5-shim](https://npmjs.org/package/es5-shim) You do not need a sham (unsafe polyfills).
-* [addEventListener polyfill](https://gist.github.com/eirikbacker/2864711/dcc32b15ea79f8f364ca1707f81ec74a15fa25db)
-* postMessage is required, so it won't work in IE7 at the moment. This is possible to solve if there is a demand for it.
-
-# Releasing new versions
-(Sorry this is specific to FINN, we're working on re-structure the project to avoid having this inside Garðr)
-This task releases a new version to the Maven repository. 
-
-	# Trigger the Maven release plugin
-	$ grunt release
-	
-	# Make sure you push the commits made by the release plugin
-	$ git push	
-
-	# Push the tags for the release
-	$ git push --tags
-
-# Demos and samples
-
-There are some examples on how to use Garðr located in the samples [folder](./samples).
-* Run the following commands to install the samples application
-
-	$ cd samples/
-	$ npm install
-	$ node app.js
-
-* Open browser [http://localhost:9966/example.html](http://localhost:9966/example.html)
+* postMessage is required, so it won't work in IE7 at the moment.
 
 ## Samples in the wild
 
-* All of the display adverst on [m.finn.no](http://m.finn.no/) is using Garðr to safely embed responsive adverts written in HTML, CSS and JS.
+* All of the display adverts on [m.finn.no](http://m.finn.no/) is using Garðr to safely embed responsive adverts written
+in HTML, CSS and JS.
