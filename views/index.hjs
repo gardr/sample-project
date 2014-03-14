@@ -8,7 +8,6 @@
     * { padding: 0;margin: 0; border: 0; }
     body { padding:0;margin:0;}
     .banner { border: 1px dashed grey; }
-    /*iframe {border: 1px inset black !important;margin-bottom:40px;}*/
     </style>
     <!--[if lt IE 9]>
         <script src="//cdnjs.cloudflare.com/ajax/libs/es5-shim/2.1.0/es5-shim.min.js"></script>
@@ -23,7 +22,7 @@
     <h2>Empty banner</h2>
     <div id="1px" class="banner"></div>
 
-    <script src="/browserified/host.js"></script>
+    <script src="/browserified/hostBundle.js"></script>
     <script src="/script.js"></script>
 </body>
 </html>

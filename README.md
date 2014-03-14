@@ -1,9 +1,9 @@
-# Garðr - the safe way to add third party content to your site
+# Garðr - protecting your site from third party content
 
 [![Build Status](https://api.travis-ci.org/gardr/gardr.png?branch=master)](https://travis-ci.org/gardr/gardr)
 [![NPM](https://nodei.co/npm/gardr.png?stars=true&downloads=true)](https://npmjs.org/package/gardr)
 
-Garðr is a library for embedding content from external sources such as advertisements or similar third party content.
+Garðr is a library for embedding content from external scripts such as advertisements or similar third party content.
 
 This repo (gardr/gardr) is just a sample project on how to use the Garðr client libraries;
 gardr-host](https://github.com/gardr/host/) and [gardr-ext](https://github.com/gardr/ext/). You can have them as
@@ -26,17 +26,27 @@ between the frames.
 * Open browser [http://localhost:9966/example.html](http://localhost:9966/example.html)
 
 ## Building bundles
+Take a look at the `browserify` task from package.json. It uses browserify to generate a static browser-version of the
+files in /lib.
 
 	$ npm run browserify
 
-Will run the `browserify` task from package.json, and generate a browser-version of the files in /lib.
+[Browserify](https://github.com/substack/node-browserify) is a tool to convert CommonJS modules to browser-friendly
+JavaScript. You can choose to make your own bunles using CommonJS, or transform it to an
+[UMD](https://github.com/umdjs/umd) module using the `--standalone` (or `-s`) argument. Then you can load it with an AMD
+loader or `window.gardrHost`.
+
+	$ browserify -s gardrHost lib/hostBundle.js > browserified/hostBundle.js
+
+If you want source maps to make debuggin the code easier, add `--debug` as browserify argument. Browserify only adds
+source maps as an inline comment. So if you want and external source map, use
+[exorcist](https://github.com/thlorenz/exorcist) to extract it:
+
+	$ browserify lib/hostBundle.js --debug | exorcist browserified/hostBundle.js.map > browserified/hostBundle.js
 
 ## Testing
-Easiest way is through npm.
 
 	$ npm test
-
-# Debugging
 
 ## Logging
 
@@ -49,13 +59,19 @@ output to console by using: #loglevel=4&logto=console
 
 *NB!* If the banner injects another iframe we have no good way of catching errors :(
 
+## No support for IE7 or older
+
+We have very few IE7 users, and some of the techniques used in Garðr (like postMessage) require many dirty hacks to
+work in IE7.
 
 ## Polyfills required for IE8+ support
 
+To keep the code minimal for modern browsers (mobile), we use some new features that came in EcmaScript 5. They are easy
+to implement in older browsers using a few simple polyfills. You can include it with a conditional-comment, so only
+users with old IE versions download the extra script. See the iframe html for an example.
 * [ES5-shim](https://npmjs.org/package/es5-shim) You do not need a sham (unsafe polyfills).
-* postMessage is required, so it won't work in IE7 at the moment.
 
 ## Samples in the wild
 
-* All of the display adverts on [m.finn.no](http://m.finn.no/) is using Garðr to safely embed responsive adverts written
+* All of the display adverts on [m.finn.no](http://m.finn.no/) are using Garðr to safely embed responsive adverts written
 in HTML, CSS and JS.

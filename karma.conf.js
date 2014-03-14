@@ -3,7 +3,7 @@ module.exports = function (karma) {
         basePath: "",
         frameworks: ["mocha", "chai"],
         files: [
-            "browserified/host.js",
+            "browserified/hostBundle.js",
             {
                 pattern: "browserified/*.js",
                 included: false,

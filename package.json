@@ -4,7 +4,7 @@
   "description": "Library for managing external content in iframes",
   "scripts": {
     "clean": "rm -rf browserified",
-    "browserify": "mkdir -p browserified && ./node_modules/.bin/browserify -s gardrHost lib/host.js -o browserified/host.js && ./node_modules/.bin/browserify lib/ext.js -o browserified/ext.js",
+    "browserify": "mkdir -p browserified && ./node_modules/.bin/browserify -s gardrHost lib/hostBundle.js -o browserified/hostBundle.js && ./node_modules/.bin/browserify lib/extBundle.js -o browserified/extBundle.js",
     "start": "npm run clean && npm run browserify && node app.js",
     "test": "npm run clean && npm run browserify && ./node_modules/karma/bin/karma start --single-run --browser PhantomJS"
   },
