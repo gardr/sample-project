@@ -9,6 +9,7 @@ app.use(express.logger());
 
 app.use(express.static(__dirname + '/public'));
 app.use('/browserified', express.static(__dirname + '/browserified'));
+app.use('/gardr-ext', express.static(__dirname + '/node_modules/gardr-ext'));
 
 app.get('/', function (req, res) {
     res.render('index', { bannerUrl: req.query.bannerUrl });

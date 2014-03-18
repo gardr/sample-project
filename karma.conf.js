@@ -17,6 +17,12 @@ module.exports = function (karma) {
                 included: false,
                 served: true,
                 watched: true
+            },
+            {
+                pattern: "node_modules/gardr-ext/iframe.html",
+                included: false,
+                served: true,
+                watched: true
             }
         ],
         exclude: [],

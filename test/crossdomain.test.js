@@ -1,6 +1,6 @@
 /*jshint expr: true*/
 /*global gardrHost:false*/
-var iframeSrc = '/base/test/fixtures/iframe.html';
+var iframeSrc = '/base/node_modules/gardr-ext/iframe.html';
 
 function getPort(port) {
     return port ? ':' + port : '';
@@ -11,7 +11,9 @@ describe('Cross domain iframe', function () {
     var base = '//127.0.0.1';
     var iframeUrl = base + getPort(document.location.port) + iframeSrc;
     var gardr = gardrHost({
-        iframeUrl: iframeUrl
+        iframeUrl: iframeUrl,
+        extScriptUrl: '/base/browserified/extBundle.js',
+        es5shimUrl: '/base/test/lib/Function-polyfill.js'
     });
 
     it('should render banner and report rendered size', function (done) {

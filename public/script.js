@@ -32,17 +32,18 @@
     function onLoad () {
 
         var gardr = gardrHost({
-            iframeUrl: 'http://127.0.0.1:9966/iframe.html' // cross-domain
+            iframeUrl: 'http://10.0.2.2:9966/gardr-ext/iframe.html', // cross-domain
+            extScriptUrl: '/browserified/extBundle.js'
         });
 
         gardr.queue('banner1', {
-            url: 'banners/animation/index.js',
+            url: '/banners/animation/index.js',
             height: 225,
             container: 'banner1'
         });
 
         gardr.queue('1px',{
-            url: 'banners/1px/index.js',
+            url: '/banners/1px/index.js',
             height: 225,
             container: '1px'
         });

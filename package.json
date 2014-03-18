@@ -36,8 +36,8 @@
     "util-extend": "~1.0.1",
     "eventlistener": "~0.0.1",
     "browserify": "~3.30.2",
-    "gardr-host": "0.1.0",
-    "gardr-ext": "0.1.0"
+    "gardr-host": "~0.2.0",
+    "gardr-ext": "~0.2.1"
   },
   "engines": {
     "node": ">=0.10.15"
