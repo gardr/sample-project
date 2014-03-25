@@ -23,7 +23,7 @@ between the frames.
 	$ npm install
 	$ npm start
 
-* Open browser [http://localhost:9966/example.html](http://localhost:9966/example.html)
+* Open browser [http://localhost:9966/](http://localhost:9966/)
 
 ## Building bundles
 Take a look at the `browserify` task from package.json. It uses browserify to generate a static browser-version of the
