@@ -32,7 +32,7 @@
     function onLoad () {
 
         var gardr = gardrHost({
-            iframeUrl: 'http://10.0.2.2:9966/gardr-ext/iframe.html', // cross-domain
+            iframeUrl: 'http://127.0.0.1:9966/gardr-ext/iframe.html', // cross-domain
             extScriptUrl: '/browserified/extBundle.js'
         });
 
