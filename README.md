@@ -1,9 +1,7 @@
 # Garðr - protecting your site from third party content
 
-[![Build Status](https://api.travis-ci.org/gardr/gardr.png?branch=master)](https://travis-ci.org/gardr/gardr)
-[![NPM](https://nodei.co/npm/gardr.png?stars=true&downloads=true)](https://npmjs.org/package/gardr)
-
-Garðr is a library for embedding content from external scripts such as advertisements or similar third party content.
+This is a sample project to show how you can use Garðr on your site. Garðr is a library for embedding content from
+external scripts such as advertisements or similar third party content.
 
 This repo (gardr/gardr) is just a sample project on how to use the Garðr client libraries;
 gardr-host](https://github.com/gardr/host/) and [gardr-ext](https://github.com/gardr/ext/). You can have them as
@@ -18,12 +16,29 @@ between the frames.
 ## Pre-requisits
 * [NodeJS + NPM](http://nodejs.org)
 
-# Running the samples
+## Running the samples
 
-	$ npm install
-	$ npm start
+    $ git clone git@github.com:gardr/gardr.git
+    $ cd gardr/
+  	$ npm install
+  	$ npm start
 
 * Open browser [http://localhost:9966/](http://localhost:9966/)
+
+# Use in your project
+
+## Add dependencies
+**package.json**
+
+If you don't have a package.json
+
+    $ npm init
+
+Install dependencies (into node_modules and as dependency in package.json)
+
+    $ npm install --save gardr-host gardr-ext
+
+If you need plugins install them the same way as above
 
 ## Building bundles
 Take a look at the `browserify` task from package.json. It uses browserify to generate a static browser-version of the
@@ -43,6 +58,8 @@ source maps as an inline comment. So if you want and external source map, use
 [exorcist](https://github.com/thlorenz/exorcist) to extract it:
 
 	$ browserify lib/hostBundle.js --debug | exorcist browserified/hostBundle.js.map > browserified/hostBundle.js
+
+# Other info
 
 ## Testing
 
@@ -73,5 +90,5 @@ users with old IE versions download the extra script. See the iframe html for an
 
 ## Samples in the wild
 
-* All of the display adverts on [m.finn.no](http://m.finn.no/) are using Garðr to safely embed responsive adverts written
-in HTML, CSS and JS.
+* All of the display adverts on [m.finn.no](http://m.finn.no/) are using Garðr to safely embed responsive adverts
+written in HTML, CSS and JS.
