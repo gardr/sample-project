@@ -30,20 +30,19 @@
     }
 
     function onLoad () {
-
         var gardr = gardrHost({
-            iframeUrl: 'http://127.0.0.1:9966/gardr-ext/iframe.html', // cross-domain
-            extScriptUrl: '/browserified/extBundle.js'
+            iframeUrl: 'http://127.0.0.1:9966/gardr/iframe.html' // cross-domain
         });
 
+        var bannerDomain = 'http://localhost:9966';
         gardr.queue('banner1', {
-            url: '/banners/animation/index.js',
+            url: bannerDomain + '/banners/animation/index.js',
             height: 225,
             container: 'banner1'
         });
 
         gardr.queue('1px',{
-            url: '/banners/1px/index.js',
+            url: bannerDomain + '/banners/1px/index.js',
             height: 225,
             container: '1px'
         });

@@ -3,8 +3,8 @@
   "version": "0.6.0-SNAPSHOT",
   "description": "Library for managing external content in iframes",
   "scripts": {
-    "clean": "rm -rf browserified",
-    "browserify": "mkdir -p browserified && ./node_modules/.bin/browserify -s gardrHost lib/hostBundle.js -o browserified/hostBundle.js && ./node_modules/.bin/browserify lib/extBundle.js -o browserified/extBundle.js",
+    "clean": "rm -rf gardr",
+    "browserify": "mkdir -p gardr && ./node_modules/.bin/browserify -s gardrHost src/hostBundle.js -o gardr/host.js && ./node_modules/.bin/browserify src/extBundle.js -o gardr/ext.js && cp ./node_modules/gardr-ext/iframe.html gardr",
     "start": "npm run clean && npm run browserify && node app.js",
     "test": "npm run clean && npm run browserify && ./node_modules/karma/bin/karma start --single-run --browser PhantomJS"
   },
@@ -19,25 +19,24 @@
   ],
   "license": "MIT",
   "devDependencies": {
-    "karma": "~0.12.0",
-    "chai": "~1.9.0",
-    "karma-chai": "~0.1.0",
-    "mocha": "~1.17.1",
-    "karma-mocha": "~0.1.3",
-    "karma-phantomjs-launcher": "~0.1.2"
+    "karma": "0.12.0",
+    "chai": "1.9.0",
+    "karma-chai": "0.1.0",
+    "mocha": "1.17.1",
+    "karma-mocha": "0.1.3",
+    "karma-phantomjs-launcher": "0.1.2"
   },
   "dependencies": {
-    "express": "~3.4.8",
-    "hogan-express": "~0.5.0",
-    "gardr-iframe-params": "~0.0.1",
-    "get-style-property": "~0.1.1",
-    "cookies-js": "~0.3.1",
-    "query-params": "~0.0.1",
-    "util-extend": "~1.0.1",
-    "eventlistener": "~0.0.1",
-    "browserify": "~3.30.2",
-    "gardr-host": "~0.3.0",
-    "gardr-ext": "~0.3.0"
+    "express": "3.4.8",
+    "gardr-iframe-params": "0.0.1",
+    "get-style-property": "0.1.1",
+    "cookies-js": "0.3.1",
+    "query-params": "0.0.1",
+    "util-extend": "1.0.1",
+    "eventlistener": "0.0.1",
+    "browserify": "3.30.2",
+    "gardr-host": "0.4.0",
+    "gardr-ext": "0.4.0"
   },
   "engines": {
     "node": ">=0.10.15"
