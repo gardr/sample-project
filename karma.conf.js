@@ -3,23 +3,17 @@ module.exports = function (karma) {
         basePath: "",
         frameworks: ["mocha", "chai"],
         files: [
-            "browserified/hostBundle.js",
+            "test/lib/Function-polyfill.js",
+            "gardr/host.js",
             {
-                pattern: "browserified/*.js",
+                pattern: "gardr/*",
                 included: false,
                 served: true,
                 watched: true
             },
-            "test/lib/Function-polyfill.js",
             "test/**/*.test.js",
             {
                 pattern: "test/fixtures/*",
-                included: false,
-                served: true,
-                watched: true
-            },
-            {
-                pattern: "node_modules/gardr-ext/iframe.html",
                 included: false,
                 served: true,
                 watched: true
