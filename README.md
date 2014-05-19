@@ -30,7 +30,7 @@ your site. `hostBundle.js` is the script you will put on your page. `extBundle.j
 The files the `src/` folder are in CommonJS style. Which is typically used server-side, but can also be used for client-
 side code. Use `require` to import dependencies (gardr-host, gardr-ext and plugins). We use
 [browserify](https://www.npmjs.org/package/browserify) to convert these files to browser-friendly JavaScript. Try
-running `npm run browserify`, and you will find the generated scripts in the `gardr/´ folder. See the `browserify`
+running `npm run browserify`, and you will find the generated scripts in the `gardr/` folder. See the `browserify`
 script in package.json for the command we use to run browserify.
 
 Since we use the -s (standalone) option to browserify, it will wrap the output as UMD (Universal Module Definition). It
