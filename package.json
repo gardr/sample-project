@@ -3,10 +3,8 @@
   "version": "0.6.0-SNAPSHOT",
   "description": "Library for managing external content in iframes",
   "scripts": {
-    "clean": "rm -rf gardr",
-    "browserify": "mkdir -p gardr && ./node_modules/.bin/browserify -s gardrHost src/hostBundle.js -o gardr/host.js && ./node_modules/.bin/browserify src/extBundle.js -o gardr/ext.js && cp ./node_modules/gardr-ext/iframe.html gardr",
-    "start": "npm run clean && npm run browserify && node app.js",
-    "test": "npm run clean && npm run browserify && ./node_modules/karma/bin/karma start --single-run --browser PhantomJS"
+    "start": "node make.js start",
+    "test": "node make.js test"
   },
   "homepage": "http://gardr.github.io",
   "repository": "http://github.com/gardr/gardr",
@@ -24,7 +22,8 @@
     "karma-chai": "0.1.0",
     "mocha": "1.17.1",
     "karma-mocha": "0.1.3",
-    "karma-phantomjs-launcher": "0.1.2"
+    "karma-phantomjs-launcher": "0.1.2",
+    "shelljs": "^0.3.0"
   },
   "dependencies": {
     "express": "3.4.8",
