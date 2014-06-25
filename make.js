@@ -31,7 +31,7 @@ target.clean = function () {
 };
 
 target.bundle = function () {
-    mkdir('-p', 'gardr')
+    mkdir('-p', 'gardr');
     makeBundle('gardrHost', 'src/hostBundle.js', 'gardr/host.js');
     makeBundle('gardrExt', 'src/extBundle.js', 'gardr/ext.js');
 
@@ -41,7 +41,7 @@ target.bundle = function () {
 
 target.start = function () {
     target.bundle();
-    exec('node app.js');
+    require('./app.js');
 };
 
 target.test = function () {

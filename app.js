@@ -12,4 +12,4 @@ app.get('/', function (req, res) {
 });
 
 app.listen(PORT);
-process.stdout.write('Server listening on http://localhost:'+PORT+'/\n');
+console.log('Server listening on http://localhost:'+PORT+'/\n');
