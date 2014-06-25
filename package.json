@@ -1,5 +1,5 @@
 {
-  "name": "gardr",
+  "name": "gardr-sample-project",
   "version": "0.6.0-SNAPSHOT",
   "description": "Library for managing external content in iframes",
   "scripts": {
@@ -7,8 +7,8 @@
     "test": "node make.js test"
   },
   "homepage": "http://gardr.org",
-  "repository": "http://github.com/gardr/gardr",
-  "bugs": "http://github.com/gardr/gardr/issues",
+  "repository": "http://github.com/gardr/sample-project",
+  "bugs": "http://github.com/gardr/sample-project/issues",
   "author": "FINN.no AS",
   "contributors": [
     "Gregers Rygg <gregers@finn.no>",
