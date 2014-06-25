@@ -1,11 +1,12 @@
 var express = require('express');
+var serveStatic = require('serve-static')
 var app = express();
 var PORT = 9966;
 
-app.use(express.logger());
+app.use(require('morgan')());
 
-app.use(express.static(__dirname + '/public'));
-app.use('/gardr', express.static(__dirname + '/gardr'));
+app.use(serveStatic(__dirname + '/public'));
+app.use('/gardr', serveStatic(__dirname + '/gardr'));
 
 app.get('/', function (req, res) {
     res.sendStatic('/public/index.html');
