@@ -30,7 +30,7 @@
     "cookies-js": "0.4.0",
     "eventlistener": "0.0.1",
     "express": "4.4.4",
-    "gardr-ext": "0.5.0",
+    "gardr-ext": "0.6.0",
     "gardr-host": "0.5.1",
     "get-style-property": "0.1.1",
     "morgan": "^1.1.1",

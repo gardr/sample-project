@@ -3,7 +3,7 @@ var serveStatic = require('serve-static')
 var app = express();
 var PORT = 9966;
 
-app.use(require('morgan')());
+app.use(require('morgan')('combined'));
 
 app.use(serveStatic(__dirname + '/public'));
 app.use('/gardr', serveStatic(__dirname + '/gardr'));

@@ -14,8 +14,8 @@ the plugins you need. If you don't use CommonJS it's easy to convert to AMD or a
 
 ## Running the samples
 
-    $ git clone git@github.com:gardr/gardr.git
-    $ cd gardr/
+    $ git clone git@github.com:gardr/sample-project.git
+    $ cd sample-project/
   	$ npm install
   	$ npm start
 
