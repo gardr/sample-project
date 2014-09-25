@@ -1,5 +1,10 @@
 # Garðr sample project
 
+[![Build Status](https://api.travis-ci.org/gardr/sample-project.png?branch=master)](https://travis-ci.org/gardr/sample-project)
+[![Dependency Status](https://david-dm.org/gardr/sample-project.png)](https://david-dm.org/gardr/sample-project)
+[![devDependency Status](https://david-dm.org/gardr/sample-project/dev-status.png)](https://david-dm.org/gardr/sample-project#info=devDependencies)
+
+
 This is a sample project to show how you can use Garðr on your site. Garðr is a library for embedding content from
 external scripts such as advertisements or similar third party content.
 
