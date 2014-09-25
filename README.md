@@ -41,6 +41,7 @@ script in package.json for the command we use to run browserify.
 Since we use the -s (standalone) option to browserify, it will wrap the output as UMD (Universal Module Definition). It
 allows you to use the generated files with CommonJS, AMD or just vanilla JavaScript.
 
+```javascript
     // CommonJS
     var gardrHost = require('gardr/host.js');
 
@@ -51,6 +52,8 @@ allows you to use the generated files with CommonJS, AMD or just vanilla JavaScr
 
     // Vanilla JS
     window.gardrHost
+```
+
 
 The sample page is just a static html-file (public/index.html). It has a simple script to load the sample banners which
 use the Vanilla JS style (window.gardrHost).
@@ -61,4 +64,4 @@ use the Vanilla JS style (window.gardrHost).
 We have many tests inside the gardr-host and gardr-ext projects. This is just a simple test to verify that they work
 together.
 
-	$ npm test
+    $ npm test
